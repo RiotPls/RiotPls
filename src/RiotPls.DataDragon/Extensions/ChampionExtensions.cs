@@ -15,7 +15,7 @@ namespace RiotPls.DataDragon.Extensions
         /// <param name="version">Version of Data Dragon.</param>
         /// <param name="language">Language in which the data must be returned.</param>
         public static async Task<ChampionBase> GetChampionByIdAsync(this DataDragonClient client, 
-            string id, GameVersion version, string language = "en_US")
+            string id, GameVersion version, string language = DataDragonClient.DefaultLanguage)
         {
             var champions = await client.GetChampionsAsync(version, language);
             return champions.Champions[id];
@@ -29,7 +29,7 @@ namespace RiotPls.DataDragon.Extensions
         /// <param name="version">Version of Data Dragon.</param>
         /// <param name="language">Language in which the data must be returned.</param>
         public static async Task<ChampionBase> GetChampionByNameAsync(this DataDragonClient client, 
-            string name, GameVersion version, string language = "en_US")
+            string name, GameVersion version, string language = DataDragonClient.DefaultLanguage)
         {
             var champions = await client.GetChampionsAsync(version, language);
             return champions.Champions.Values.First(
