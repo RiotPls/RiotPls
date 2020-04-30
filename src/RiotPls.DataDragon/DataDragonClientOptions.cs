@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using RiotPls.DataDragon.Entities;
 
 namespace RiotPls.DataDragon
@@ -13,17 +12,20 @@ namespace RiotPls.DataDragon
         /// <summary>
         ///     The cache options for version data. Defaults to permanent cache.
         /// </summary>
-        public CacheControl<IReadOnlyCollection<GameVersion>> Versions { get; set; } = CacheControl<IReadOnlyCollection<GameVersion>>.Permanent;
+        public CacheControl<IReadOnlyCollection<GameVersion>> Versions { get; set; } 
+            = CacheControl<IReadOnlyCollection<GameVersion>>.TimedCache(TimeSpan.FromDays(14));
         
         /// <summary>
         ///     The cache options for language data. Defaults to permanent cache.
         /// </summary>
-        public CacheControl<IReadOnlyCollection<string>> Languages { get; set; } = CacheControl<IReadOnlyCollection<string>>.Permanent;
+        public CacheControl<IReadOnlyCollection<string>> Languages { get; set; } 
+            = CacheControl<IReadOnlyCollection<string>>.Permanent;
         
         /// <summary>
         ///     The cache options for champions data. Defaults to expiring every 30 days.
         /// </summary>
-        public CacheControl<ChampionData> Champions { get; set; } = CacheControl<ChampionData>.TimedCache(TimeSpan.FromDays(30));
+        public CacheControl<ChampionData> Champions { get; set; } 
+            = CacheControl<ChampionData>.TimedCache(TimeSpan.FromDays(30));
     }
 
     /// <summary>
@@ -34,23 +36,30 @@ namespace RiotPls.DataDragon
         /// <summary>
         ///     Instructs the client to not cache this data.
         /// </summary>
-        public static CacheControl<T> None => new CacheControl<T>(false);
+        public static CacheControl<T> None 
+            => new CacheControl<T>(false);
         
         /// <summary>
         ///     Instructs the client to cache this data, using the default expiry time of 24 hours.
         /// </summary>
-        public static CacheControl<T> Default => new CacheControl<T>(true, TimeSpan.FromHours(24));
+        public static CacheControl<T> Default 
+            => new CacheControl<T>(true, TimeSpan.FromHours(24));
 
         /// <summary>
         ///     Instructs the client to cache this data permanently.
         /// </summary>
-        public static CacheControl<T> Permanent => new CacheControl<T>(true);
+        public static CacheControl<T> Permanent 
+            => new CacheControl<T>(true);
 
         /// <summary>
         ///     Instructs the client to cache this data for the specified expiry time.
         /// </summary>
-        /// <param name="cacheExpiry">The time to hold this data for before requesting it again.</param>
-        /// <returns>A cache control instruction set representing the provided parameters.</returns>
+        /// <param name="cacheExpiry">
+        ///     The time to hold this data for before requesting it again.
+        /// </param>
+        /// <returns>
+        ///     A cache control instruction set representing the provided parameters.
+        /// </returns>
         public static CacheControl<T> TimedCache(TimeSpan cacheExpiry)
         {
             return new CacheControl<T>(true, cacheExpiry);
@@ -89,8 +98,13 @@ namespace RiotPls.DataDragon
         /// <summary>
         ///     Creates a new cache control.
         /// </summary>
-        /// <param name="cache">Whether to instruct the client to cache this data.</param>
-        /// <param name="cacheExpiry">The time to hold this data for before requesting it again. If null, the data will be held indefinitely.</param>
+        /// <param name="cache">
+        ///     Whether to instruct the client to cache this data.
+        /// </param>
+        /// <param name="cacheExpiry">
+        ///     The time to hold this data for before requesting it again.
+        ///     If null, the data will be held indefinitely.
+        /// </param>
         public CacheControl(bool cache, TimeSpan? cacheExpiry = null)
         {
             IsCached = cache;

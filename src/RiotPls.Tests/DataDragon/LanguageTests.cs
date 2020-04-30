@@ -1,8 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using RiotPls.DataDragon;
-using RiotPls.DataDragon.Entities;
 using Xunit;
 
 namespace RiotPls.Tests.DataDragon
