@@ -74,8 +74,8 @@ namespace RiotPls.DataDragon
             
             var request = await _client.GetStreamAsync(
                 $"{Cdn}/{version}/data/{language}/champion.json");
-            var data = await JsonSerializer.DeserializeAsync<ChampionData>(
-                request, _jsonSerializerOptions);
+            var data = new ChampionData(await JsonSerializer.DeserializeAsync<ChampionDataDto>(
+                request, _jsonSerializerOptions));
             _options.Champions.Data = data;
             return _options.Champions.Data;
         }

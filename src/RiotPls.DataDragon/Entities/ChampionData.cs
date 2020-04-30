@@ -13,31 +13,30 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     The type of retrieved data.
         /// </summary>
-        [JsonPropertyName("type")]
-        public string Type { get; set; }
+        public string Type { get; }
         
         /// <summary>
         ///     The format of this data.
         /// </summary>
-        [JsonPropertyName("format")]
-        public string Format { get; set; }
+        public string Format { get; }
         
         /// <summary>
         ///     The version of the data.
         /// </summary>
-        [JsonPropertyName("version")]
-        [JsonConverter(typeof(GameVersionConverter))]
-        public GameVersion Version { get; set; }
+        public GameVersion Version { get; }
 
         /// <summary>
         ///     A dictionary of champion objects, keyed by their unique identifiers.
         /// </summary>
-        public IReadOnlyDictionary<string, ChampionBase> Champions =>
-            _champions ??= ChampionsRaw
-                .ToDictionary(x => x.Value.Key, y => y.Value);
+        public IReadOnlyDictionary<string, ChampionBase> Champions { get; }
         
-        [JsonPropertyName("data")]
-        public IReadOnlyDictionary<string, ChampionBase> ChampionsRaw { get; set; }
-        private IReadOnlyDictionary<string, ChampionBase> _champions;
+        internal ChampionData(ChampionDataDto dto)
+        {
+            Type = dto.Type;
+            Format = dto.Format;
+            Version = dto.Version;
+            Champions = dto.Champions.ToDictionary(x
+                => x.Value.Key, y => new ChampionBase(y.Value));
+        }
     }
 }

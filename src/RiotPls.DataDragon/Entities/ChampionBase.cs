@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text.Json.Serialization;
-using RiotPls.DataDragon.Converters;
 
 namespace RiotPls.DataDragon.Entities
 {
@@ -9,96 +7,107 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     The version of the data.
         /// </summary>
-        [JsonPropertyName("version")]
-        [JsonConverter(typeof(GameVersionConverter))]
-        public GameVersion Version { get; set; }
+        public GameVersion Version { get; }
         
         /// <summary>
         ///     The unique identifier of the champion.
         /// </summary>
-        [JsonPropertyName("id")]
-        public string Id { get; set; }
+        public string Id { get; }
         
         /// <summary>
         ///     The unique key of the champion.
         /// </summary>
-        [JsonPropertyName("key")]
-        public string Key { get; set; }
+        public string Key { get; }
         
         /// <summary>
         ///     The name of the champion.
         /// </summary>
-        [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string Name { get; }
         
         /// <summary>
         ///     The title of the champion.
         /// </summary>
-        [JsonPropertyName("title")]
-        public string Title { get; set; }
+        public string Title { get; }
         
         /// <summary>
         ///     The summary of the champion.
         /// </summary>
-        [JsonPropertyName("blurb")]
-        public string Blurb { get; set; }
+        public string Blurb { get; }
         
         /// <summary>
         ///     The partype of the champion.
         /// </summary>
-        [JsonPropertyName("partype")]
-        public string Partype { get; set; }
+        public string Partype { get; }
         
         /// <summary>
         ///     Statistics about the champion.
         /// </summary>
-        [JsonPropertyName("info")]
-        public ChampionInfo Info { get; set; }
+        public ChampionInfo Info { get; }
         
         /// <summary>
         ///     Information and name of the images associated with that champion.
         /// </summary>
-        [JsonPropertyName("image")]
-        public ChampionImage Image { get; set; }
+        public ChampionImage Image { get; }
         
         /// <summary>
         ///     Tags representing the champion.
         /// </summary>
-        [JsonPropertyName("tags")]
-        public IReadOnlyCollection<string> Tags { get; set; }
+        public IReadOnlyCollection<string> Tags { get; }
         
         /// <summary>
         ///     Statistics related to the champion.
         /// </summary>
-        [JsonPropertyName("stats")]
-        public ChampionStats Stats { get; set; } 
+        public ChampionStats Stats { get; }
+
+        internal ChampionBase(ChampionBaseDto dto)
+        {
+            Version = dto.Version;
+            Id = dto.Id;
+            Key = dto.Key;
+            Name = dto.Name;
+            Title = dto.Title;
+            Blurb = dto.Blurb;
+            Partype = dto.Partype;
+            Info = new ChampionInfo(dto.Info);
+            Image = new ChampionImage(dto.Image);
+            Tags = dto.Tags;
+            Stats = new ChampionStats(dto.Stats);
+        }
     }
 
+    /// <summary>
+    ///     Represents the different levels of the champion.
+    ///     Whether it's tank, attack, difficult, etc.
+    /// </summary>
     public class ChampionInfo
     {
         /// <summary>
         ///     The attack level of the champion.
         /// </summary>
-        [JsonPropertyName("attack")]
-        public int Attack { get; set; }
+        public int Attack { get; }
         
         /// <summary>
         ///     The defense level of the champion.
         /// </summary>
-        [JsonPropertyName("defense")]
-        public int Defense { get; set; }
+        public int Defense { get; }
         
         /// <summary>
         ///     The magic level of the champion.
         /// </summary>
-        [JsonPropertyName("magic")]
-        public int Magic { get; set; }
+        public int Magic { get; }
         
         /// <summary>
         ///     The difficulty level of the champion.
         /// </summary>
-        [JsonPropertyName("difficulty")]
-        public int Difficulty { get; set; }
+        public int Difficulty { get; }
+
+        internal ChampionInfo(ChampionInfoDto dto)
+        {
+            Attack = dto.Attack;
+            Defense = dto.Defense;
+            Magic = dto.Magic;
+            Difficulty = dto.Difficulty;
+        }
     }
 
     /// <summary>
@@ -111,32 +120,36 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     The name of the image for the full splash art for the champion.
         /// </summary>
-        [JsonPropertyName("full")]
-        public string Full { get; set; }
+        public string Full { get; }
         
         /// <summary>
         ///     The name of the image for the sprite of the champion.
         /// </summary>
-        [JsonPropertyName("sprite")]
-        public string Sprite { get; set; }
+        public string Sprite { get; }
         
         /// <summary>
         ///     The group of the champion.
         /// </summary>
-        [JsonPropertyName("group")]
-        public string Group { get; set; }
+        public string Group { get; }
         
-        [JsonPropertyName("x")]
-        public int X { get; set; }
+        public int X { get; }
         
-        [JsonPropertyName("y")]
-        public int Y { get; set; }
+        public int Y { get; }
         
-        [JsonPropertyName("w")]
-        public int W { get; set; }
+        public int W { get; }
         
-        [JsonPropertyName("h")]
-        public int H { get; set; }
+        public int H { get; }
+
+        internal ChampionImage(ChampionImageDto dto)
+        {
+            Full = dto.Full;
+            Sprite = dto.Sprite;
+            Group = dto.Group;
+            X = dto.X;
+            Y = dto.Y;
+            W = dto.W;
+            H = dto.H;
+        }
     }
 
     /// <summary>
@@ -147,121 +160,125 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     The base HP of the champion.
         /// </summary>
-        [JsonPropertyName("hp")]
-        public double Hp { get; set; }
+        public double Hp { get; }
         
         /// <summary>
         ///     The amount of HP per level the champion acquires. 
         /// </summary>
-        [JsonPropertyName("hpperlevel")]
-        public double HpPerLevel { get; set; }
+        public double HpPerLevel { get; }
         
         /// <summary>
         ///     The base MP of the champion.
         /// </summary>
-        [JsonPropertyName("mp")]
-        public double Mp { get; set; }
+        public double Mp { get; }
         
         /// <summary>
         ///     The amount of MP per level the champion acquires.
         /// </summary>
-        [JsonPropertyName("mpperlevel")]
-        public double MpPerLevel { get; set; }
+        public double MpPerLevel { get; }
         
         /// <summary>
         ///     The base move speed of the champion.
         /// </summary>
-        [JsonPropertyName("movespeed")]
-        public double MoveSpeed { get; set; }
+        public double MoveSpeed { get; }
         
         /// <summary>
         ///     The base armor of the champion.
         /// </summary>
-        [JsonPropertyName("armor")]
-        public double Armor { get; set; }
+        public double Armor { get; }
         
         /// <summary>
         ///     The amount of armor per level the champion acquires.
         /// </summary>
-        [JsonPropertyName("armorperlevel")]
-        public double ArmorPerLevel { get; set; }
+        public double ArmorPerLevel { get; }
         
         /// <summary>
         ///     The base spell block of the champion.
         /// </summary>
-        [JsonPropertyName("spellblock")]
-        public double SpellBlock { get; set; }
+        public double SpellBlock { get; }
         
         /// <summary>
         ///     The amount of spell block per level the champion acquires.
         /// </summary>
-        [JsonPropertyName("spellblockperlevel")]
-        public double SpellBlockPerLevel { get; set; }
+        public double SpellBlockPerLevel { get; }
         
         /// <summary>
         ///     The base attack range of the champion.
         /// </summary>
-        [JsonPropertyName("attackrange")]
-        public double AttackRange { get; set; }
+        public double AttackRange { get; }
         
         /// <summary>
         ///     The base HP regen of the champion.
         /// </summary>
-        [JsonPropertyName("hpregen")]
-        public double HpRegen { get; set; }
+        public double HpRegen { get; }
         
         /// <summary>
         ///     The amount of HP regen per level the champion acquires.
         /// </summary>
-        [JsonPropertyName("hpregenperlevel")]
-        public double HpRegenPerLevel { get; set; }
+        public double HpRegenPerLevel { get; }
         
         /// <summary>
         ///     The base MP regen of the champion.
         /// </summary>
-        [JsonPropertyName("mpregen")]
-        public double MpRegen { get; set; }
+        public double MpRegen { get; }
         
         /// <summary>
         ///     The amount of MP regen per level the champion acquires.
         /// </summary>
-        [JsonPropertyName("mpregenperlevel")]
-        public double MpRegenPerLevel { get; set; }
+        public double MpRegenPerLevel { get; }
         
         /// <summary>
         ///     The base critical damage rate of the champion.
         /// </summary>
-        [JsonPropertyName("crit")]
-        public double Crit { get; set; }
+        public double Crit { get; }
         
         /// <summary>
         ///     The amount of critical damage rate per level the champion acquires.
         /// </summary>
-        [JsonPropertyName("critperlevel")]
-        public double CritPerLevel { get; set; }
+        public double CritPerLevel { get; }
         
         /// <summary>
         ///     The base attack damage of the champion.
         /// </summary>
-        [JsonPropertyName("attackdamage")]
-        public double AttackDamage { get; set; }
+        public double AttackDamage { get; }
         
         /// <summary>
         ///     The amount of attack damage per level the champion acquires.
         /// </summary>
-        [JsonPropertyName("attackdamageperlevel")]
-        public double AttackDamagePerLevel { get; set; }
+        public double AttackDamagePerLevel { get; }
         
         /// <summary>
         ///     The base attack speed of the champion.
         /// </summary>
-        [JsonPropertyName("attackspeed")]
-        public double AttackSpeed { get; set; }
+        public double AttackSpeed { get; }
         
         /// <summary>
         ///     The amount of attack speed per level the champion acquires.
         /// </summary>
-        [JsonPropertyName("attackspeedperlevel")]
-        public double AttackSpeedPerLevel { get; set; }
+        public double AttackSpeedPerLevel { get; }
+
+        internal ChampionStats(ChampionStatsDto dto)
+        {
+            Hp = dto.Hp;
+            HpRegen = dto.HpRegen;
+            HpPerLevel = dto.HpPerLevel;
+            HpRegenPerLevel = dto.HpRegenPerLevel;
+            Mp = dto.Mp;
+            MpRegen = dto.MpRegen;
+            MpPerLevel = dto.MpPerLevel;
+            MpRegenPerLevel = dto.MpRegenPerLevel;
+            MoveSpeed = dto.MoveSpeed;
+            Armor = dto.Armor;
+            ArmorPerLevel = dto.ArmorPerLevel;
+            SpellBlock = dto.SpellBlock;
+            SpellBlockPerLevel = dto.SpellBlockPerLevel;
+            AttackRange = dto.AttackRange;
+            Crit = dto.Crit;
+            CritPerLevel = dto.CritPerLevel;
+            AttackDamage = dto.AttackDamage;
+            AttackDamagePerLevel = dto.AttackDamagePerLevel;
+            AttackSpeed = dto.AttackSpeed;
+            AttackSpeedPerLevel = dto.AttackSpeedPerLevel;
+        }
     }
 }
