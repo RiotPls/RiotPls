@@ -18,13 +18,14 @@ namespace RiotPls.DataDragon
         public const string Cdn = "/cdn";
         public const string DefaultLanguage = "en_US";
 
+        private readonly DataDragonClientOptions _options;
         private readonly HttpClient _client;
         private readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions();
         
-        public DataDragonClient(HttpClient client = null, JsonSerializerOptions jsonSerializerOptions = null)
+        public DataDragonClient(DataDragonClientOptions clientOptions = null)
         {
-            _client = client ?? new HttpClient();
-            _client.BaseAddress = new Uri(Host);
+            _options = clientOptions ?? new DataDragonClientOptions();
+            _client = new HttpClient {BaseAddress = new Uri(Host)};
             _jsonSerializerOptions.Converters.Add(new GameVersionConverter());
         }
 
@@ -33,8 +34,13 @@ namespace RiotPls.DataDragon
         /// </summary>
         public async Task<IReadOnlyCollection<GameVersion>> GetVersionsAsync()
         {
+            if (!_options.Versions.IsExpired) return _options.Versions.Data;
+            
             var request = await _client.GetStreamAsync($"{Api}/versions.json");
-            return await JsonSerializer.DeserializeAsync<IReadOnlyCollection<GameVersion>>(request, _jsonSerializerOptions);
+            var data = await JsonSerializer.DeserializeAsync<IReadOnlyCollection<GameVersion>>(request,
+                _jsonSerializerOptions);
+            _options.Versions.Data = data;
+            return _options.Versions.Data;
         }
         
         /// <summary>

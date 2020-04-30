@@ -2,6 +2,10 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
+        <Authors>abyssal512;JustNrik;Kiritsu</Authors>
+        <AssemblyTitle>RiotPls DataDragon</AssemblyTitle>
+        <AssemblyDescription>The data dragon module for RiotPls.</AssemblyDescription>
+        <AssemblyVersion>1.0.0</AssemblyVersion>
     </PropertyGroup>
 
 </Project>
