@@ -7,15 +7,8 @@ using Xunit;
 
 namespace RiotPls.Tests.DataDragon
 {
-    public class VersionTests : IDisposable
+    public class VersionTests : DataDragonTestBase
     {
-        private readonly RiotPls.DataDragon.DataDragonClient _client;
-
-        public VersionTests()
-        {
-            _client = new DataDragonClient();
-        }
-        
         [Fact(DisplayName = "Version API works and deserialization is accurate")]
         public async Task Test_That_VersionApi_Works()
         {
@@ -34,11 +27,6 @@ namespace RiotPls.Tests.DataDragon
             Assert.Equal(versionMajor, versionParsed.Major);
             Assert.Equal(versionMinor, versionParsed.Minor);
             if (versionPatch != null) Assert.Equal(versionPatch, versionParsed.Patch);
-        }
-
-        public void Dispose()
-        {
-            _client?.Dispose();
         }
     }
 }
