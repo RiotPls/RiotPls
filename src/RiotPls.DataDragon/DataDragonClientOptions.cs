@@ -10,7 +10,7 @@ namespace RiotPls.DataDragon
     public class DataDragonClientOptions
     {
         /// <summary>
-        ///     The cache options for version data. Defaults to permanent cache.
+        ///     The cache options for version data. Defaults to expiring every 14 days.
         /// </summary>
         public CacheControl<IReadOnlyCollection<GameVersion>> Versions { get; set; } 
             = CacheControl<IReadOnlyCollection<GameVersion>>.TimedCache(TimeSpan.FromDays(14));
