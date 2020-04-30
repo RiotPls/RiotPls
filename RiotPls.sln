@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RiotPls", "src\RiotPls\Riot
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RiotPls.DataDragon", "src\RiotPls.DataDragon\RiotPls.DataDragon.csproj", "{13DC89B4-CA08-4794-89E9-B853CF49330D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RiotPls.Tests", "RiotPls.Tests\RiotPls.Tests.csproj", "{7EEAB149-5399-49CD-9D13-BF2CC4D0257D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RiotPls.Tests", "src\RiotPls.Tests\RiotPls.Tests.csproj", "{7EEAB149-5399-49CD-9D13-BF2CC4D0257D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
