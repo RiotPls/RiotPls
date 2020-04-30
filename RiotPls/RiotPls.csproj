@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Abstraction\DTOs\LeagueOfLegends\" />
+    <Folder Include="Abstraction\DTOs\LegendsOfRunaterra\" />
+    <Folder Include="Abstraction\DTOs\TeamfightTactics\" />
+  </ItemGroup>
+
+</Project>
