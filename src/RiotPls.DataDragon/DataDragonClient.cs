@@ -4,23 +4,26 @@ using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using RiotPls.DataDragon.Converters;
 using RiotPls.DataDragon.Entities;
 using RiotPls.DataDragon.Extensions;
 
 namespace RiotPls.DataDragon
 {
-    public class DataDragonClient
+    public class DataDragonClient : IDisposable
     {
         public const string Host = "https://ddragon.leagueoflegends.com";
         public const string Api = "/api";
         public const string Cdn = "/cdn";
 
         private readonly HttpClient _client;
+        private readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions();
         
-        public DataDragonClient(HttpClient client = null)
+        public DataDragonClient(HttpClient client = null, JsonSerializerOptions jsonSerializerOptions = null)
         {
             _client = client ?? new HttpClient();
             _client.BaseAddress = new Uri(Host);
+            _jsonSerializerOptions.Converters.Add(new GameVersionConverter());
         }
 
         /// <summary>
@@ -29,7 +32,7 @@ namespace RiotPls.DataDragon
         public async Task<IReadOnlyCollection<GameVersion>> GetVersionsAsync()
         {
             var request = await _client.GetStreamAsync($"{Api}/versions.json");
-            return await JsonSerializer.DeserializeAsync<IReadOnlyCollection<GameVersion>>(request);
+            return await JsonSerializer.DeserializeAsync<IReadOnlyCollection<GameVersion>>(request, _jsonSerializerOptions);
         }
         
         /// <summary>
@@ -50,6 +53,11 @@ namespace RiotPls.DataDragon
         {
             var request = await _client.GetStreamAsync($"{Cdn}/{version}/data/{language}/champion.json");
             return await JsonSerializer.DeserializeAsync<ChampionData>(request);
+        }
+
+        public void Dispose()
+        {
+            _client?.Dispose();
         }
     }
 }
