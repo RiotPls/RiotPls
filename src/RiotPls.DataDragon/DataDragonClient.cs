@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using RiotPls.DataDragon.Entities;
+using RiotPls.DataDragon.Extensions;
 
 namespace RiotPls.DataDragon
 {
@@ -17,15 +20,16 @@ namespace RiotPls.DataDragon
         public DataDragonClient(HttpClient client = null)
         {
             _client = client ?? new HttpClient();
+            _client.BaseAddress = new Uri(Host);
         }
 
         /// <summary>
         /// Returns a list of every available version of Data Dragon.
         /// </summary>
-        public async Task<IReadOnlyCollection<string>> GetVersionsAsync()
+        public async Task<IReadOnlyCollection<GameVersion>> GetVersionsAsync()
         {
-            var request = await _client.GetStreamAsync($"{Host}{Api}/versions.json");
-            return await JsonSerializer.DeserializeAsync<IReadOnlyCollection<string>>(request);
+            var request = await _client.GetStreamAsync($"{Api}/versions.json");
+            return await JsonSerializer.DeserializeAsync<IReadOnlyCollection<GameVersion>>(request);
         }
         
         /// <summary>
@@ -33,7 +37,7 @@ namespace RiotPls.DataDragon
         /// </summary>
         public async Task<IReadOnlyCollection<string>> GetLanguagesAsync()
         {
-            var request = await _client.GetStreamAsync($"{Host}{Cdn}/languages.json");
+            var request = await _client.GetStreamAsync($"{Cdn}/languages.json");
             return await JsonSerializer.DeserializeAsync<IReadOnlyCollection<string>>(request);
         }
 
@@ -44,7 +48,7 @@ namespace RiotPls.DataDragon
         /// <param name="language">Language in which the data must be returned.</param>
         public async Task<ChampionData> GetChampionsAsync(string version, string language = "en_US")
         {
-            var request = await _client.GetStreamAsync($"{Host}{Cdn}/{version}/data/{language}/champion.json");
+            var request = await _client.GetStreamAsync($"{Cdn}/{version}/data/{language}/champion.json");
             return await JsonSerializer.DeserializeAsync<ChampionData>(request);
         }
     }
