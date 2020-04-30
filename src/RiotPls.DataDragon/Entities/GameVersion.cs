@@ -34,36 +34,53 @@ namespace RiotPls.DataDragon.Entities
                 ? $"lolpatch_{Major}.{Minor}"
                 : $"{Major}.{Minor}.{Patch}";
         }
-
+        
         /// <summary>
         ///     Parses a string input into a <see cref="GameVersion"/>.
         /// </summary>
         /// <param name="input">The game version, in string form.</param>
         /// <returns>A parsed game version object.</returns>
-        /// <exception cref="InvalidOperationException">Thrown if the provided string does not match the game version format.</exception>
+        /// <exception cref="InvalidOperationException">
+        ///     Thrown if the provided string does not match the game version format.
+        /// </exception>
         public static GameVersion Parse(string input)
         {
+            return TryParse(input, out var gameVersion) 
+                ? gameVersion 
+                : throw new InvalidOperationException($"Failed to parse game version \"{input}\".");
+        }
+        
+        /// <summary>
+        ///     Parses a string input into a <see cref="GameVersion"/>.
+        /// </summary>
+        /// <param name="input">The game version, in string form.</param>
+        /// <param name="gameVersion">Parsed game version.</param>
+        /// <returns>A boolean depending on the result of the parsing.</returns>
+        public static bool TryParse(string input, out GameVersion gameVersion)
+        {
+            gameVersion = null;
+            
             ReadOnlySpan<char> inputSpan;
             if (input.StartsWith("lolpatch_", StringComparison.Ordinal))
                 inputSpan = input.AsSpan().Slice(9);
             else
                 inputSpan = input;
 
-            int major = -1;
-            int minor = -1;
-            int patch = -1;
-            int start = 0;
-            int length = inputSpan.Length;
+            var major = -1;
+            var minor = -1;
+            var patch = -1;
+            var start = 0;
+            var length = inputSpan.Length;
 
-            ReadOnlySpan<char> currentSpan = inputSpan;
+            var currentSpan = inputSpan;
 
-            for (int i = 0; i <= length; i++)
+            for (var i = 0; i <= length; i++)
             {
-                bool finished = i == length;
+                var finished = i == length;
                 if (finished || inputSpan[i] == '.')
                 {
-                    if(!int.TryParse(currentSpan.Slice(0, i - start), out int result))
-                        throw new InvalidOperationException($"Failed to parse game version \"{input}\".");
+                    if (!int.TryParse(currentSpan.Slice(0, i - start), out var result))
+                        return false;
 
                     if (major == -1)
                         major = result;
@@ -83,7 +100,8 @@ namespace RiotPls.DataDragon.Entities
                 }
             }
 
-            return new GameVersion(major, minor, patch);
+            gameVersion = new GameVersion(major, minor, patch);
+            return true;
         }
 
         public override string ToString() => _string;
