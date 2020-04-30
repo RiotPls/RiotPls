@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
+using RiotPls.DataDragon.Converters;
 
 namespace RiotPls.DataDragon.Entities
 {
@@ -25,13 +26,15 @@ namespace RiotPls.DataDragon.Entities
         ///     The version of the data.
         /// </summary>
         [JsonPropertyName("version")]
-        public string Version { get; set; }
+        [JsonConverter(typeof(GameVersionConverter))]
+        public GameVersion Version { get; set; }
 
         /// <summary>
         ///     A dictionary of champion objects, keyed by their unique identifiers.
         /// </summary>
         public IReadOnlyDictionary<string, ChampionBase> Champions =>
-            _champions ??= ChampionsRaw.ToDictionary(x => x.Value.Key, y => y.Value);
+            _champions ??= ChampionsRaw
+                .ToDictionary(x => x.Value.Key, y => y.Value);
         
         [JsonPropertyName("data")]
         public IReadOnlyDictionary<string, ChampionBase> ChampionsRaw { get; set; }

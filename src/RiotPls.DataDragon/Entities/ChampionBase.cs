@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using RiotPls.DataDragon.Converters;
 
 namespace RiotPls.DataDragon.Entities
 {
@@ -9,7 +10,8 @@ namespace RiotPls.DataDragon.Entities
         ///     The version of the data.
         /// </summary>
         [JsonPropertyName("version")]
-        public string Version { get; set; }
+        [JsonConverter(typeof(GameVersionConverter))]
+        public GameVersion Version { get; set; }
         
         /// <summary>
         ///     The unique identifier of the champion.
@@ -105,7 +107,7 @@ namespace RiotPls.DataDragon.Entities
     public class ChampionImage
     {
         // TODO: Implement URL helpers for champion images.
-        
+
         /// <summary>
         ///     The name of the image for the full splash art for the champion.
         /// </summary>

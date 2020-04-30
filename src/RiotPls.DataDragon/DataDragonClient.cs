@@ -68,7 +68,7 @@ namespace RiotPls.DataDragon
         ///     The language in which the data must be returned. Defaults to English (United States).
         /// </param>
         public async Task<ChampionData> GetChampionsAsync(
-            string version, string language = DefaultLanguage)
+            GameVersion version, string language = DefaultLanguage)
         {
             if (!_options.Champions.IsExpired) return _options.Champions.Data;
             
