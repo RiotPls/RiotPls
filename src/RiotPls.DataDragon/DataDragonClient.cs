@@ -48,8 +48,12 @@ namespace RiotPls.DataDragon
         /// </summary>
         public async Task<IReadOnlyCollection<string>> GetLanguagesAsync()
         {
+            if (!_options.Languages.IsExpired) return _options.Languages.Data;
+            
             var request = await _client.GetStreamAsync($"{Cdn}/languages.json");
-            return await JsonSerializer.DeserializeAsync<IReadOnlyCollection<string>>(request);
+            var data = await JsonSerializer.DeserializeAsync<IReadOnlyCollection<string>>(request, _jsonSerializerOptions);
+            _options.Languages.Data = data;
+            return _options.Languages.Data;
         }
 
         /// <summary>
@@ -59,8 +63,13 @@ namespace RiotPls.DataDragon
         /// <param name="language">The language in which the data must be returned. Defaults to English (United States).</param>
         public async Task<ChampionData> GetChampionsAsync(string version, string language = DefaultLanguage)
         {
+            if (!_options.Champions.IsExpired) return _options.Champions.Data;
+            
+            
             var request = await _client.GetStreamAsync($"{Cdn}/{version}/data/{language}/champion.json");
-            return await JsonSerializer.DeserializeAsync<ChampionData>(request);
+            var data = await JsonSerializer.DeserializeAsync<ChampionData>(request, _jsonSerializerOptions);
+            _options.Champions.Data = data;
+            return _options.Champions.Data;
         }
 
         public void Dispose()
