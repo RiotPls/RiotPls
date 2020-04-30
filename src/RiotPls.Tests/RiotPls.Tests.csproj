@@ -14,7 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\src\RiotPls.DataDragon\RiotPls.DataDragon.csproj" />
+      <ProjectReference Include="..\RiotPls.DataDragon\RiotPls.DataDragon.csproj" />
     </ItemGroup>
 
 </Project>
