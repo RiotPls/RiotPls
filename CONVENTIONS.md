@@ -21,7 +21,7 @@ Most of the conventions match [Microsoft's C# Coding Conventions](https://docs.m
 
 # Declarations #
 
-* Usage of `var` is preferred, except where the variable type is not obvious.
+* Usage of `var` is preferred, except where the variable type is not obvious, or when the precise type is not important.
 * Declare all fields/variables in their respective line.
 * Use All Man's Brances, you can free to omit braces if they aren't needed as long as it doesn't hurt readability or makes the code ambiguous.
 
