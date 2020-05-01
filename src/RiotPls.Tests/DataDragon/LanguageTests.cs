@@ -1,11 +1,16 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace RiotPls.Tests.DataDragon
 {
     public class LanguageTests : DataDragonTestBase
     {
+        public LanguageTests(ITestOutputHelper helper) : base(helper)
+        {
+        }
+
         [Fact(DisplayName = "Language API works and deserialization is accurate")]
         public async Task Test_That_LanguageApi_Works()
         {

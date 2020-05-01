@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace RiotPls.Tests.DataDragon
 {
@@ -17,6 +18,10 @@ namespace RiotPls.Tests.DataDragon
             Assert.Equal(champions.Version.Major, latestVersion.Major);
             Assert.Equal(champions.Version.Minor, latestVersion.Minor);
             Assert.Equal(champions.Version.Patch, latestVersion.Patch);
+        }
+
+        public ChampionTests(ITestOutputHelper helper) : base(helper)
+        {
         }
     }
 }
