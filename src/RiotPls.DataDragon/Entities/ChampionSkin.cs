@@ -13,7 +13,7 @@
         /// <summary>
         ///     Index of the skin. Counts chromatics.
         /// </summary>
-        public int Num { get; }
+        public int SkinIndex { get; }
 
         /// <summary>
         ///     Name of the skin.
@@ -28,7 +28,7 @@
         internal ChampionSkin(ChampionSkinDto dto)
         {
             Id = dto.Id;
-            Num = dto.Num;
+            SkinIndex = dto.Num;
             Name = dto.Name;
             HasChromas = dto.HasChromas;
         }

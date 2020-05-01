@@ -17,7 +17,7 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     The unique key of the champion.
         /// </summary>
-        public int Key { get; }
+        public string Key { get; }
         
         /// <summary>
         ///     The name of the champion.

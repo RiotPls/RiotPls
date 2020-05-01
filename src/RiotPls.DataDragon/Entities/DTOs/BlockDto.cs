@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
-
+#nullable disable
 namespace RiotPls.DataDragon.Entities
 {
     internal class BlockDto

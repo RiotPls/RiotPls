@@ -14,8 +14,8 @@ namespace RiotPls.DataDragon.Entities
         [JsonPropertyName("id")]
         public string Id { get; set; }
 
-        [JsonPropertyName("key")]
-        public int Key { get; set; }
+        [JsonPropertyName("key")] // This has to be a string
+        public string Key { get; set; }
 
         [JsonPropertyName("name")]
         public string Name { get; set; }

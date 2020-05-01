@@ -41,13 +41,22 @@ namespace RiotPls.DataDragon.Entities
         /// </summary>
         /// <param name="input">The game version, in string form.</param>
         /// <returns>A parsed game version object.</returns>
-        /// <exception cref="InvalidOperationException">
-        ///     Thrown if the provided string does not match the game version format.
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown if <paramref name="input"/> is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="FormatException">
+        ///     Thrown if <paramref name="input"/> does not have a valid format.
         /// </exception>
         public static GameVersion Parse(string input)
-            => TryParse(input, out var gameVersion)
-            ? gameVersion
-            :  throw new InvalidOperationException($"Failed to parse game version \"{input}\".");
+        {
+            if (input is null)
+                throw new ArgumentNullException(nameof(input));
+
+            if (TryParse(input, out var version))
+                return version;
+
+            throw new FormatException($"The input string was not in a valid format. input: {input}");
+        }
 
         /// <summary>
         ///     Parses a string input into a <see cref="GameVersion"/>.
@@ -69,15 +78,15 @@ namespace RiotPls.DataDragon.Entities
             var patch = -1;
             var start = 0;
             var length = inputSpan.Length;
-
             var currentSpan = inputSpan;
 
-            for (var i = 0; i <= length; i++)
+            for (var i = 0; i <= length; i++) 
             {
                 var finished = i == length;
+
                 if (finished || inputSpan[i] == '.')
                 {
-                    if (!int.TryParse(currentSpan.Slice(0, i - start), out var result))
+                    if (!int.TryParse(currentSpan.Slice(0, i - start), out var result) || result < 0)
                         return false;
 
                     if (major == -1)
@@ -122,7 +131,7 @@ namespace RiotPls.DataDragon.Entities
         public int CompareTo(GameVersion? other)
         {
             if (other is null)
-                return -1;
+                return 1;
 
             if (Major > other.Major)
                 return 1;

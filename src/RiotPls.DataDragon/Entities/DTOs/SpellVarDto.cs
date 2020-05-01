@@ -1,5 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-
+#nullable disable
 namespace RiotPls.DataDragon.Entities
 {
     // todo: check later if there are missing properties

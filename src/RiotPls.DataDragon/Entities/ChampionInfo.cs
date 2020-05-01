@@ -9,17 +9,17 @@
         /// <summary>
         ///     The attack level of the champion.
         /// </summary>
-        public int Attack { get; }
+        public int AttackLevel { get; }
         
         /// <summary>
         ///     The defense level of the champion.
         /// </summary>
-        public int Defense { get; }
+        public int DefenseLevel { get; }
         
         /// <summary>
         ///     The magic level of the champion.
         /// </summary>
-        public int Magic { get; }
+        public int MagicLevel { get; }
         
         /// <summary>
         ///     The difficulty level of the champion.
@@ -28,9 +28,9 @@
 
         internal ChampionInfo(ChampionInfoDto dto)
         {
-            Attack = dto.Attack;
-            Defense = dto.Defense;
-            Magic = dto.Magic;
+            AttackLevel = dto.Attack;
+            DefenseLevel = dto.Defense;
+            MagicLevel = dto.Magic;
             Difficulty = dto.Difficulty;
         }
     }

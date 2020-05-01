@@ -1,9 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace RiotPls.DataDragon.Entities
 {
-    public class Block
+    public sealed class Block
     {
         public string Type { get; }
         
@@ -39,8 +40,7 @@ namespace RiotPls.DataDragon.Entities
             AppendAfterSection = dto.AppendAfterSection;
             VisibleWithAllOf = dto.VisibleWithAllOf;
             HiddenWithAllOf = dto.HiddenWithAllOf;
-            Items = new ReadOnlyCollection<ItemBlock>(
-                dto.Items.Select(x => new ItemBlock(x)).ToList());
+            Items = dto.Items.Select(x => new ItemBlock(x)).ToList().AsReadOnly();
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using RiotPls.DataDragon.Entities;
 using Xunit;
@@ -25,6 +26,18 @@ namespace RiotPls.Tests.DataDragon
             Assert.Equal(versionMajor, versionParsed.Major);
             Assert.Equal(versionMinor, versionParsed.Minor);
             if (versionPatch != null) Assert.Equal(versionPatch, versionParsed.Patch);
+        }
+
+        [Theory(DisplayName = "Parsing versions should fail if any number is negative")]
+        [InlineData("1.-2.3")]
+        [InlineData("-1.2.3")]
+        [InlineData("1.2.-3")]
+        [InlineData("lolpatch_-1.2")]
+        [InlineData("lolpatch_1.-2")]
+        public void Test_That_Parsing_Negatives_Is_Not_Allowed(string version)
+        {
+            Assert.False(GameVersion.TryParse(version, out _));
+            Assert.Throws<FormatException>(() => GameVersion.Parse(version));
         }
 
         public VersionTests(ITestOutputHelper helper) : base(helper)
