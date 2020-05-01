@@ -18,12 +18,35 @@ Most of the conventions match [Microsoft's C# Coding Conventions](https://docs.m
 
 * All public members must have full name. Acronyms are to be avoided (LeagueOfLegends instead of LoL, TeamfightTactics instead of TFT, etc...). 
 * American English is the preferred language. For example, Color is prefered over Colour.
+* Do not use keywords as names for public members. This also includes other's .NET languages keywords.
+* Use BCL names instead of keywords names. For example, `GetSingle` is prefered over `GetFloat` and `GetInt32` is prefered over `GetInt` or `GetInteger`.
 
 # Declarations #
 
 * Usage of `var` is preferred, except where the variable type is not obvious, or when the precise type is not important.
 * Declare all fields/variables in their respective line.
-* Use All Man's Brances, you can free to omit braces if they aren't needed as long as it doesn't hurt readability or makes the code ambiguous.
+* Use All Man's Brances, you are free to omit braces if they aren't needed as long as it doesn't hurt readability or makes the code ambiguous.
+* Never expose fields; Only properties are allowed to be exposed. This also applies for static members.
+* Properties and Methods must have at least 1 blank line between them.
+
+# Statements #
+
+Keep only 1 statement per line. Example:
+
+prefer this:
+
+```cs
+if (something)
+    DoSomething();
+```
+
+over this:
+
+```cs
+if (something) DoSomething();
+```
+
+This also applies to local variable/field declarations. Multiple declarations in a line are not allowed.
 
 # Indentation #
 
