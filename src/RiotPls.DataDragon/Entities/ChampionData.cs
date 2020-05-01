@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.Json.Serialization;
 using RiotPls.DataDragon.Converters;
@@ -28,14 +29,16 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     A dictionary of champion objects, keyed by their unique identifiers.
         /// </summary>
-        public IReadOnlyDictionary<string, ChampionBase> Champions { get; }
+        public IReadOnlyDictionary<int, ChampionBase> Champions { get; }
         
         internal ChampionData(ChampionDataDto dto)
         {
             Type = dto.Type;
             Format = dto.Format;
             Version = dto.Version;
-            Champions = dto.Champions.ToDictionary(x => x.Value.Key, y => new ChampionBase(y.Value));
+            Champions = new ReadOnlyDictionary<int, ChampionBase>(
+                dto.Champions.ToDictionary(
+                x => x.Value.Key, y => new ChampionBase(y.Value)));
         }
     }
 }

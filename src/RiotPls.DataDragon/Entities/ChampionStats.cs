@@ -8,22 +8,22 @@
         /// <summary>
         ///     The base HP of the champion.
         /// </summary>
-        public double HP { get; }
+        public double Hp { get; }
         
         /// <summary>
         ///     The amount of HP per level the champion acquires. 
         /// </summary>
-        public double HPPerLevel { get; }
+        public double HpPerLevel { get; }
         
         /// <summary>
         ///     The base MP of the champion.
         /// </summary>
-        public double MP { get; }
+        public double Mp { get; }
         
         /// <summary>
         ///     The amount of MP per level the champion acquires.
         /// </summary>
-        public double MPPerLevel { get; }
+        public double MpPerLevel { get; }
         
         /// <summary>
         ///     The base move speed of the champion.
@@ -58,22 +58,22 @@
         /// <summary>
         ///     The base HP regen of the champion.
         /// </summary>
-        public double HPRegeneration { get; }
+        public double HpRegeneration { get; }
         
         /// <summary>
         ///     The amount of HP regen per level the champion acquires.
         /// </summary>
-        public double HPRegenerationPerLevel { get; }
+        public double HpRegenerationPerLevel { get; }
         
         /// <summary>
         ///     The base MP regen of the champion.
         /// </summary>
-        public double MPRegeneration { get; }
+        public double MpRegeneration { get; }
         
         /// <summary>
         ///     The amount of MP regen per level the champion acquires.
         /// </summary>
-        public double MPRegenerationPerLevel { get; }
+        public double MpRegenerationPerLevel { get; }
         
         /// <summary>
         ///     The base critical damage rate of the champion.
@@ -107,14 +107,14 @@
 
         internal ChampionStats(ChampionStatsDto dto)
         {
-            HP = dto.Hp; 
-            HPRegeneration = dto.HpRegen;
-            HPPerLevel = dto.HpPerLevel;
-            HPRegenerationPerLevel = dto.HpRegenPerLevel;
-            MP = dto.Mp;
-            MPRegeneration = dto.MpRegen;
-            MPPerLevel = dto.MpPerLevel;
-            MPRegenerationPerLevel = dto.MpRegenPerLevel;
+            Hp = dto.Hp; 
+            HpRegeneration = dto.HpRegen;
+            HpPerLevel = dto.HpPerLevel;
+            HpRegenerationPerLevel = dto.HpRegenPerLevel;
+            Mp = dto.Mp;
+            MpRegeneration = dto.MpRegen;
+            MpPerLevel = dto.MpPerLevel;
+            MpRegenerationPerLevel = dto.MpRegenPerLevel;
             MovementSpeed = dto.MoveSpeed;
             Armor = dto.Armor;
             ArmorPerLevel = dto.ArmorPerLevel;

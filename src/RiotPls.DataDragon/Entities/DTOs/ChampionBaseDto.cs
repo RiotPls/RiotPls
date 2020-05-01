@@ -6,6 +6,7 @@ namespace RiotPls.DataDragon.Entities
 {
     internal class ChampionBaseDto
     {
+        // todo: make it optional?
         [JsonPropertyName("version")]
         [JsonConverter(typeof(GameVersionConverter))]
         public GameVersion Version { get; set; }
@@ -14,7 +15,7 @@ namespace RiotPls.DataDragon.Entities
         public string Id { get; set; }
 
         [JsonPropertyName("key")]
-        public string Key { get; set; }
+        public int Key { get; set; }
 
         [JsonPropertyName("name")]
         public string Name { get; set; }
@@ -32,7 +33,7 @@ namespace RiotPls.DataDragon.Entities
         public ChampionInfoDto Info { get; set; }
 
         [JsonPropertyName("image")]
-        public ChampionImageDto Image { get; set; }
+        public StaticImageDto Image { get; set; }
         
         [JsonPropertyName("tags")]
         public IReadOnlyCollection<string> Tags { get; set; }
