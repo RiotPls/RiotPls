@@ -42,3 +42,9 @@ Yet, don't submit PRs just to change a normal switch into a switch expression or
 
 * Use `is null` and `is object` for checking for null, instead of `== null`.
 Equality comparison to a null object (i.e. `== null`) is overridable behavior that may lead to a NullReferenceException and is harder to debug.
+
+# Documentation #
+* Add four spaces after the `///` for the content of `<summary>` tags.
+* Documentation is required on all public-facing members, and classes.
+* Accurate and proper English is expected in documentation, but this may be updated by a maintainer in a Pull Request.
+* Articles (`the`, `a/an`, `this`) are expected.
