@@ -3,7 +3,7 @@
     /// <summary>
     ///     Represents information about images and splash art for a champion.
     /// </summary>
-    public class ChampionImage
+    public class StaticImage
     {
         // TODO: Implement URL helpers for champion images.
 
@@ -30,7 +30,7 @@
         
         public int H { get; }
 
-        internal ChampionImage(ChampionImageDto dto)
+        internal StaticImage(StaticImageDto dto)
         {
             Full = dto.Full;
             Sprite = dto.Sprite;

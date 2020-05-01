@@ -17,7 +17,7 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     The unique key of the champion.
         /// </summary>
-        public string Key { get; }
+        public int Key { get; }
         
         /// <summary>
         ///     The name of the champion.
@@ -47,7 +47,7 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     Information and name of the images associated with that champion.
         /// </summary>
-        public ChampionImage Image { get; }
+        public StaticImage Image { get; }
         
         /// <summary>
         ///     Tags representing the champion.
@@ -69,7 +69,7 @@ namespace RiotPls.DataDragon.Entities
             Blurb = dto.Blurb;
             Partype = dto.Partype;
             Info = new ChampionInfo(dto.Info);
-            Image = new ChampionImage(dto.Image);
+            Image = new StaticImage(dto.Image);
             Tags = dto.Tags;
             Stats = new ChampionStats(dto.Stats);
         }

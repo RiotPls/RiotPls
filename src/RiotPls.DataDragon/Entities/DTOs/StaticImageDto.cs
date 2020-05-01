@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
-#nullable disable
+
 namespace RiotPls.DataDragon.Entities
 {
-    internal class ChampionImageDto
+    internal class StaticImageDto
     {
         [JsonPropertyName("full")]
         public string Full { get; set; }
