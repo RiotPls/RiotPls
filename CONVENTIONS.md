@@ -1,4 +1,6 @@
-These are the coding conventions to follow in this project.
+Here are the coding conventions to follow in this project. Pull Requests (PRs) that don't match the conventions will have changes requested.
+
+Most of the conventions match [Microsoft's C# Coding Conventions](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-program/coding-conventions).
 
 # Nomenclatures #
 
@@ -15,11 +17,11 @@ These are the coding conventions to follow in this project.
 # Naming Conventions #
 
 * All public members must have full name. Acronyms are to be avoided (LeagueOfLegends instead of LoL, TeamfightTactics instead of TFT, etc...). 
-* US names are prefered. Example, Color is prefered over Colour.
+* American English is the preferred language. For example, Color is prefered over Colour.
 
 # Declarations #
 
-* Use `var` everywhere. Unless it's not possible.
+* Usage of `var` is preferred, except where the variable type is not obvious.
 * Declare all fields/variables in their respective line.
 * Use All Man's Brances, you can free to omit braces if they aren't needed as long as it doesn't hurt readability or makes the code ambiguous.
 
@@ -38,5 +40,5 @@ Yet, don't submit PRs just to change a normal switch into a switch expression or
 
 # Null checking #
 
-* Use `is null` and `is object` for null checking. When we null check, we want to check if the object points to null. 
-We don't want to do equatily comparison to a null object (which is an overridable behavior that may lead to NRE and is hard to debug)
+* Use `is null` and `is object` for checking for null, instead of `== null`.
+Equality comparison to a null object (i.e. `== null`) is overridable behavior that may lead to a NullReferenceException and is harder to debug.
