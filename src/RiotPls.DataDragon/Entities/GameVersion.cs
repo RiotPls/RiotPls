@@ -3,7 +3,7 @@ using System;
 namespace RiotPls.DataDragon.Entities
 {
     /// <summary>
-    /// Represents a game version for League of Legends, like "10.9.1".
+    ///     Represents a game version for League of Legends, like "10.9.1".
     /// </summary>
     public class GameVersion
     {
@@ -54,17 +54,14 @@ namespace RiotPls.DataDragon.Entities
         ///     Parses a string input into a <see cref="GameVersion"/>.
         /// </summary>
         /// <param name="input">The game version, in string form.</param>
-        /// <param name="gameVersion">Parsed game version.</param>
-        /// <returns>A boolean depending on the result of the parsing.</returns>
+        /// <param name="gameVersion">A parsed game version object.</param>
+        /// <returns>True if parsing was successful, or false if an error occurred.</returns>
         public static bool TryParse(string input, out GameVersion gameVersion)
         {
             gameVersion = null;
             
             ReadOnlySpan<char> inputSpan;
-            if (input.StartsWith("lolpatch_", StringComparison.Ordinal))
-                inputSpan = input.AsSpan().Slice(9);
-            else
-                inputSpan = input;
+            inputSpan = input.StartsWith("lolpatch_", StringComparison.Ordinal) ? input.AsSpan().Slice(9) : input;
 
             var major = -1;
             var minor = -1;

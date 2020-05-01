@@ -78,8 +78,8 @@ namespace RiotPls.DataDragon
             get
             {
                 if (!IsCached) return true;
-                if (_data == null || LastSetTime == null) return true;
-                if (CacheExpiry == null) return false;
+                if (_data is null || LastSetTime is null) return true;
+                if (CacheExpiry is null) return false;
                 return DateTimeOffset.Now.ToUnixTimeSeconds() >
                        LastSetTime.Value.Add(CacheExpiry.Value).ToUnixTimeSeconds();
             }
