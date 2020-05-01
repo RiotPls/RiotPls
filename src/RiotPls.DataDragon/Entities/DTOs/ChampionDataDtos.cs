@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text.Json.Serialization;
-using RiotPls.DataDragon.Converters;
+﻿using System.Text.Json.Serialization;
 
 namespace RiotPls.DataDragon.Entities
 {
@@ -65,97 +63,5 @@ namespace RiotPls.DataDragon.Entities
 
         [JsonPropertyName("attackspeedperlevel")]
         public double AttackSpeedPerLevel { get; set; }
-    }
-    
-    internal class ChampionImageDto
-    {
-        [JsonPropertyName("full")]
-        public string Full { get; set; }
-
-        [JsonPropertyName("sprite")]
-        public string Sprite { get; set; }
-
-        [JsonPropertyName("group")]
-        public string Group { get; set; }
-        
-        [JsonPropertyName("x")]
-        public int X { get; set; }
-        
-        [JsonPropertyName("y")]
-        public int Y { get; set; }
-        
-        [JsonPropertyName("w")]
-        public int W { get; set; }
-        
-        [JsonPropertyName("h")]
-        public int H { get; set; }
-    }
-
-    internal class ChampionInfoDto
-    {
-        [JsonPropertyName("attack")]
-        public int Attack { get; set; }
-
-        [JsonPropertyName("defense")]
-        public int Defense { get; set; }
-
-        [JsonPropertyName("magic")]
-        public int Magic { get; set; }
-
-        [JsonPropertyName("difficulty")]
-        public int Difficulty { get; set; }
-    }
-    
-    internal class ChampionBaseDto
-    {
-        [JsonPropertyName("version")]
-        [JsonConverter(typeof(GameVersionConverter))]
-        public GameVersion Version { get; set; }
-
-        [JsonPropertyName("id")]
-        public string Id { get; set; }
-
-        [JsonPropertyName("key")]
-        public string Key { get; set; }
-
-        [JsonPropertyName("name")]
-        public string Name { get; set; }
-
-        [JsonPropertyName("title")]
-        public string Title { get; set; }
-
-        [JsonPropertyName("blurb")]
-        public string Blurb { get; set; }
-
-        [JsonPropertyName("partype")]
-        public string Partype { get; set; }
-
-        [JsonPropertyName("info")]
-        public ChampionInfoDto Info { get; set; }
-
-        [JsonPropertyName("image")]
-        public ChampionImageDto Image { get; set; }
-        
-        [JsonPropertyName("tags")]
-        public IReadOnlyCollection<string> Tags { get; set; }
-
-        [JsonPropertyName("stats")]
-        public ChampionStatsDto Stats { get; set; } 
-    }
-    
-    internal class ChampionDataDto
-    {
-        [JsonPropertyName("type")]
-        public string Type { get; set; }
-
-        [JsonPropertyName("format")]
-        public string Format { get; set; }
-        
-        [JsonPropertyName("version")]
-        [JsonConverter(typeof(GameVersionConverter))]
-        public GameVersion Version { get; set; }
-
-        [JsonPropertyName("data")]
-        public IReadOnlyDictionary<string, ChampionBaseDto> Champions { get; set; }
     }
 }

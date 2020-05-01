@@ -35,8 +35,7 @@ namespace RiotPls.DataDragon.Entities
             Type = dto.Type;
             Format = dto.Format;
             Version = dto.Version;
-            Champions = dto.Champions.ToDictionary(x
-                => x.Value.Key, y => new ChampionBase(y.Value));
+            Champions = dto.Champions.ToDictionary(x => x.Value.Key, y => new ChampionBase(y.Value));
         }
     }
 }

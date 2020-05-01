@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using RiotPls.DataDragon.Converters;
 using RiotPls.DataDragon.Entities;
+using RiotPls.DataDragon.Helpers;
 
 namespace RiotPls.DataDragon
 {
@@ -18,12 +19,18 @@ namespace RiotPls.DataDragon
         private readonly DataDragonClientOptions _options;
         private readonly HttpClient _client;
         private readonly JsonSerializerOptions _jsonSerializerOptions;
-        
-        public DataDragonClient(DataDragonClientOptions clientOptions = null)
+
+        public DataDragonClient() : this(null)
         {
-            _options = clientOptions ?? new DataDragonClientOptions();
-            _client = new HttpClient { BaseAddress = new Uri(Host) };
-            
+        }
+        
+        public DataDragonClient(DataDragonClientOptions? options)
+        {
+            _options = options ?? new DataDragonClientOptions();
+            _client = new HttpClient 
+            {
+                BaseAddress = new Uri(Host)
+            };
             _jsonSerializerOptions = new JsonSerializerOptions();
             _jsonSerializerOptions.Converters.Add(new GameVersionConverter());
         }
@@ -31,31 +38,49 @@ namespace RiotPls.DataDragon
         /// <summary>
         ///     Returns a list of every available version of Data Dragon.
         /// </summary>
-        public async Task<IReadOnlyCollection<GameVersion>> GetVersionsAsync()
-        {
-            if (!_options.Versions.IsExpired) return _options.Versions.Data;
-            
-            var request = await _client.GetStreamAsync($"{Api}/versions.json");
-            var data = await JsonSerializer.DeserializeAsync<IReadOnlyCollection<GameVersion>>(
-                request, _jsonSerializerOptions);
-            _options.Versions.Data = data;
-            return _options.Versions.Data;
-        }
-        
+        public ValueTask<IReadOnlyCollection<GameVersion>?> GetVersionsAsync()
+            => ValueTaskHelper.Create(
+                !_options.Versions.IsExpired,
+                this,
+                @this => @this._options.Versions.Data, 
+                async @this =>
+                {
+                    var request = await @this._client.GetStreamAsync($"{Api}/versions.json").ConfigureAwait(false);
+                    var data = await JsonSerializer.DeserializeAsync<IReadOnlyCollection<GameVersion>>(
+                        request, @this._jsonSerializerOptions).ConfigureAwait(false);
+
+                    @this._options.Versions.Data = data;
+                    return @this._options.Versions.Data;
+                });
+
         /// <summary>
         ///     Returns a list of every available language for the latest version
         ///     of Data Dragon, expressed as UTF-8 culture codes. (i.e. en_US)
         /// </summary>
-        public async Task<IReadOnlyCollection<string>> GetLanguagesAsync()
-        {
-            if (!_options.Languages.IsExpired) return _options.Languages.Data;
-            
-            var request = await _client.GetStreamAsync($"{Cdn}/languages.json");
-            var data = await JsonSerializer.DeserializeAsync<IReadOnlyCollection<string>>(
-                request, _jsonSerializerOptions);
-            _options.Languages.Data = data;
-            return _options.Languages.Data;
-        }
+        public ValueTask<IReadOnlyCollection<string>?> GetLanguagesAsync()
+            => ValueTaskHelper.Create(
+                !_options.Languages.IsExpired,
+                this,
+                @this => @this._options.Languages.Data,
+                async @this =>
+                {
+                    var request = await @this._client.GetStreamAsync($"{Cdn}/languages.json").ConfigureAwait(false);
+                    var data = await JsonSerializer.DeserializeAsync<IReadOnlyCollection<string>>(
+                        request, @this._jsonSerializerOptions).ConfigureAwait(false);
+
+                    @this._options.Languages.Data = data;
+                    return @this._options.Languages.Data;
+                });
+
+        /// <summary>
+        ///     Returns a <see cref="ChampionData"/> containing base information
+        ///     about every champion on the game.
+        /// </summary>
+        /// <param name="version">
+        ///     The version of Data Dragon to use.
+        /// </param>
+        public ValueTask<ChampionData?> GetChampionsAsync(GameVersion version)
+            => GetChampionsAsync(version, DefaultLanguage);
 
         /// <summary>
         ///     Returns a <see cref="ChampionData"/> containing base information
@@ -67,22 +92,22 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language in which the data must be returned. Defaults to English (United States).
         /// </param>
-        public async Task<ChampionData> GetChampionsAsync(
-            GameVersion version, string language = DefaultLanguage)
-        {
-            if (!_options.Champions.IsExpired) return _options.Champions.Data;
-            
-            var request = await _client.GetStreamAsync(
-                $"{Cdn}/{version}/data/{language}/champion.json");
-            var data = new ChampionData(await JsonSerializer.DeserializeAsync<ChampionDataDto>(
-                request, _jsonSerializerOptions));
-            _options.Champions.Data = data;
-            return _options.Champions.Data;
-        }
+        public ValueTask<ChampionData?> GetChampionsAsync(GameVersion version, string language)
+            => ValueTaskHelper.Create(
+                !_options.Champions.IsExpired,
+                this,
+                @this => @this._options.Champions.Data,
+                async @this =>
+                {
+                    var request = await @this._client.GetStreamAsync($"{Cdn}/{version}/data/{language}/champion.json").ConfigureAwait(false);
+                    var data = new ChampionData(await JsonSerializer.DeserializeAsync<ChampionDataDto>(
+                        request, @this._jsonSerializerOptions).ConfigureAwait(false));
+
+                    @this._options.Champions.Data = data;
+                    return @this._options.Champions.Data;
+                });
 
         public void Dispose()
-        {
-            _client?.Dispose();
-        }
+            => _client?.Dispose();
     }
 }

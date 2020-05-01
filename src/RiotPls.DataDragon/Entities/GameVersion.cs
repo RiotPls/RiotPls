@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace RiotPls.DataDragon.Entities
 {
@@ -10,17 +11,17 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     The major release version.
         /// </summary>
-        public readonly int Major;
+        public int Major { get; }
 
         /// <summary>
         ///     The minor release version.
         /// </summary>
-        public readonly int Minor;
+        public int Minor { get; }
 
         /// <summary>
         ///     The patch release version.
         /// </summary>
-        public readonly int Patch;
+        public int Patch { get; }
 
         private readonly string _string;
 
@@ -44,24 +45,21 @@ namespace RiotPls.DataDragon.Entities
         ///     Thrown if the provided string does not match the game version format.
         /// </exception>
         public static GameVersion Parse(string input)
-        {
-            return TryParse(input, out var gameVersion) 
-                ? gameVersion 
-                : throw new InvalidOperationException($"Failed to parse game version \"{input}\".");
-        }
-        
+            => TryParse(input, out var gameVersion)
+            ? gameVersion
+            : throw new InvalidOperationException($"Failed to parse game version \"{input}\".");
+
         /// <summary>
         ///     Parses a string input into a <see cref="GameVersion"/>.
         /// </summary>
         /// <param name="input">The game version, in string form.</param>
         /// <param name="gameVersion">A parsed game version object.</param>
         /// <returns>True if parsing was successful, or false if an error occurred.</returns>
-        public static bool TryParse(string input, out GameVersion gameVersion)
+        public static bool TryParse(string input, [MaybeNullWhen(false)] out GameVersion gameVersion)
         {
             gameVersion = null;
             
-            ReadOnlySpan<char> inputSpan;
-            inputSpan = input.StartsWith("lolpatch_", StringComparison.Ordinal) ? input.AsSpan().Slice(9) : input;
+            ReadOnlySpan<char> inputSpan = input.StartsWith("lolpatch_", StringComparison.Ordinal) ? input.AsSpan(9) : input;
 
             var major = -1;
             var minor = -1;
@@ -101,6 +99,7 @@ namespace RiotPls.DataDragon.Entities
             return true;
         }
 
-        public override string ToString() => _string;
+        public override string ToString() 
+            => _string;
     }
 }
