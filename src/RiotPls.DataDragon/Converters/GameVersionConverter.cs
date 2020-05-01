@@ -5,7 +5,7 @@ using RiotPls.DataDragon.Entities;
 
 namespace RiotPls.DataDragon.Converters
 {
-    public class GameVersionConverter : JsonConverter<GameVersion>
+    public sealed class GameVersionConverter : JsonConverter<GameVersion>
     {
         public override GameVersion Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
             => GameVersion.Parse(reader.GetString());

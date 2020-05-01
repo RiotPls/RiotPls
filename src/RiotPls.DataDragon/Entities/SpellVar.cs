@@ -1,6 +1,6 @@
 ﻿namespace RiotPls.DataDragon.Entities
 {
-    public class SpellVar
+    public sealed class SpellVar
     {
         public string Link { get; }
         

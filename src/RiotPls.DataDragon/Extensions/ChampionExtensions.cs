@@ -13,7 +13,7 @@ namespace RiotPls.DataDragon.Extensions
         /// <param name="version">Version of Data Dragon.</param>
         /// <param name="language">Language in which the data must be returned.</param>
         public static async ValueTask<ChampionBase?> GetChampionByIdAsync(this DataDragonClient client, 
-            string id, GameVersion version, string language = DataDragonClient.DefaultLanguage)
+            int id, GameVersion version, string language = DataDragonClient.DefaultLanguage)
         {
             var champions = await client.GetChampionsAsync(version, language).ConfigureAwait(false);
             return champions?.Champions[id];

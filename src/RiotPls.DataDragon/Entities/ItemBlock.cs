@@ -1,6 +1,6 @@
 ﻿namespace RiotPls.DataDragon.Entities
 {
-    public class ItemBlock
+    public sealed class ItemBlock
     {
         /// <summary>
         ///     Id of the item.

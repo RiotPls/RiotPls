@@ -2,7 +2,7 @@
 
 namespace RiotPls.DataDragon.Entities
 {
-    public class ChampionBase
+    public sealed class ChampionBase
     {
         /// <summary>
         ///     The version of the data.
@@ -17,7 +17,7 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     The unique key of the champion.
         /// </summary>
-        public string Key { get; }
+        public int Key { get; }
         
         /// <summary>
         ///     The name of the champion.
@@ -63,7 +63,7 @@ namespace RiotPls.DataDragon.Entities
         {
             Version = dto.Version;
             Id = dto.Id;
-            Key = dto.Key;
+            Key = int.Parse(dto.Key);
             Name = dto.Name;
             Title = dto.Title;
             Blurb = dto.Blurb;

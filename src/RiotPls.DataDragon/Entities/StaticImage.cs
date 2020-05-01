@@ -3,7 +3,7 @@
     /// <summary>
     ///     Represents information about images and splash art for a champion.
     /// </summary>
-    public class StaticImage
+    public sealed class StaticImage
     {
         // TODO: Implement URL helpers for champion images.
 

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace RiotPls.DataDragon.Entities
 {
-    public class Champion
+    public sealed class Champion
     {
         /// <summary>
         ///     Lore of the champion.
@@ -14,7 +14,7 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     Skins of the champion.
         /// </summary>
-        public IReadOnlyCollection<ChampionSkin> Skins { get; }
+        public ReadOnlyCollection<ChampionSkin> Skins { get; }
         
         /// <summary>
         ///     Ally tips of the champion.
@@ -29,7 +29,7 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     Spells of the champion.
         /// </summary>
-        public IReadOnlyCollection<Spell> Spells { get; }
+        public ReadOnlyCollection<Spell> Spells { get; }
         
         /// <summary>
         ///     Passive spell of the champion.
@@ -39,7 +39,7 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     Recommendations by their game mode.
         /// </summary>
-        public IReadOnlyDictionary<string, Recommendation> Recommended { get; }
+        public ReadOnlyDictionary<string, Recommendation> Recommendations { get; }
 
         internal Champion(ChampionDto dto)
         {
@@ -50,7 +50,7 @@ namespace RiotPls.DataDragon.Entities
             EnemyTips = dto.EnemyTips;
             Spells = dto.Spells.Select(x => new Spell(x)).ToList().AsReadOnly();
             PassiveSpell = new SpellBase(dto.Passive);
-            Recommended = new ReadOnlyDictionary<string, Recommendation>(
+            Recommendations = new ReadOnlyDictionary<string, Recommendation>(
                 dto.Recommended.ToDictionary(x => x.Mode, y => new Recommendation(y)));
         }
     }

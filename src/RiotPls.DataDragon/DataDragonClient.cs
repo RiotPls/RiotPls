@@ -95,19 +95,24 @@ namespace RiotPls.DataDragon
         public ValueTask<ChampionData?> GetChampionsAsync(GameVersion version, string language)
             => ValueTaskHelper.Create(
                 !_options.Champions.IsExpired,
-                this,
-                @this => @this._options.Champions.Data,
-                async @this =>
+                (Client: this, Version: version, Language: language),
+                state => state.Client._options.Champions.Data,
+                async state =>
                 {
-                    var request = await @this._client.GetStreamAsync($"{Cdn}/{version}/data/{language}/champion.json").ConfigureAwait(false);
-                    var data = new ChampionData(await JsonSerializer.DeserializeAsync<ChampionDataDto>(
-                        request, @this._jsonSerializerOptions).ConfigureAwait(false));
+                    var request = await state.Client._client.GetStreamAsync(
+                        $"{Cdn}/{state.Version}/data/{state.Language}/champion.json").ConfigureAwait(false);
+                    var dto = await JsonSerializer.DeserializeAsync<ChampionDataDto>(
+                        request, state.Client._jsonSerializerOptions).ConfigureAwait(false);
+                    var data = new ChampionData(dto);
 
-                    @this._options.Champions.Data = data;
-                    return @this._options.Champions.Data;
+                    state.Client._options.Champions.Data = data;
+                    return data;
                 });
 
         public void Dispose()
-            => _client?.Dispose();
+        {
+            _client.CancelPendingRequests();
+            _client.Dispose();
+        }
     }
 }

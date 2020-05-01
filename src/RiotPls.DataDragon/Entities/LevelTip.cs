@@ -2,7 +2,7 @@
 
 namespace RiotPls.DataDragon.Entities
 {
-    public class LevelTip
+    public sealed class LevelTip
     {
         public IReadOnlyCollection<string> Labels { get; }
         

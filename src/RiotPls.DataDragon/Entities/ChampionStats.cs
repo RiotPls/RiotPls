@@ -3,7 +3,7 @@
     /// <summary>
     ///     Represents in-game statistics for a champion, which are used for balancing.
     /// </summary>
-    public class ChampionStats
+    public sealed class ChampionStats
     {
         /// <summary>
         ///     The base HP of the champion.

@@ -6,7 +6,7 @@ namespace RiotPls.DataDragon.Entities
     /// <summary>
     ///     Represents a champion's spell.
     /// </summary>
-    public class Spell
+    public sealed class Spell
     {
         /// <summary>
         ///     Id of the spell.
@@ -77,8 +77,7 @@ namespace RiotPls.DataDragon.Entities
             Costs = dto.Costs;
             DataValues = dto.DataValues;
             Effects = dto.Effects;
-            Vars = new ReadOnlyCollection<SpellVar>(
-                dto.Vars.Select(x => new SpellVar(x)).ToList());
+            Vars = dto.Vars.Select(x => new SpellVar(x)).ToList().AsReadOnly();
             CostType = dto.CostType;
             MaxAmmo = dto.MaxAmmo;
             Ranges = dto.Ranges;

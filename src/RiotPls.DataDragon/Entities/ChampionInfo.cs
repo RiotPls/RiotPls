@@ -4,7 +4,7 @@
     ///     Represents the different levels of the champion.
     ///     Whether it's tank, attack, difficult, etc.
     /// </summary>
-    public class ChampionInfo
+    public sealed class ChampionInfo
     {
         /// <summary>
         ///     The attack level of the champion.

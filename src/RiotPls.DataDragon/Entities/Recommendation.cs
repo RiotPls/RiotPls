@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace RiotPls.DataDragon.Entities
 {
-    public class Recommendation
+    public sealed class Recommendation
     {
         /// <summary>
         ///     Name of the champion
@@ -64,8 +64,7 @@ namespace RiotPls.DataDragon.Entities
             HasExtensionPage = dto.HasExtensionPage;
             UseObviousCheckMark = dto.UseObviousCheckMark;
             CustomPanel = dto.CustomPanel;
-            Blocks = new ReadOnlyCollection<Block>(
-                dto.Blocks.Select(x => new Block(x)).ToList());
+            Blocks = dto.Blocks.Select(x => new Block(x)).ToList().AsReadOnly();
         }
     }
 }

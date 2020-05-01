@@ -1,15 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text.Json.Serialization;
-using RiotPls.DataDragon.Converters;
 
 namespace RiotPls.DataDragon.Entities
 {
     /// <summary>
     ///     Represents information about League of Legends champions.
     /// </summary>
-    public class ChampionData
+    public sealed class ChampionData
     {
         /// <summary>
         ///     The type of retrieved data.
@@ -29,16 +26,16 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     A dictionary of champion objects, keyed by their unique identifiers.
         /// </summary>
-        public IReadOnlyDictionary<string, ChampionBase> Champions { get; }
+        public ReadOnlyDictionary<int, ChampionBase> Champions { get; }
         
         internal ChampionData(ChampionDataDto dto)
         {
             Type = dto.Type;
             Format = dto.Format;
             Version = dto.Version;
-            Champions = new ReadOnlyDictionary<string, ChampionBase>(
+            Champions = new ReadOnlyDictionary<int, ChampionBase>(
                 dto.Champions.ToDictionary(
-                x => x.Value.Key, y => new ChampionBase(y.Value)));
+                x => int.Parse(x.Value.Key), y => new ChampionBase(y.Value)));
         }
     }
 }

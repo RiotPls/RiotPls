@@ -3,7 +3,7 @@
     /// <summary>
     ///     Represent a skin of a champion.
     /// </summary>
-    public class ChampionSkin
+    public sealed class ChampionSkin
     {
         /// <summary>
         ///     Id of the skin.
