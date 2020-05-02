@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
@@ -140,7 +140,7 @@ namespace RiotPls.DataDragon
             championName = string.Create(championName.Length, championName, (span, strState) =>
             {
                 span[0] = char.ToUpper(strState[0]);
-                for (var i = 1; i < span.Length; ++i)
+                for (var i = span.Length - 1; i > 0; --i)
                     span[i] = strState[i];
             });
             
