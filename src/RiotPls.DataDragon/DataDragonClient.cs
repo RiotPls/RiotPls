@@ -140,17 +140,24 @@ namespace RiotPls.DataDragon
                 _options.Champions.ContainsKey(championName) 
                 && !_options.Champions[championName].IsExpired,
                 (Client: this, ChampionName: championName, Version: version, Language: language),
-                state => state.Client._options.Champions[championName].Data,
+                state => state.Client._options.Champions[state.ChampionName].Data,
                 async state =>
                 {
-                    //todo: capitalize first letter when necessary.
+                    state.ChampionName = string.Create(
+                        state.ChampionName.Length, state.ChampionName, (span, strState) =>
+                    {
+                        span[0] = char.ToUpper(strState[0]);
+                        for (var i = 1; i < span.Length; ++i)
+                            span[i] = strState[i];
+                    });
+                    
                     var request = await state.Client._client.GetStreamAsync(
-                        $"{Cdn}/{state.Version}/data/{state.Language}/champion/{championName}.json").ConfigureAwait(false);
+                        $"{Cdn}/{state.Version}/data/{state.Language}/champion/{state.ChampionName}.json").ConfigureAwait(false);
                     var dto = await JsonSerializer.DeserializeAsync<ChampionDataDto>(
                         request, state.Client._jsonSerializerOptions).ConfigureAwait(false);
                     var data = new ChampionData(dto);
 
-                    state.Client._options._champions.AddOrUpdate(championName,
+                    state.Client._options._champions.AddOrUpdate(state.ChampionName,
                         (_, s) => CacheControl<ChampionData>.TimedCache(s.Client._options.ChampionFullCacheDuration),
                         (_, __, s) => CacheControl<ChampionData>.TimedCache(s.Client._options.ChampionFullCacheDuration),
                         state);
