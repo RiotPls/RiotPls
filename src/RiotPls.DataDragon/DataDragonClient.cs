@@ -94,9 +94,9 @@ namespace RiotPls.DataDragon
         /// </param>
         public ValueTask<ChampionBaseData?> GetChampionsAsync(GameVersion version, string language)
             => ValueTaskHelper.Create(
-                !_options.Champions.IsExpired,
+                !_options.BaseChampions.IsExpired,
                 (Client: this, Version: version, Language: language),
-                state => state.Client._options.Champions.Data,
+                state => state.Client._options.BaseChampions.Data,
                 async state =>
                 {
                     var request = await state.Client._client.GetStreamAsync(
@@ -105,7 +105,7 @@ namespace RiotPls.DataDragon
                         request, state.Client._jsonSerializerOptions).ConfigureAwait(false);
                     var data = new ChampionBaseData(dto);
 
-                    state.Client._options.Champions.Data = data;
+                    state.Client._options.BaseChampions.Data = data;
                     return data;
                 });
 
@@ -137,10 +137,10 @@ namespace RiotPls.DataDragon
         /// </param>
         public ValueTask<ChampionData?> GetChampionAsync(string championName, GameVersion version, string language)
             => ValueTaskHelper.Create(
-                _options.ChampionsFull.ContainsKey(championName) 
-                && !_options.ChampionsFull[championName].IsExpired,
+                _options.Champions.ContainsKey(championName) 
+                && !_options.Champions[championName].IsExpired,
                 (Client: this, ChampionName: championName, Version: version, Language: language),
-                state => state.Client._options.ChampionsFull[championName].Data,
+                state => state.Client._options.Champions[championName].Data,
                 async state =>
                 {
                     //todo: capitalize first letter when necessary.
@@ -150,9 +150,10 @@ namespace RiotPls.DataDragon
                         request, state.Client._jsonSerializerOptions).ConfigureAwait(false);
                     var data = new ChampionData(dto);
 
-                    state.Client._options._championsFull.TryRemove(championName, out _);
-                    state.Client._options._championsFull.TryAdd(championName, 
-                        CacheControl<ChampionData>.TimedCache(state.Client._options.ChampionFullCacheDuration));
+                    state.Client._options._champions.AddOrUpdate(championName,
+                        (_, s) => CacheControl<ChampionData>.TimedCache(s.Client._options.ChampionFullCacheDuration),
+                        (_, __, s) => CacheControl<ChampionData>.TimedCache(s.Client._options.ChampionFullCacheDuration),
+                        state);
                     return data;
                 });
 
