@@ -16,7 +16,9 @@ namespace RiotPls.DataDragon.Extensions
             int id, GameVersion version, string language = DataDragonClient.DefaultLanguage)
         {
             var champions = await client.GetChampionsAsync(version, language).ConfigureAwait(false);
-            return champions?.Champions[id];
+
+            champions.Champions.TryGetValue(id, out var champion);
+            return champion;
         }
     }
 }
