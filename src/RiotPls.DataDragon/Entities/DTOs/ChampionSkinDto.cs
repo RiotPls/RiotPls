@@ -5,7 +5,7 @@ namespace RiotPls.DataDragon.Entities
     internal class ChampionSkinDto
     {
         [JsonPropertyName("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
         
         [JsonPropertyName("num")]
         public int Num { get; set; }

@@ -73,17 +73,17 @@ namespace RiotPls.DataDragon
                 });
 
         /// <summary>
-        ///     Returns a <see cref="ChampionData"/> containing base information
+        ///     Returns a <see cref="ChampionBaseData"/> containing base information
         ///     about every champion on the game.
         /// </summary>
         /// <param name="version">
         ///     The version of Data Dragon to use.
         /// </param>
-        public ValueTask<ChampionData?> GetChampionsAsync(GameVersion version)
+        public ValueTask<ChampionBaseData?> GetChampionsAsync(GameVersion version)
             => GetChampionsAsync(version, DefaultLanguage);
 
         /// <summary>
-        ///     Returns a <see cref="ChampionData"/> containing base information
+        ///     Returns a <see cref="ChampionBaseData"/> containing base information
         ///     about every champion on the game.
         /// </summary>
         /// <param name="version">
@@ -92,7 +92,7 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language in which the data must be returned. Defaults to English (United States).
         /// </param>
-        public ValueTask<ChampionData?> GetChampionsAsync(GameVersion version, string language)
+        public ValueTask<ChampionBaseData?> GetChampionsAsync(GameVersion version, string language)
             => ValueTaskHelper.Create(
                 !_options.Champions.IsExpired,
                 (Client: this, Version: version, Language: language),
@@ -101,11 +101,58 @@ namespace RiotPls.DataDragon
                 {
                     var request = await state.Client._client.GetStreamAsync(
                         $"{Cdn}/{state.Version}/data/{state.Language}/champion.json").ConfigureAwait(false);
+                    var dto = await JsonSerializer.DeserializeAsync<ChampionBaseDataDto>(
+                        request, state.Client._jsonSerializerOptions).ConfigureAwait(false);
+                    var data = new ChampionBaseData(dto);
+
+                    state.Client._options.Champions.Data = data;
+                    return data;
+                });
+
+        /// <summary>
+        ///     Returns a <see cref="ChampionData"/> containing full information
+        ///     about a specific champion on the game.
+        /// </summary>
+        /// <param name="championName">
+        ///     Name of the champion to query.
+        /// </param>
+        /// <param name="version">
+        ///    The version of Data Dragon to use.
+        /// </param>
+        public ValueTask<ChampionData?> GetChampionAsync(string championName, GameVersion version)
+            => GetChampionAsync(championName, version, DefaultLanguage);
+        
+        /// <summary>
+        ///     Returns a <see cref="ChampionData"/> containing full information
+        ///     about a specific champion on the game.
+        /// </summary>
+        /// <param name="championName">
+        ///     Name of the champion to query.
+        /// </param>
+        /// <param name="version">
+        ///    The version of Data Dragon to use.
+        /// </param>
+        /// <param name="language">
+        ///    The language in which the data must be returned. Defaults to English (United States).
+        /// </param>
+        public ValueTask<ChampionData?> GetChampionAsync(string championName, GameVersion version, string language)
+            => ValueTaskHelper.Create(
+                _options.ChampionsFull.ContainsKey(championName) 
+                && !_options.ChampionsFull[championName].IsExpired,
+                (Client: this, ChampionName: championName, Version: version, Language: language),
+                state => state.Client._options.ChampionsFull[championName].Data,
+                async state =>
+                {
+                    //todo: capitalize first letter when necessary.
+                    var request = await state.Client._client.GetStreamAsync(
+                        $"{Cdn}/{state.Version}/data/{state.Language}/champion/{championName}.json").ConfigureAwait(false);
                     var dto = await JsonSerializer.DeserializeAsync<ChampionDataDto>(
                         request, state.Client._jsonSerializerOptions).ConfigureAwait(false);
                     var data = new ChampionData(dto);
 
-                    state.Client._options.Champions.Data = data;
+                    state.Client._options._championsFull.TryRemove(championName, out _);
+                    state.Client._options._championsFull.TryAdd(championName, 
+                        CacheControl<ChampionData>.TimedCache(state.Client._options.ChampionFullCacheDuration));
                     return data;
                 });
 

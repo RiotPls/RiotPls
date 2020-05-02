@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace RiotPls.DataDragon.Entities
@@ -21,11 +21,11 @@ namespace RiotPls.DataDragon.Entities
         
         public string AppendAfterSection { get; }
         
-        public ReadOnlyCollection<string> VisibleWithAllOf { get; }
+        public IReadOnlyCollection<string> VisibleWithAllOf { get; }
         
-        public ReadOnlyCollection<string> HiddenWithAllOf { get; }
+        public IReadOnlyCollection<string> HiddenWithAllOf { get; }
         
-        public ReadOnlyCollection<ItemBlock> Items { get; }
+        public IReadOnlyCollection<ItemBlock> Items { get; }
 
         internal Block(BlockDto dto)
         {

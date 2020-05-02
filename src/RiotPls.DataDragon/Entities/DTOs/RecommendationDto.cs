@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 #nullable disable
 namespace RiotPls.DataDragon.Entities
@@ -36,6 +36,6 @@ namespace RiotPls.DataDragon.Entities
         public object CustomPanel { get; set; }
         
         [JsonPropertyName("blocks")]
-        public ReadOnlyCollection<BlockDto> Blocks { get; set; }
+        public IReadOnlyCollection<BlockDto> Blocks { get; set; }
     }
 }

@@ -27,7 +27,7 @@
 
         internal ChampionSkin(ChampionSkinDto dto)
         {
-            Id = dto.Id;
+            Id = int.Parse(dto.Id);
             SkinIndex = dto.Num;
             Name = dto.Name;
             HasChromas = dto.HasChromas;

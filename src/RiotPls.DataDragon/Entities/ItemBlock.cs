@@ -19,7 +19,7 @@
 
         internal ItemBlock(ItemBlockDto dto)
         {
-            Id = dto.Id;
+            Id = int.Parse(dto.Id);
             Count = dto.Count;
             HideCount = dto.HideCount;
         }

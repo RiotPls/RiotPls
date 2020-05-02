@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace RiotPls.DataDragon.Entities
@@ -31,21 +31,21 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     Cooldown per level of the spell.
         /// </summary>
-        public ReadOnlyCollection<double> Cooldowns { get; }
+        public IReadOnlyCollection<double> Cooldowns { get; }
 
         /// <summary>
         ///     Cost per level of the spell.
         /// </summary>
-        public ReadOnlyCollection<double> Costs { get; }
+        public IReadOnlyCollection<double> Costs { get; }
         
         // todo: check this object.
         public object DataValues { get; }
         
         // todo: check this object.
-        public ReadOnlyCollection<ReadOnlyCollection<double>> Effects { get; }
+        public IReadOnlyCollection<IReadOnlyCollection<double>> Effects { get; }
         
         // todo: dunno what it is for.
-        public ReadOnlyCollection<SpellVar> Vars { get; }
+        public IReadOnlyCollection<SpellVar> Vars { get; }
         
         /// <summary>
         ///     Type of the cost.
@@ -60,7 +60,7 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     Ranges per level of the spell.
         /// </summary>
-        public ReadOnlyCollection<int> Ranges { get; }
+        public IReadOnlyCollection<int> Ranges { get; }
         
         /// <summary>
         ///     Resources of the spell.
@@ -79,7 +79,7 @@ namespace RiotPls.DataDragon.Entities
             Effects = dto.Effects;
             Vars = dto.Vars.Select(x => new SpellVar(x)).ToList().AsReadOnly();
             CostType = dto.CostType;
-            MaxAmmo = dto.MaxAmmo;
+            MaxAmmo = int.Parse(dto.MaxAmmo);
             Ranges = dto.Ranges;
             Resource = dto.Resource;
         }

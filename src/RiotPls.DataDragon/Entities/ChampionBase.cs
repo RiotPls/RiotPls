@@ -2,7 +2,7 @@
 
 namespace RiotPls.DataDragon.Entities
 {
-    public sealed class ChampionBase
+    public class ChampionBase
     {
         /// <summary>
         ///     The version of the data.

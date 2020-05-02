@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace RiotPls.DataDragon.Entities
 {
-    public sealed class Champion
+    public sealed class Champion : ChampionBase
     {
         /// <summary>
         ///     Lore of the champion.
@@ -41,9 +41,8 @@ namespace RiotPls.DataDragon.Entities
         /// </summary>
         public ReadOnlyDictionary<string, Recommendation> Recommendations { get; }
 
-        internal Champion(ChampionDto dto)
+        internal Champion(ChampionDto dto) : base(dto)
         {
-            // todo: version will be null, so give it in endpoint methods
             Lore = dto.Lore;
             Skins = dto.Skins.Select(x => new ChampionSkin(x)).ToList().AsReadOnly();
             AllyTips = dto.AllyTips;
@@ -51,7 +50,7 @@ namespace RiotPls.DataDragon.Entities
             Spells = dto.Spells.Select(x => new Spell(x)).ToList().AsReadOnly();
             PassiveSpell = new SpellBase(dto.Passive);
             Recommendations = new ReadOnlyDictionary<string, Recommendation>(
-                dto.Recommended.ToDictionary(x => x.Mode, y => new Recommendation(y)));
+                dto.Recommendations.ToDictionary(x => x.Mode, y => new Recommendation(y)));
         }
     }
 }

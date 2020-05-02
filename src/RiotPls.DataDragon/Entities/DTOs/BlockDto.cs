@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 #nullable disable
 namespace RiotPls.DataDragon.Entities
@@ -30,12 +30,12 @@ namespace RiotPls.DataDragon.Entities
         public string AppendAfterSection { get; set; }
         
         [JsonPropertyName("visibleWithAllof")]
-        public ReadOnlyCollection<string> VisibleWithAllOf { get; set; }
+        public IReadOnlyCollection<string> VisibleWithAllOf { get; set; }
         
         [JsonPropertyName("hiddenWithAllOf")]
-        public ReadOnlyCollection<string> HiddenWithAllOf { get; set; }
+        public IReadOnlyCollection<string> HiddenWithAllOf { get; set; }
         
         [JsonPropertyName("items")]
-        public ReadOnlyCollection<ItemBlockDto> Items { get; set; }
+        public IReadOnlyCollection<ItemBlockDto> Items { get; set; }
     }
 }

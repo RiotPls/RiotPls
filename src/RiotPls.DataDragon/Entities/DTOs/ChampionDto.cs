@@ -23,6 +23,7 @@ namespace RiotPls.DataDragon.Entities
         [JsonPropertyName("passive")]
         public SpellBaseDto Passive { get; set; }
         
-        public IReadOnlyCollection<RecommendationDto> Recommended { get; set; }
+        [JsonPropertyName("recommended")]
+        public IReadOnlyCollection<RecommendationDto> Recommendations { get; set; }
     }
 }

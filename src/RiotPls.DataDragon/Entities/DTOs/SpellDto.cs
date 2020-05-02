@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 #nullable disable
 namespace RiotPls.DataDragon.Entities
@@ -18,13 +18,13 @@ namespace RiotPls.DataDragon.Entities
         public int MaxRank { get; set; }
         
         [JsonPropertyName("cooldown")]
-        public ReadOnlyCollection<double> Cooldowns { get; set; }
+        public IReadOnlyCollection<double> Cooldowns { get; set; }
         
         [JsonPropertyName("cooldownBurn")]
         public string CooldownBurn { get; set; }
         
         [JsonPropertyName("cost")]
-        public ReadOnlyCollection<double> Costs { get; set; }
+        public IReadOnlyCollection<double> Costs { get; set; }
         
         [JsonPropertyName("costBurn")]
         public string CostBurn { get; set; }
@@ -33,22 +33,22 @@ namespace RiotPls.DataDragon.Entities
         public object DataValues { get; set; }
         
         [JsonPropertyName("effect")]
-        public ReadOnlyCollection<ReadOnlyCollection<double>> Effects { get; set; }
+        public IReadOnlyCollection<IReadOnlyCollection<double>> Effects { get; set; }
         
         [JsonPropertyName("effectBurn")]
-        public ReadOnlyCollection<string> EffectBurn { get; set; }
+        public IReadOnlyCollection<string> EffectBurn { get; set; }
         
         [JsonPropertyName("vars")]
-        public ReadOnlyCollection<SpellVarDto> Vars { get; set; }
+        public IReadOnlyCollection<SpellVarDto> Vars { get; set; }
         
         [JsonPropertyName("costType")]
         public string CostType { get; set; }
         
         [JsonPropertyName("maxammo")]
-        public int MaxAmmo { get; set; }
+        public string MaxAmmo { get; set; }
         
         [JsonPropertyName("range")]
-        public ReadOnlyCollection<int> Ranges { get; set; }
+        public IReadOnlyCollection<int> Ranges { get; set; }
         
         [JsonPropertyName("rangeBurn")]
         public string RangeBurn { get; set; }
