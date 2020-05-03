@@ -35,14 +35,14 @@ namespace RiotPls.DataDragon
                 BaseAddress = new Uri(Host)
             };
             _jsonSerializerOptions = new JsonSerializerOptions();
-            _jsonSerializerOptions.Converters.Add(new GameVersionConverter());
+            _jsonSerializerOptions.Converters.Add(GameVersionJsonConverter.Instance);
             _lock = new object();
         }
 
         /// <summary>
         ///     Returns a list of every available version of Data Dragon.
         /// </summary>
-        public ValueTask<IReadOnlyCollection<GameVersion>> GetVersionsAsync()
+        public ValueTask<IReadOnlyList<GameVersion>> GetVersionsAsync()
         {
             lock (_lock)
             {
@@ -54,11 +54,11 @@ namespace RiotPls.DataDragon
                       async @this =>
                       {
                           var request = await @this._client.GetStreamAsync($"{Api}/versions.json").ConfigureAwait(false);
-                          var data = await JsonSerializer.DeserializeAsync<IReadOnlyCollection<GameVersion>>(
+                          var data = await JsonSerializer.DeserializeAsync<IReadOnlyList<GameVersion>>(
                               request, @this._jsonSerializerOptions).ConfigureAwait(false);
 
                           @this._options.Versions.Data = data;
-                          return @this._options.Versions.Data;
+                          return data;
                       });
             }
         }
@@ -83,7 +83,7 @@ namespace RiotPls.DataDragon
                               request, @this._jsonSerializerOptions).ConfigureAwait(false);
 
                           @this._options.Languages.Data = data;
-                          return @this._options.Languages.Data;
+                          return data;
                       });
             }
         }

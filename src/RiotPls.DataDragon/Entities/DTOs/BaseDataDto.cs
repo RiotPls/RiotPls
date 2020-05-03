@@ -12,7 +12,7 @@ namespace RiotPls.DataDragon.Entities
         public string Format { get; set; }
         
         [JsonPropertyName("version")]
-        [JsonConverter(typeof(GameVersionConverter))]
+        [JsonConverter(typeof(GameVersionJsonConverter))]
         public GameVersion Version { get; set; }
     }
 }

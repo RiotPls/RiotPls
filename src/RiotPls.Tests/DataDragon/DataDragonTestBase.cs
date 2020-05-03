@@ -6,7 +6,7 @@ namespace RiotPls.Tests.DataDragon
 {
     public class DataDragonTestBase: IDisposable
     {
-        protected readonly RiotPls.DataDragon.DataDragonClient _client = new DataDragonClient();
+        protected readonly DataDragonClient _client = new DataDragonClient();
         protected readonly ITestOutputHelper _output;
         
         public DataDragonTestBase(ITestOutputHelper helper)

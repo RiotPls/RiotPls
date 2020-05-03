@@ -5,7 +5,7 @@ namespace RiotPls.DataDragon
     /// <summary>
     ///     Represents preferred options for caching data.
     /// </summary>
-    public class CacheControl<T> where T : class
+    public sealed class CacheControl<T> where T : class
     {
         /// <summary>
         ///     Instructs the client to not cache this data.

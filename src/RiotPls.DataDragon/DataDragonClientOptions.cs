@@ -9,13 +9,13 @@ namespace RiotPls.DataDragon
     /// <summary>
     ///     Configuration options for a <see cref="DataDragonClient"/>.
     /// </summary>
-    public class DataDragonClientOptions
+    public sealed class DataDragonClientOptions
     {
         /// <summary>
         ///     The cache options for version data. Defaults to expiring every 14 days.
         /// </summary>
-        public CacheControl<IReadOnlyCollection<GameVersion>> Versions { get; set; } 
-            = CacheControl<IReadOnlyCollection<GameVersion>>.TimedCache(TimeSpan.FromDays(14));
+        public CacheControl<IReadOnlyList<GameVersion>> Versions { get; set; } 
+            = CacheControl<IReadOnlyList<GameVersion>>.TimedCache(TimeSpan.FromDays(14));
         
         /// <summary>
         ///     The cache options for language data. Defaults to permanent cache.
@@ -33,7 +33,7 @@ namespace RiotPls.DataDragon
         /// <summary>
         ///     The cache options for full champions data.
         /// </summary>
-        public IReadOnlyDictionary<string, CacheControl<ChampionData>> Champions;
+        public IReadOnlyDictionary<string, CacheControl<ChampionData>> Champions { get; }
         internal ConcurrentDictionary<string, CacheControl<ChampionData>> _champions;
 
         /// <summary>

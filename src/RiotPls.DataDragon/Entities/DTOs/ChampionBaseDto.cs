@@ -8,7 +8,7 @@ namespace RiotPls.DataDragon.Entities
     {
         // todo: make it optional?
         [JsonPropertyName("version")]
-        [JsonConverter(typeof(GameVersionConverter))]
+        [JsonConverter(typeof(GameVersionJsonConverter))]
         public GameVersion Version { get; set; }
 
         [JsonPropertyName("id")]

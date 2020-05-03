@@ -5,8 +5,10 @@ using RiotPls.DataDragon.Entities;
 
 namespace RiotPls.DataDragon.Converters
 {
-    public sealed class GameVersionConverter : JsonConverter<GameVersion>
+    public sealed class GameVersionJsonConverter : JsonConverter<GameVersion>
     {
+        public static GameVersionJsonConverter Instance { get; } = new GameVersionJsonConverter();
+
         public override GameVersion Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
             => GameVersion.Parse(reader.GetString());
 
