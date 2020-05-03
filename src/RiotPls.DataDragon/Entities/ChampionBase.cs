@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using RiotPls.DataDragon.Enums;
 
 namespace RiotPls.DataDragon.Entities
 {
@@ -35,9 +38,9 @@ namespace RiotPls.DataDragon.Entities
         public string Blurb { get; }
         
         /// <summary>
-        ///     The partype of the champion.
+        ///     The resource type of the champion. (mana, energy, fury)
         /// </summary>
-        public string Partype { get; }
+        public ResourceType ResourceType { get; }
         
         /// <summary>
         ///     Statistics about the champion.
@@ -52,7 +55,7 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     Tags representing the champion.
         /// </summary>
-        public IReadOnlyCollection<string> Tags { get; }
+        public IReadOnlyCollection<ChampionType> Tags { get; }
         
         /// <summary>
         ///     Statistics related to the champion.
@@ -67,10 +70,10 @@ namespace RiotPls.DataDragon.Entities
             Name = dto.Name;
             Title = dto.Title;
             Blurb = dto.Blurb;
-            Partype = dto.Partype;
+            ResourceType = Enum.Parse<ResourceType>(dto.Partype.Replace(" ", ""), true);
             Info = new ChampionInfo(dto.Info);
             Image = new StaticImage(dto.Image);
-            Tags = dto.Tags;
+            Tags = dto.Tags.Select(x => Enum.Parse<ChampionType>(x, true)).ToList().AsReadOnly();
             Stats = new ChampionStats(dto.Stats);
         }
     }

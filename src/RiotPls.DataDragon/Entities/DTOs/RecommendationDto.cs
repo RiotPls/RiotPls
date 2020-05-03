@@ -37,5 +37,11 @@ namespace RiotPls.DataDragon.Entities
         
         [JsonPropertyName("blocks")]
         public IReadOnlyCollection<BlockDto> Blocks { get; set; }
+        
+        [JsonPropertyName("requiredPerk")]
+        public string RequiredPerk { get; set; }
+        
+        [JsonPropertyName("extenOrnnPage")]
+        public bool ExtennOrnnPage { get; set; }
     }
 }

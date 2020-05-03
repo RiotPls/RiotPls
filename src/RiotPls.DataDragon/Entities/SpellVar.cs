@@ -1,18 +1,22 @@
-﻿namespace RiotPls.DataDragon.Entities
+﻿using System;
+using RiotPls.DataDragon.Enums;
+
+namespace RiotPls.DataDragon.Entities
 {
     public sealed class SpellVar
     {
         public string Link { get; }
         
-        public double Coeff { get; }
+        // todo: should stay a string *for now* because it can be either double or sometimes double[]... 
+        public string Coeff { get; }
         
-        public string Key { get; }
+        public SpellKey Key { get; }
 
         internal SpellVar(SpellVarDto dto)
         {
             Link = dto.Link;
             Coeff = dto.Coeff;
-            Key = dto.Key;
+            Key = Enum.Parse<SpellKey>(dto.Key, true);
         }
     }
 }

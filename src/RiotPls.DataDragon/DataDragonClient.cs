@@ -34,7 +34,10 @@ namespace RiotPls.DataDragon
             {
                 BaseAddress = new Uri(Host)
             };
-            _jsonSerializerOptions = new JsonSerializerOptions();
+            _jsonSerializerOptions = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
             _jsonSerializerOptions.Converters.Add(GameVersionJsonConverter.Instance);
             _lock = new object();
         }

@@ -39,7 +39,7 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     Recommendations by their game mode.
         /// </summary>
-        public ReadOnlyDictionary<string, Recommendation> Recommendations { get; }
+        public IReadOnlyCollection<Recommendation> Recommendations { get; }
 
         internal Champion(ChampionDto dto) : base(dto)
         {
@@ -49,8 +49,7 @@ namespace RiotPls.DataDragon.Entities
             EnemyTips = dto.EnemyTips;
             Spells = dto.Spells.Select(x => new Spell(x)).ToList().AsReadOnly();
             PassiveSpell = new SpellBase(dto.Passive);
-            Recommendations = new ReadOnlyDictionary<string, Recommendation>(
-                dto.Recommendations.ToDictionary(x => x.Mode, y => new Recommendation(y)));
+            Recommendations = dto.Recommendations.Select(x => new Recommendation(x)).ToList().AsReadOnly();
         }
     }
 }
