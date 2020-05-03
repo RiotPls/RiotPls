@@ -5,25 +5,25 @@ namespace RiotPls.DataDragon
     /// <summary>
     ///     Represents preferred options for caching data.
     /// </summary>
-    public sealed class CacheControl<T> where T : class
+    public sealed class CacheControl<T> : ICache<T> where T : class
     {
         /// <summary>
         ///     Instructs the client to not cache this data.
         /// </summary>
-        public static CacheControl<T> None 
-            => new CacheControl<T>(false);
+        public static CacheControl<T> None
+            => new CacheControl<T>(CacheControlExpiryPolicy.None);
         
         /// <summary>
         ///     Instructs the client to cache this data, using the default expiry time of 24 hours.
         /// </summary>
         public static CacheControl<T> Default 
-            => new CacheControl<T>(true, TimeSpan.FromHours(24));
+            => new CacheControl<T>(CacheControlExpiryPolicy.Default);
 
         /// <summary>
         ///     Instructs the client to cache this data permanently.
         /// </summary>
         public static CacheControl<T> Permanent 
-            => new CacheControl<T>(true);
+            => new CacheControl<T>(CacheControlExpiryPolicy.Permanent);
 
         /// <summary>
         ///     Instructs the client to cache this data for the specified expiry time.
@@ -35,37 +35,36 @@ namespace RiotPls.DataDragon
         ///     A cache control instruction set representing the provided parameters.
         /// </returns>
         public static CacheControl<T> TimedCache(TimeSpan cacheExpiry)
-            => new CacheControl<T>(true, cacheExpiry);
- 
-
-        internal bool IsCached { get; }
-        internal TimeSpan? CacheExpiry { get; }
-        internal bool IsPermanent 
-            => CacheExpiry is null;
+            => new CacheControl<T>(CacheControlExpiryPolicy.TimedCache(cacheExpiry));
 
         private T? _data;
 
-        internal DateTimeOffset? LastSetTime;
+        /// <summary>
+        ///     Gets the expiry policy for this cache.
+        /// </summary>
+        public ICacheExpiryPolicy ExpiryPolicy { get; }
 
-        internal bool IsExpired
+        /// <inheritdoc/>
+        public bool IsExpired
         {
             get
             {
-                if (!IsCached) 
+                if (!ExpiryPolicy.IsCached) 
                     return true;
 
-                if (_data is null || LastSetTime is null) 
+                if (_data is null || ExpiryPolicy.LastSetTime is null) 
                     return true;
 
-                if (CacheExpiry is null) 
+                if (ExpiryPolicy.CacheExpiry is null) 
                     return false;
 
                 return DateTimeOffset.Now.ToUnixTimeSeconds() >
-                       LastSetTime.Value.Add(CacheExpiry.Value).ToUnixTimeSeconds();
+                       ExpiryPolicy.LastSetTime.Value.Add(ExpiryPolicy.CacheExpiry.Value).ToUnixTimeSeconds();
             }
         }
-        
-        internal T? Data
+
+        /// <inheritdoc/>
+        public T? Data
         {
             get => IsExpired 
                 ? null 
@@ -73,34 +72,70 @@ namespace RiotPls.DataDragon
             set
             {
                 _data = value;
-                LastSetTime = DateTimeOffset.Now;
+                ExpiryPolicy.LastSetTime = DateTimeOffset.Now;
             }
         }
 
         /// <summary>
         ///     Creates a new cache control.
         /// </summary>
-        /// <param name="cache">
-        ///     Whether to instruct the client to cache this data.
+        /// <param name="expiryPolicy">
+        ///     The expiry policy to be used in this cache.
         /// </param>
-        public CacheControl(bool cache) : this (cache, null)
+        public CacheControl(ICacheExpiryPolicy expiryPolicy)
         {
+            if (expiryPolicy is null)
+                throw new ArgumentNullException(nameof(expiryPolicy));
+
+            ExpiryPolicy = expiryPolicy;
         }
 
+        // Don't move this class to another file. This class is meant to be nested.
+
         /// <summary>
-        ///     Creates a new cache control.
+        ///     Default implementation of <see cref="ICacheExpiryPolicy"/>.
         /// </summary>
-        /// <param name="cache">
-        ///     Whether to instruct the client to cache this data.
-        /// </param>
-        /// <param name="cacheExpiry">
-        ///     The time to hold this data for before requesting it again.
-        ///     If null, the data will be held indefinitely.
-        /// </param>
-        public CacheControl(bool cache, TimeSpan? cacheExpiry)
+        public sealed class CacheControlExpiryPolicy : ICacheExpiryPolicy
         {
-            IsCached = cache;
-            CacheExpiry = cacheExpiry;
+            /// <inheritdoc cref="CacheControl{T}.None"/>
+            public static ICacheExpiryPolicy None
+                => new CacheControlExpiryPolicy(false);
+
+            /// <inheritdoc cref="CacheControl{T}.Default"/>
+            public static ICacheExpiryPolicy Default
+                => new CacheControlExpiryPolicy(true, TimeSpan.FromHours(24));
+
+            /// <inheritdoc cref="CacheControl{T}.Permanent"/>
+            public static ICacheExpiryPolicy Permanent
+                => new CacheControlExpiryPolicy(true);
+
+            /// <inheritdoc cref="CacheControl{T}.TimedCache(TimeSpan)"/>
+            public static ICacheExpiryPolicy TimedCache(TimeSpan cacheExpiry)
+                => new CacheControlExpiryPolicy(true, cacheExpiry);
+
+
+            /// <inheritdoc/>
+            public bool IsCached { get; }
+
+            /// <inheritdoc/>
+            public bool IsPermanent
+                => CacheExpiry is null;
+
+            /// <inheritdoc/>
+            public DateTimeOffset? LastSetTime { get; set; }
+
+            /// <inheritdoc/>
+            public TimeSpan? CacheExpiry { get; }
+
+            internal CacheControlExpiryPolicy(bool isCached) : this (isCached, null)
+            {
+            }
+
+            internal CacheControlExpiryPolicy(bool isCached, TimeSpan? cacheExpiry)
+            {
+                IsCached = isCached;
+                CacheExpiry = cacheExpiry;
+            }
         }
     }
 }
