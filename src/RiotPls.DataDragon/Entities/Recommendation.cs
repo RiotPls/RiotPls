@@ -1,5 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
+using RiotPls.DataDragon.Enums;
 
 namespace RiotPls.DataDragon.Entities
 {
@@ -15,12 +17,12 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     Map on which this recommendation applies.
         /// </summary>
-        public string Map { get; }
+        public RecommendationMap Map { get; }
         
         /// <summary>
         ///     Game mode for this recommendation.
         /// </summary>
-        public string Mode { get; }
+        public RecommendationMode Mode { get; }
         
         /// <summary>
         ///     Type of recommendation.
@@ -47,8 +49,12 @@ namespace RiotPls.DataDragon.Entities
         /// </summary>
         public bool UseObviousCheckMark { get; }
         
-        // todo: see what that is
+        // todo: see what that is, seems to always be null
         public object CustomPanel { get; }
+        
+        public string RequiredPerk { get; }
+        
+        public bool ExtennOrnnPage { get; }
         
         public ReadOnlyCollection<Block> Blocks { get; }
 
@@ -56,8 +62,8 @@ namespace RiotPls.DataDragon.Entities
         {
             ChampionName = dto.ChampionName;
             Title = dto.Title;
-            Map = dto.Map;
-            Mode = dto.Mode;
+            Map = Enum.Parse<RecommendationMap>(dto.Map, true);
+            Mode = Enum.Parse<RecommendationMode>(dto.Mode.Replace("_", ""), true);
             Type = dto.Type;
             CustomTag = dto.CustomTag;
             SortRank = dto.SortRank;
@@ -65,6 +71,8 @@ namespace RiotPls.DataDragon.Entities
             UseObviousCheckMark = dto.UseObviousCheckMark;
             CustomPanel = dto.CustomPanel;
             Blocks = dto.Blocks.Select(x => new Block(x)).ToList().AsReadOnly();
+            RequiredPerk = dto.RequiredPerk;
+            ExtennOrnnPage = dto.ExtennOrnnPage;
         }
     }
 }

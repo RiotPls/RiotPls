@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using RiotPls.DataDragon.Enums;
 
 namespace RiotPls.DataDragon.Entities
 {
@@ -15,9 +17,9 @@ namespace RiotPls.DataDragon.Entities
         
         public int MaxSummonerLevel { get; }
         
-        public string ShowIfSummonerSpell { get; }
+        public BlockSummonerSpell ShowIfSummonerSpell { get; }
         
-        public string HideIfSummonerSpell { get; }
+        public BlockSummonerSpell HideIfSummonerSpell { get; }
         
         public string AppendAfterSection { get; }
         
@@ -34,8 +36,10 @@ namespace RiotPls.DataDragon.Entities
             RecSteps = dto.RecSteps;
             MinSummonerLevel = dto.MinSummonerLevel;
             MaxSummonerLevel = dto.MaxSummonerLevel;
-            ShowIfSummonerSpell = dto.ShowIfSummonerSpell;
-            HideIfSummonerSpell = dto.HideIfSummonerSpell;
+            if (!string.IsNullOrWhiteSpace(dto.ShowIfSummonerSpell))
+                ShowIfSummonerSpell = Enum.Parse<BlockSummonerSpell>(dto.ShowIfSummonerSpell.Replace("_",""), true);
+            if (!string.IsNullOrWhiteSpace(dto.HideIfSummonerSpell))
+                HideIfSummonerSpell = Enum.Parse<BlockSummonerSpell>(dto.HideIfSummonerSpell.Replace("_",""), true);
             AppendAfterSection = dto.AppendAfterSection;
             VisibleWithAllOf = dto.VisibleWithAllOf;
             HiddenWithAllOf = dto.HiddenWithAllOf;

@@ -38,7 +38,7 @@ namespace RiotPls.DataDragon.Entities
         /// </summary>
         public IReadOnlyCollection<double> Costs { get; }
         
-        // todo: check this object.
+        // todo: check this object. (always empty)
         public object DataValues { get; }
         
         // todo: check this object.
