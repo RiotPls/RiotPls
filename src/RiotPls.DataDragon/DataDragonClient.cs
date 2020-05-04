@@ -15,7 +15,7 @@ namespace RiotPls.DataDragon
         public const string Host = "https://ddragon.leagueoflegends.com";
         public const string Api = "/api";
         public const string Cdn = "/cdn";
-        public const string DefaultLanguage = "en_US";
+        public readonly GameLanguage DefaultLanguage;
 
         private readonly DataDragonClientOptions _options;
         private readonly HttpClient _client;
@@ -30,15 +30,20 @@ namespace RiotPls.DataDragon
         public DataDragonClient(DataDragonClientOptions? options)
         {
             _options = options ?? new DataDragonClientOptions();
+            DefaultLanguage = _options.DefaultLanguage;
+            
             _client = new HttpClient 
             {
                 BaseAddress = new Uri(Host)
             };
+            
             _jsonSerializerOptions = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             };
             _jsonSerializerOptions.Converters.Add(GameVersionJsonConverter.Instance);
+            _jsonSerializerOptions.Converters.Add(GameLanguageJsonConverter.Instance);
+            
             _lock = new object();
         }
 
@@ -70,7 +75,7 @@ namespace RiotPls.DataDragon
         ///     Returns a list of every available language for the latest version
         ///     of Data Dragon, expressed as UTF-8 culture codes. (i.e. en_US)
         /// </summary>
-        public ValueTask<IReadOnlyCollection<string>> GetLanguagesAsync()
+        public ValueTask<IReadOnlyCollection<GameLanguage>> GetLanguagesAsync()
         {
             lock (_lock)
             {
@@ -82,7 +87,7 @@ namespace RiotPls.DataDragon
                       async @this =>
                       {
                           var request = await @this._client.GetStreamAsync($"{Cdn}/languages.json").ConfigureAwait(false);
-                          var data = await JsonSerializer.DeserializeAsync<IReadOnlyCollection<string>>(
+                          var data = await JsonSerializer.DeserializeAsync<IReadOnlyCollection<GameLanguage>>(
                               request, @this._jsonSerializerOptions).ConfigureAwait(false);
 
                           @this._options.Languages.Data = data;
@@ -117,7 +122,7 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language in which the data must be returned. Defaults to English (United States).
         /// </param>
-        public ValueTask<ChampionBaseData> GetChampionsAsync(GameVersion version, string language)
+        public ValueTask<ChampionBaseData> GetChampionsAsync(GameVersion version, GameLanguage language)
         {
             lock (_lock)
             {
@@ -172,7 +177,7 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///    The language in which the data must be returned. Defaults to English (United States).
         /// </param>
-        public ValueTask<ChampionData> GetChampionAsync(string championName, GameVersion version, string language)
+        public ValueTask<ChampionData> GetChampionAsync(string championName, GameVersion version, GameLanguage language)
         {
             lock (_lock)
             {

@@ -31,7 +31,7 @@ namespace RiotPls.Tests.DataDragon
             {
                 _output.WriteLine($"Trying to deserialize {championData.Id}...");
                 var champion = await _client.GetChampionAsync(championData.Id, latestVersion);
-                Assert.NotNull(champion);
+                Assert.NotNull(champion.Champion);
             }
         }
 

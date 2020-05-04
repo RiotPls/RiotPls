@@ -12,6 +12,13 @@ namespace RiotPls.DataDragon
     public sealed class DataDragonClientOptions
     {
         /// <summary>
+        ///     Gets or sets the default <see cref="GameLanguage"/> to use
+        ///     when doing requests to the Data Dragon static API.
+        /// </summary>
+        public GameLanguage DefaultLanguage { get; set; }
+            = GameLanguage.Parse("en_US");
+        
+        /// <summary>
         ///     The cache options for version data. Defaults to expiring every every day.
         /// </summary>
         public ICache<IReadOnlyList<GameVersion>> Versions { get; set; } 
@@ -20,8 +27,8 @@ namespace RiotPls.DataDragon
         /// <summary>
         ///     The cache options for language data. Defaults to permanent cache.
         /// </summary>
-        public ICache<IReadOnlyCollection<string>> Languages { get; set; } 
-            = CacheControl<IReadOnlyCollection<string>>.Permanent;
+        public ICache<IReadOnlyCollection<GameLanguage>> Languages { get; set; } 
+            = CacheControl<IReadOnlyCollection<GameLanguage>>.Permanent;
         
         /// <summary>
         ///     The cache options for champions data. Defaults to expiring every day.

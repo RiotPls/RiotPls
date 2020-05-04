@@ -2,7 +2,7 @@
 
 namespace RiotPls.DataDragon.Entities
 {
-    public class ChampionData : BaseData
+    public sealed class ChampionData : BaseData
     {
         /// <summary>
         ///     Full champion data.
