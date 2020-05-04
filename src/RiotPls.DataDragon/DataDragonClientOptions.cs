@@ -42,6 +42,12 @@ namespace RiotPls.DataDragon
         public ICache<ChampionFullData> FullChampions { get; set; } 
             = CacheControl<ChampionFullData>.TimedCache(TimeSpan.FromDays(1));
         
+        /// <summary>
+        ///     The cache options for summoner spells data. Defaults to 30 days cache.
+        /// </summary>
+        public ICache<SummonerSpellData> SummonerSpells { get; set; } 
+            = CacheControl<SummonerSpellData>.TimedCache(TimeSpan.FromDays(30));
+        
         // todo: review this since it's kinda different from others.
         /// <summary>
         ///     The cache options for full champions data.

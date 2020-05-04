@@ -6,7 +6,7 @@ namespace RiotPls.DataDragon.Entities
     /// <summary>
     ///     Represents a champion's spell.
     /// </summary>
-    public sealed class Spell
+    public class Spell
     {
         private readonly DataDragonClient _client;
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -245,7 +246,55 @@ namespace RiotPls.DataDragon
                     });
             }
         }
-        
+
+        /// <summary>
+        ///     Returns a <see cref="SummonerSpellData"/> containing full information
+        ///     about the whole game's summoner spells
+        /// </summary>
+        /// <param name="version">
+        ///    The version of Data Dragon to use.
+        /// </param>
+        public ValueTask<SummonerSpellData> GetSummonerSpellsAsync(GameVersion version)
+        {
+            lock (_lock)
+            {
+                ThrowIfDisposed();
+                return GetSummonerSpellsAsync(version, DefaultLanguage);
+            }
+        }
+
+        /// <summary>
+        ///     Returns a <see cref="SummonerSpellData"/> containing full information
+        ///     about the whole game's summoner spells
+        /// </summary>
+        /// <param name="version">
+        ///    The version of Data Dragon to use.
+        /// </param>
+        /// <param name="language">
+        ///    The language in which the data must be returned. Defaults to English (United States).
+        /// </param>
+        public ValueTask<SummonerSpellData> GetSummonerSpellsAsync(GameVersion version, GameLanguage language)
+        {
+            lock (_lock)
+            {
+                ThrowIfDisposed();
+                return ValueTaskHelper.Create(
+                    !_options.SummonerSpells.IsExpired,
+                    (Client: this, Version: version, Language: language),
+                    state => state.Client._options.SummonerSpells.Data!,
+                    async state =>
+                    {
+                        var data = await state.Client.MakeRequestAsync<SummonerSpellDataDto, SummonerSpellData>(
+                            $"{Cdn}/{state.Version}/data/{state.Language}/summoner.json", 
+                            dto => new SummonerSpellData(state.Client, dto)).ConfigureAwait(false);
+
+                        state.Client._options.SummonerSpells.Data = data;
+
+                        return data;
+                    });
+            }
+        }
+
         private async Task<TEntity> MakeRequestAsync<TDto, TEntity>(string url, Func<TDto, TEntity> ctor)
             => ctor(await MakeRequestAsync<TDto>(url).ConfigureAwait(false));
 
