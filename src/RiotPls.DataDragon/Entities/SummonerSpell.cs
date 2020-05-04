@@ -1,6 +1,6 @@
 ﻿namespace RiotPls.DataDragon.Entities
 {
-    public class SummonerSpell : Spell
+    public sealed class SummonerSpell : Spell
     {
         /// <summary>
         ///     Key of this summoner spell.

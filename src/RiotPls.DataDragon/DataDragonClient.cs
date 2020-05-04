@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -289,6 +288,54 @@ namespace RiotPls.DataDragon
                             dto => new SummonerSpellData(state.Client, dto)).ConfigureAwait(false);
 
                         state.Client._options.SummonerSpells.Data = data;
+
+                        return data;
+                    });
+            }
+        }
+        
+        /// <summary>
+        ///     Returns a <see cref="ProfileIconData"/> containing full information
+        ///     about the whole profile icons.
+        /// </summary>
+        /// <param name="version">
+        ///    The version of Data Dragon to use.
+        /// </param>
+        public ValueTask<ProfileIconData> GetProfileIconsAsync(GameVersion version)
+        {
+            lock (_lock)
+            {
+                ThrowIfDisposed();
+                return GetProfileIconsAsync(version, DefaultLanguage);
+            }
+        }
+
+        /// <summary>
+        ///     Returns a <see cref="SummonerSpellData"/> containing full information
+        ///     about the whole game's summoner spells
+        /// </summary>
+        /// <param name="version">
+        ///    The version of Data Dragon to use.
+        /// </param>
+        /// <param name="language">
+        ///    The language in which the data must be returned. Defaults to English (United States).
+        /// </param>
+        public ValueTask<ProfileIconData> GetProfileIconsAsync(GameVersion version, GameLanguage language)
+        {
+            lock (_lock)
+            {
+                ThrowIfDisposed();
+                return ValueTaskHelper.Create(
+                    !_options.SummonerSpells.IsExpired,
+                    (Client: this, Version: version, Language: language),
+                    state => state.Client._options.ProfileIcons.Data!,
+                    async state =>
+                    {
+                        var data = await state.Client.MakeRequestAsync<ProfileIconDataDto, ProfileIconData>(
+                            $"{Cdn}/{state.Version}/data/{state.Language}/profileicon.json", 
+                            dto => new ProfileIconData(state.Client, dto)).ConfigureAwait(false);
+
+                        state.Client._options.ProfileIcons.Data = data;
 
                         return data;
                     });
