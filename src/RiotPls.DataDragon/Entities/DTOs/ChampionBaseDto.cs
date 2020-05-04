@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
-using RiotPls.DataDragon.Converters;
 #nullable disable
 namespace RiotPls.DataDragon.Entities
 {
@@ -8,7 +7,6 @@ namespace RiotPls.DataDragon.Entities
     {
         // todo: make it optional?
         [JsonPropertyName("version")]
-        [JsonConverter(typeof(GameVersionJsonConverter))]
         public GameVersion Version { get; set; }
 
         [JsonPropertyName("id")]

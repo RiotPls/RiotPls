@@ -42,8 +42,7 @@ namespace RiotPls.DataDragon
                 PropertyNameCaseInsensitive = true
             };
             _jsonSerializerOptions.Converters.Add(GameVersionJsonConverter.Instance);
-            _jsonSerializerOptions.Converters.Add(GameLanguageJsonConverter.Instance);
-            
+            _jsonSerializerOptions.Converters.Add(GameLanguageJsonConverter.Instance);       
             _lock = new object();
         }
 
@@ -131,11 +130,12 @@ namespace RiotPls.DataDragon
                       state => state.Client._options.PartialChampions.Data!,
                       async state =>
                       {
-                          var data = await state.Client.MakeRequestAsync<ChampionBaseDataDto, ChampionBaseData>(
-                              $"{Cdn}/{state.Version}/data/{state.Language}/champion.json", 
-                              dto => new ChampionBaseData(state.Client, dto)).ConfigureAwait(false);
+                          var (client, version, language) = state;
+                          var data = await client.MakeRequestAsync<ChampionBaseDataDto, ChampionBaseData>(
+                              $"{Cdn}/{version}/data/{language}/champion.json", 
+                              dto => new ChampionBaseData(client, dto)).ConfigureAwait(false);
 
-                          state.Client._options.PartialChampions.Data = data;
+                          client._options.PartialChampions.Data = data;
                           return data;
                       });
             }
@@ -174,15 +174,16 @@ namespace RiotPls.DataDragon
                 ThrowIfDisposed();
                 return ValueTaskHelper.Create(
                     !_options.PartialChampions.IsExpired,
-                    (Client: this, Version: version, Language: language),
+                    (Client: this, version, language),
                     state => state.Client._options.FullChampions.Data!,
                     async state =>
                     {
-                        var data = await state.Client.MakeRequestAsync<ChampionFullDataDto, ChampionFullData>(
-                            $"{Cdn}/{state.Version}/data/{state.Language}/championFull.json", 
-                            dto => new ChampionFullData(state.Client, dto)).ConfigureAwait(false);
+                        var (client, version, language) = state;
+                        var data = await client.MakeRequestAsync<ChampionFullDataDto, ChampionFullData>(
+                            $"{Cdn}/{version}/data/{language}/championFull.json", 
+                            dto => new ChampionFullData(client, dto)).ConfigureAwait(false);
 
-                        state.Client._options.FullChampions.Data = data;
+                        client._options.FullChampions.Data = data;
                         return data;
                     });
             }
