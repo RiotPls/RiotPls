@@ -2,16 +2,16 @@
 
 namespace RiotPls.DataDragon.Entities
 {
-    public class ChampionData : BaseData
+    public sealed class ChampionData : BaseData
     {
         /// <summary>
         ///     Full champion data.
         /// </summary>
         public Champion Champion { get; }
         
-        internal ChampionData(ChampionDataDto dto) : base(dto)
+        internal ChampionData(DataDragonClient client, ChampionDataDto dto) : base(client, dto)
         {
-            Champion = new Champion(dto.Champion.Values.First());
+            Champion = new Champion(client, dto.Champion.Values.First());
         }
     }
 }

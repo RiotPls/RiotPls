@@ -13,7 +13,7 @@ namespace RiotPls.Tests.DataDragon
             var versions = await _client.GetVersionsAsync();
             var latestVersion = versions.First();
 
-            var champions = await _client.GetChampionsAsync(latestVersion);
+            var champions = await _client.GetPartialChampionsAsync(latestVersion);
             Assert.NotNull(champions.Version);
             Assert.Equal(champions.Version.Major, latestVersion.Major);
             Assert.Equal(champions.Version.Minor, latestVersion.Minor);
@@ -26,13 +26,23 @@ namespace RiotPls.Tests.DataDragon
             var versions = await _client.GetVersionsAsync();
             var latestVersion = versions.First();
 
-            var championsData = await _client.GetChampionsAsync(latestVersion);
+            var championsData = await _client.GetPartialChampionsAsync(latestVersion);
             foreach (var championData in championsData.Champions.Values)
             {
                 _output.WriteLine($"Trying to deserialize {championData.Id}...");
                 var champion = await _client.GetChampionAsync(championData.Id, latestVersion);
-                Assert.NotNull(champion);
+                Assert.NotNull(champion.Champion);
             }
+        }
+        
+        [Fact(DisplayName = "Champions can properly be parsed without exceptions.")]
+        public async Task Test_That_FullChampions_AreProperlyParsed()
+        {
+            var versions = await _client.GetVersionsAsync();
+            var latestVersion = versions.First();
+
+            var championsData = await _client.GetChampionsAsync(latestVersion);
+            Assert.NotNull(championsData);
         }
 
         public ChampionTests(ITestOutputHelper helper) : base(helper)

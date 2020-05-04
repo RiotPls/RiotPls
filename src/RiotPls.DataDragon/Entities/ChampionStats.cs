@@ -5,6 +5,8 @@
     /// </summary>
     public sealed class ChampionStats
     {
+        private readonly DataDragonClient _client;
+
         /// <summary>
         ///     The base HP of the champion.
         /// </summary>
@@ -105,8 +107,10 @@
         /// </summary>
         public double AttackSpeedPerLevel { get; }
 
-        internal ChampionStats(ChampionStatsDto dto)
+        internal ChampionStats(DataDragonClient client, ChampionStatsDto dto)
         {
+            _client = client;
+            
             HP = dto.Hp; 
             HPRegeneration = dto.HpRegen;
             HPPerLevel = dto.HpPerLevel;

@@ -2,6 +2,8 @@
 {
     public sealed class ItemBlock
     {
+        private readonly DataDragonClient _client;
+
         /// <summary>
         ///     Id of the item.
         /// </summary>
@@ -17,8 +19,10 @@
         /// </summary>
         public bool HideCount { get; }
 
-        internal ItemBlock(ItemBlockDto dto)
+        internal ItemBlock(DataDragonClient client, ItemBlockDto dto)
         {
+            _client = client;
+            
             Id = int.Parse(dto.Id);
             Count = dto.Count;
             HideCount = dto.HideCount;

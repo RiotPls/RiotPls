@@ -41,15 +41,15 @@ namespace RiotPls.DataDragon.Entities
         /// </summary>
         public IReadOnlyCollection<Recommendation> Recommendations { get; }
 
-        internal Champion(ChampionDto dto) : base(dto)
+        internal Champion(DataDragonClient client, ChampionDto dto) : base(client, dto)
         {
             Lore = dto.Lore;
-            Skins = dto.Skins.Select(x => new ChampionSkin(x)).ToList().AsReadOnly();
+            Skins = dto.Skins.Select(x => new ChampionSkin(client, x)).ToList().AsReadOnly();
             AllyTips = dto.AllyTips;
             EnemyTips = dto.EnemyTips;
-            Spells = dto.Spells.Select(x => new Spell(x)).ToList().AsReadOnly();
-            PassiveSpell = new SpellBase(dto.Passive);
-            Recommendations = dto.Recommendations.Select(x => new Recommendation(x)).ToList().AsReadOnly();
+            Spells = dto.Spells.Select(x => new Spell(client, x)).ToList().AsReadOnly();
+            PassiveSpell = new SpellBase(client, dto.Passive);
+            Recommendations = dto.Recommendations.Select(x => new Recommendation(client, x)).ToList().AsReadOnly();
         }
     }
 }

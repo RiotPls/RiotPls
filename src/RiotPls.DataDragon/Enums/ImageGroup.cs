@@ -4,6 +4,7 @@
     {
         Champion,
         Passive,
-        Spell
+        Spell,
+        ProfileIcon
     }
 }
