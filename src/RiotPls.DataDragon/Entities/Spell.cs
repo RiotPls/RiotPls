@@ -8,6 +8,8 @@ namespace RiotPls.DataDragon.Entities
     /// </summary>
     public sealed class Spell
     {
+        private readonly DataDragonClient _client;
+
         /// <summary>
         ///     Id of the spell.
         /// </summary>
@@ -67,11 +69,12 @@ namespace RiotPls.DataDragon.Entities
         /// </summary>
         public string Resource { get; }
 
-        internal Spell(SpellDto dto)
+        internal Spell(DataDragonClient client, SpellDto dto)
         {
+            _client = client;
             Id = dto.Id;
             ToolTip = dto.ToolTip;
-            LevelTip = new LevelTip(dto.LevelTip);
+            LevelTip = new LevelTip(client, dto.LevelTip);
             MaxRank = dto.MaxRank;
             Cooldowns = dto.Cooldowns;
             Costs = dto.Costs;

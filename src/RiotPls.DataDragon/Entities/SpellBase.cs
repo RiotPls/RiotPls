@@ -2,6 +2,8 @@
 {
     public sealed class SpellBase
     {
+        private readonly DataDragonClient _client;
+
         /// <summary>
         ///     Name of the spell.
         /// </summary>
@@ -17,8 +19,9 @@
         /// </summary>
         public StaticImage Image { get; }
 
-        internal SpellBase(SpellBaseDto dto)
+        internal SpellBase(DataDragonClient client, SpellBaseDto dto)
         {
+            _client = client;
             Name = dto.Name;
             DescriptionRaw = dto.DescriptionRaw;
             Image = new StaticImage(dto.Image);

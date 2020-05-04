@@ -7,6 +7,8 @@ namespace RiotPls.DataDragon.Entities
 {
     public class ChampionBase
     {
+        private readonly DataDragonClient _client;
+
         /// <summary>
         ///     The version of the data.
         /// </summary>
@@ -62,8 +64,10 @@ namespace RiotPls.DataDragon.Entities
         /// </summary>
         public ChampionStats Stats { get; }
 
-        internal ChampionBase(ChampionBaseDto dto)
+        internal ChampionBase(DataDragonClient client, ChampionBaseDto dto)
         {
+            _client = client;
+            
             Version = dto.Version;
             Id = dto.Id;
             Key = int.Parse(dto.Key);
@@ -71,10 +75,10 @@ namespace RiotPls.DataDragon.Entities
             Title = dto.Title;
             Blurb = dto.Blurb;
             ResourceType = Enum.Parse<ResourceType>(dto.Partype.Replace(" ", ""), true);
-            Info = new ChampionInfo(dto.Info);
+            Info = new ChampionInfo(client, dto.Info);
             Image = new StaticImage(dto.Image);
             Tags = dto.Tags.Select(x => Enum.Parse<ChampionType>(x, true)).ToList().AsReadOnly();
-            Stats = new ChampionStats(dto.Stats);
+            Stats = new ChampionStats(client, dto.Stats);
         }
     }
 }

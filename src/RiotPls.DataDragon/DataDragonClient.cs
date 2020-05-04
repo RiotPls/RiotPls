@@ -133,7 +133,7 @@ namespace RiotPls.DataDragon
                       {
                           var data = await state.Client.MakeRequestAsync<ChampionBaseDataDto, ChampionBaseData>(
                               $"{Cdn}/{state.Version}/data/{state.Language}/champion.json", 
-                              dto => new ChampionBaseData(dto)).ConfigureAwait(false);
+                              dto => new ChampionBaseData(state.Client, dto)).ConfigureAwait(false);
 
                           state.Client._options.PartialChampions.Data = data;
                           return data;
@@ -180,7 +180,7 @@ namespace RiotPls.DataDragon
                     {
                         var data = await state.Client.MakeRequestAsync<ChampionFullDataDto, ChampionFullData>(
                             $"{Cdn}/{state.Version}/data/{state.Language}/championFull.json", 
-                            dto => new ChampionFullData(dto)).ConfigureAwait(false);
+                            dto => new ChampionFullData(state.Client, dto)).ConfigureAwait(false);
 
                         state.Client._options.FullChampions.Data = data;
                         return data;
@@ -233,7 +233,7 @@ namespace RiotPls.DataDragon
                     {
                         var data = await state.Client.MakeRequestAsync<ChampionDataDto, ChampionData>(
                             $"{Cdn}/{state.Version}/data/{state.Language}/champion/{state.ChampionName}.json", 
-                            dto => new ChampionData(dto)).ConfigureAwait(false);
+                            dto => new ChampionData(state.Client, dto)).ConfigureAwait(false);
                         
                         state.Client._options._champions.AddOrUpdate(state.ChampionName,
                             (_, s) => CacheControl<ChampionData>.TimedCache(s.Client._options.ChampionFullCacheDuration),

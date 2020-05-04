@@ -6,6 +6,8 @@
     /// </summary>
     public sealed class ChampionInfo
     {
+        private readonly DataDragonClient _client;
+
         /// <summary>
         ///     The attack level of the champion.
         /// </summary>
@@ -26,8 +28,10 @@
         /// </summary>
         public int Difficulty { get; }
 
-        internal ChampionInfo(ChampionInfoDto dto)
+        internal ChampionInfo(DataDragonClient client, ChampionInfoDto dto)
         {
+            _client = client;
+            
             AttackLevel = dto.Attack;
             DefenseLevel = dto.Defense;
             MagicLevel = dto.Magic;

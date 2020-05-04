@@ -9,9 +9,9 @@ namespace RiotPls.DataDragon.Entities
         /// </summary>
         public Champion Champion { get; }
         
-        internal ChampionData(ChampionDataDto dto) : base(dto)
+        internal ChampionData(DataDragonClient client, ChampionDataDto dto) : base(client, dto)
         {
-            Champion = new Champion(dto.Champion.Values.First());
+            Champion = new Champion(client, dto.Champion.Values.First());
         }
     }
 }
