@@ -61,9 +61,8 @@ namespace RiotPls.DataDragon
                       @this => @this._options.Versions.Data!,
                       async @this =>
                       {
-                          var request = await @this._client.GetStreamAsync($"{Api}/versions.json").ConfigureAwait(false);
-                          var data = await JsonSerializer.DeserializeAsync<IReadOnlyList<GameVersion>>(
-                              request, @this._jsonSerializerOptions).ConfigureAwait(false);
+                          var data = await @this.MakeRequestAsync<IReadOnlyList<GameVersion>>(
+                              $"{Api}/versions.json").ConfigureAwait(false);
 
                           @this._options.Versions.Data = data;
                           return data;
@@ -75,7 +74,7 @@ namespace RiotPls.DataDragon
         ///     Returns a list of every available language for the latest version
         ///     of Data Dragon, expressed as UTF-8 culture codes. (i.e. en_US)
         /// </summary>
-        public ValueTask<IReadOnlyCollection<GameLanguage>> GetLanguagesAsync()
+        public ValueTask<IReadOnlyList<GameLanguage>> GetLanguagesAsync()
         {
             lock (_lock)
             {
@@ -86,9 +85,8 @@ namespace RiotPls.DataDragon
                       @this => @this._options.Languages.Data!,
                       async @this =>
                       {
-                          var request = await @this._client.GetStreamAsync($"{Cdn}/languages.json").ConfigureAwait(false);
-                          var data = await JsonSerializer.DeserializeAsync<IReadOnlyCollection<GameLanguage>>(
-                              request, @this._jsonSerializerOptions).ConfigureAwait(false);
+                          var data = await @this.MakeRequestAsync<IReadOnlyList<GameLanguage>>(
+                              $"{Cdn}/languages.json").ConfigureAwait(false);
 
                           @this._options.Languages.Data = data;
                           return data;
@@ -133,11 +131,9 @@ namespace RiotPls.DataDragon
                       state => state.Client._options.PartialChampions.Data!,
                       async state =>
                       {
-                          var request = await state.Client._client.GetStreamAsync(
-                              $"{Cdn}/{state.Version}/data/{state.Language}/champion.json").ConfigureAwait(false);
-                          var dto = await JsonSerializer.DeserializeAsync<ChampionBaseDataDto>(
-                              request, state.Client._jsonSerializerOptions).ConfigureAwait(false);
-                          var data = new ChampionBaseData(dto);
+                          var data = await state.Client.MakeRequestAsync<ChampionBaseDataDto, ChampionBaseData>(
+                              $"{Cdn}/{state.Version}/data/{state.Language}/champion.json", 
+                              dto => new ChampionBaseData(dto)).ConfigureAwait(false);
 
                           state.Client._options.PartialChampions.Data = data;
                           return data;
@@ -182,11 +178,9 @@ namespace RiotPls.DataDragon
                     state => state.Client._options.FullChampions.Data!,
                     async state =>
                     {
-                        var request = await state.Client._client.GetStreamAsync(
-                            $"{Cdn}/{state.Version}/data/{state.Language}/championFull.json").ConfigureAwait(false);
-                        var dto = await JsonSerializer.DeserializeAsync<ChampionFullDataDto>(
-                            request, state.Client._jsonSerializerOptions).ConfigureAwait(false);
-                        var data = new ChampionFullData(dto);
+                        var data = await state.Client.MakeRequestAsync<ChampionFullDataDto, ChampionFullData>(
+                            $"{Cdn}/{state.Version}/data/{state.Language}/championFull.json", 
+                            dto => new ChampionFullData(dto)).ConfigureAwait(false);
 
                         state.Client._options.FullChampions.Data = data;
                         return data;
@@ -237,21 +231,29 @@ namespace RiotPls.DataDragon
                     state => state.Client._options.Champions[state.ChampionName].Data!,
                     async state =>
                     {
-                        var request = await state.Client._client.GetStreamAsync(
-                                $"{Cdn}/{state.Version}/data/{state.Language}/champion/{state.ChampionName}.json")
-                            .ConfigureAwait(false);
-                        var dto = await JsonSerializer.DeserializeAsync<ChampionDataDto>(
-                            request, state.Client._jsonSerializerOptions).ConfigureAwait(false);
-                        var data = new ChampionData(dto);
-
+                        var data = await state.Client.MakeRequestAsync<ChampionDataDto, ChampionData>(
+                            $"{Cdn}/{state.Version}/data/{state.Language}/champion/{state.ChampionName}.json", 
+                            dto => new ChampionData(dto)).ConfigureAwait(false);
+                        
                         state.Client._options._champions.AddOrUpdate(state.ChampionName,
                             (_, s) => CacheControl<ChampionData>.TimedCache(s.Client._options.ChampionFullCacheDuration),
                             (_, __, s) =>
                                 CacheControl<ChampionData>.TimedCache(s.Client._options.ChampionFullCacheDuration),
                             state);
+
                         return data;
                     });
             }
+        }
+        
+        private async Task<TEntity> MakeRequestAsync<TDto, TEntity>(string url, Func<TDto, TEntity> ctor)
+            => ctor(await MakeRequestAsync<TDto>(url).ConfigureAwait(false));
+
+        private async Task<TEntity> MakeRequestAsync<TEntity>(string url)
+        {
+            var request = await _client.GetStreamAsync(url).ConfigureAwait(false);
+            return await JsonSerializer.DeserializeAsync<TEntity>(
+                request, _jsonSerializerOptions).ConfigureAwait(false);
         }
 
         private void ThrowIfDisposed()

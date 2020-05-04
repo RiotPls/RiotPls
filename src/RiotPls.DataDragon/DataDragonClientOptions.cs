@@ -27,8 +27,8 @@ namespace RiotPls.DataDragon
         /// <summary>
         ///     The cache options for language data. Defaults to permanent cache.
         /// </summary>
-        public ICache<IReadOnlyCollection<GameLanguage>> Languages { get; set; } 
-            = CacheControl<IReadOnlyCollection<GameLanguage>>.Permanent;
+        public ICache<IReadOnlyList<GameLanguage>> Languages { get; set; } 
+            = CacheControl<IReadOnlyList<GameLanguage>>.Permanent;
         
         /// <summary>
         ///     The cache options for champions data. Defaults to expiring every day.
