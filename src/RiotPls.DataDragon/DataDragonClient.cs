@@ -38,7 +38,6 @@ namespace RiotPls.DataDragon
             {
                 PropertyNameCaseInsensitive = true
             };
-            _jsonSerializerOptions.Converters.Add(GameVersionJsonConverter.Instance);
             _lock = new object();
         }
 

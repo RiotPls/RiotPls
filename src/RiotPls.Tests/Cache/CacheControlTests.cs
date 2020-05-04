@@ -13,6 +13,7 @@ namespace RiotPls.Tests.Cache
             Assert.True(none.IsExpired, "Expected CacheControl<T>.None#IsExpired to be true.");
             Assert.Null(none.Data);
             Assert.True(none.ExpiryPolicy.IsPermanent);
+            Assert.False(none.ExpiryPolicy.IsCached);
         }
 
         [Fact(DisplayName = "CacheControl.PermanentCache caches permanently.")]
@@ -26,6 +27,7 @@ namespace RiotPls.Tests.Cache
             Assert.True(permanent.ExpiryPolicy.IsPermanent);
             Assert.NotNull(permanent.ExpiryPolicy.LastSetTime);
             Assert.Null(permanent.ExpiryPolicy.CacheExpiry);
+            Assert.True(permanent.ExpiryPolicy.IsCached);
         }
     }
 }

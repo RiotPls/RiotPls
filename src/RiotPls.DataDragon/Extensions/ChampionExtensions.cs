@@ -6,12 +6,20 @@ namespace RiotPls.DataDragon.Extensions
     public static class ChampionExtensions
     {
         /// <summary>
-        /// Gets a champion base information by its id.
+        ///     Gets a champion base information by its id.
         /// </summary>
-        /// <param name="client">Data Dragon client that performs the request.</param>
-        /// <param name="id">Id of the champion.</param>
-        /// <param name="version">Version of Data Dragon.</param>
-        /// <param name="language">Language in which the data must be returned.</param>
+        /// <param name="client">
+        ///     Data Dragon client that performs the request.
+        /// </param>
+        /// <param name="id">
+        ///     Id of the champion.
+        /// </param>
+        /// <param name="version">
+        ///     Version of Data Dragon.
+        /// </param>
+        /// <param name="language">
+        ///     Language in which the data must be returned.
+        /// </param>
         public static async ValueTask<ChampionBase?> GetChampionByIdAsync(this DataDragonClient client, 
             int id, GameVersion version, string language = DataDragonClient.DefaultLanguage)
         {
