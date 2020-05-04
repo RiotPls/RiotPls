@@ -103,12 +103,12 @@ namespace RiotPls.DataDragon
         /// <param name="version">
         ///     The version of Data Dragon to use.
         /// </param>
-        public ValueTask<ChampionBaseData> GetChampionsAsync(GameVersion version)
+        public ValueTask<ChampionBaseData> GetPartialChampionsAsync(GameVersion version)
         {
             lock (_lock)
             {
                 ThrowIfDisposed();
-                return GetChampionsAsync(version, DefaultLanguage);
+                return GetPartialChampionsAsync(version, DefaultLanguage);
             }
         }
 
@@ -122,15 +122,15 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language in which the data must be returned. Defaults to English (United States).
         /// </param>
-        public ValueTask<ChampionBaseData> GetChampionsAsync(GameVersion version, GameLanguage language)
+        public ValueTask<ChampionBaseData> GetPartialChampionsAsync(GameVersion version, GameLanguage language)
         {
             lock (_lock)
             {
                 ThrowIfDisposed();
                 return ValueTaskHelper.Create(
-                      !_options.BaseChampions.IsExpired,
+                      !_options.PartialChampions.IsExpired,
                       (Client: this, Version: version, Language: language),
-                      state => state.Client._options.BaseChampions.Data!,
+                      state => state.Client._options.PartialChampions.Data!,
                       async state =>
                       {
                           var request = await state.Client._client.GetStreamAsync(
@@ -139,9 +139,58 @@ namespace RiotPls.DataDragon
                               request, state.Client._jsonSerializerOptions).ConfigureAwait(false);
                           var data = new ChampionBaseData(dto);
 
-                          state.Client._options.BaseChampions.Data = data;
+                          state.Client._options.PartialChampions.Data = data;
                           return data;
                       });
+            }
+        }
+        
+        /// <summary>
+        ///     Returns a <see cref="ChampionFullData"/> containing full information
+        ///     about every champion on the game.
+        /// </summary>
+        /// <param name="version">
+        ///     The version of Data Dragon to use.
+        /// </param>
+        public ValueTask<ChampionFullData> GetChampionsAsync(GameVersion version)
+        {
+            lock (_lock)
+            {
+                ThrowIfDisposed();
+                return GetChampionsAsync(version, DefaultLanguage);
+            }
+        }
+        
+        /// <summary>
+        ///     Returns a <see cref="ChampionFullData"/> containing full information
+        ///     about every champion on the game.
+        /// </summary>
+        /// <param name="version">
+        ///     The version of Data Dragon to use.
+        /// </param>
+        /// <param name="language">
+        ///     The language in which the data must be returned. Defaults to English (United States).
+        /// </param>
+        public ValueTask<ChampionFullData> GetChampionsAsync(GameVersion version, GameLanguage language)
+        {
+            lock (_lock)
+            {
+                ThrowIfDisposed();
+                return ValueTaskHelper.Create(
+                    !_options.PartialChampions.IsExpired,
+                    (Client: this, Version: version, Language: language),
+                    state => state.Client._options.FullChampions.Data!,
+                    async state =>
+                    {
+                        var request = await state.Client._client.GetStreamAsync(
+                            $"{Cdn}/{state.Version}/data/{state.Language}/championFull.json").ConfigureAwait(false);
+                        var dto = await JsonSerializer.DeserializeAsync<ChampionFullDataDto>(
+                            request, state.Client._jsonSerializerOptions).ConfigureAwait(false);
+                        var data = new ChampionFullData(dto);
+
+                        state.Client._options.FullChampions.Data = data;
+                        return data;
+                    });
             }
         }
 

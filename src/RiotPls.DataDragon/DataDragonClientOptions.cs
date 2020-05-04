@@ -33,10 +33,16 @@ namespace RiotPls.DataDragon
         /// <summary>
         ///     The cache options for champions data. Defaults to expiring every day.
         /// </summary>
-        public ICache<ChampionBaseData> BaseChampions { get; set; } 
+        public ICache<ChampionBaseData> PartialChampions { get; set; } 
             = CacheControl<ChampionBaseData>.TimedCache(TimeSpan.FromDays(1));
         
-        //todo: review this since it's kinda different from others.
+        /// <summary>
+        ///     The cache options for champions data. Defaults to expiring every day.
+        /// </summary>
+        public ICache<ChampionFullData> FullChampions { get; set; } 
+            = CacheControl<ChampionFullData>.TimedCache(TimeSpan.FromDays(1));
+        
+        // todo: review this since it's kinda different from others.
         /// <summary>
         ///     The cache options for full champions data.
         /// </summary>

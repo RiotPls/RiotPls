@@ -25,7 +25,7 @@ namespace RiotPls.DataDragon.Extensions
         public static async ValueTask<ChampionBase?> GetChampionByIdAsync(this DataDragonClient client, 
             int id, GameVersion version, GameLanguage language)
         {
-            var champions = await client.GetChampionsAsync(version, language).ConfigureAwait(false);
+            var champions = await client.GetPartialChampionsAsync(version, language).ConfigureAwait(false);
 
             champions.Champions.TryGetValue(id, out var champion);
             return champion;

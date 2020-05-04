@@ -8,7 +8,8 @@ namespace RiotPls.DataDragon.Entities
         [JsonPropertyName("data")]
         public IReadOnlyDictionary<string, ChampionDto> Champions { get; set; }
         
-        [JsonPropertyName("keys")]
+        //[JsonPropertyName("keys")]
+        [JsonIgnore] // no need.
         public IReadOnlyDictionary<int, string> ChampionKeys { get; set; }
     }
 }
