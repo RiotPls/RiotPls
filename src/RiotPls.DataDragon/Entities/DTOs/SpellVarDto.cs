@@ -1,5 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-
+using RiotPls.DataDragon.Converters;
 #nullable disable
 namespace RiotPls.DataDragon.Entities
 {
@@ -9,10 +9,9 @@ namespace RiotPls.DataDragon.Entities
         [JsonPropertyName("link")]
         public string Link { get; set; }
         
-        // todo: create a converter for double that can be double[]
-        // [JsonPropertyName("coeff")] 
-        [JsonIgnore]
-        public string Coeff { get; set; }
+        [JsonPropertyName("coeff")] 
+        [JsonConverter(typeof(DoubleArrayJsonConverter))]
+        public double[] Coeff { get; set; }
         
         [JsonPropertyName("key")]
         public string Key { get; set; }
