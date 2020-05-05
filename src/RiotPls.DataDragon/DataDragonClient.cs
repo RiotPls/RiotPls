@@ -10,12 +10,13 @@ using RiotPls.DataDragon.Helpers;
 
 namespace RiotPls.DataDragon
 {
-    public class DataDragonClient : IDisposable
+    public sealed class DataDragonClient : IDisposable
     {
         public const string Host = "https://ddragon.leagueoflegends.com";
         public const string Api = "/api";
         public const string Cdn = "/cdn";
-        public readonly GameLanguage DefaultLanguage;
+
+        public GameLanguage DefaultLanguage { get; }
 
         private readonly DataDragonClientOptions _options;
         private readonly HttpClient _client;
@@ -29,14 +30,12 @@ namespace RiotPls.DataDragon
         
         public DataDragonClient(DataDragonClientOptions? options)
         {
-            _options = options ?? new DataDragonClientOptions();
             DefaultLanguage = _options.DefaultLanguage;
-            
+            _options = options ?? new DataDragonClientOptions();
             _client = new HttpClient 
             {
                 BaseAddress = new Uri(Host)
-            };
-            
+            };        
             _jsonSerializerOptions = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
@@ -126,7 +125,7 @@ namespace RiotPls.DataDragon
                 ThrowIfDisposed();
                 return ValueTaskHelper.Create(
                       !_options.PartialChampions.IsExpired,
-                      (Client: this, Version: version, Language: language),
+                      (Client: this, version, language),
                       state => state.Client._options.PartialChampions.Data!,
                       async state =>
                       {
@@ -228,20 +227,20 @@ namespace RiotPls.DataDragon
                 ThrowIfDisposed();
                 return ValueTaskHelper.Create(
                     _options.Champions.TryGetValue(championName.CapitalizeFirstLetter(), out var cache) && !cache.IsExpired,
-                    (Client: this, ChampionName: championName, Version: version, Language: language),
+                    (Client: this, ChampionName: championName, version, language),
                     state => state.Client._options.Champions[state.ChampionName].Data!,
                     async state =>
                     {
-                        var data = await state.Client.MakeRequestAsync<ChampionDataDto, ChampionData>(
-                            $"{Cdn}/{state.Version}/data/{state.Language}/champion/{state.ChampionName}.json", 
-                            dto => new ChampionData(state.Client, dto)).ConfigureAwait(false);
+                        var (client, championName, version, language) = state;
+                        var data = await client.MakeRequestAsync<ChampionDataDto, ChampionData>(
+                            $"{Cdn}/{version}/data/{language}/champion/{championName}.json", 
+                            dto => new ChampionData(client, dto)).ConfigureAwait(false);
                         
-                        state.Client._options._champions.AddOrUpdate(state.ChampionName,
-                            (_, s) => CacheControl<ChampionData>.TimedCache(s.Client._options.ChampionFullCacheDuration),
-                            (_, __, s) =>
-                                CacheControl<ChampionData>.TimedCache(s.Client._options.ChampionFullCacheDuration),
-                            state);
-
+                        client._options._champions.AddOrUpdate(championName,
+                            (_, c) => CacheControl<ChampionData>.TimedCache(c._options.ChampionFullCacheDuration),
+                            (_, __, c) =>
+                                CacheControl<ChampionData>.TimedCache(c._options.ChampionFullCacheDuration),
+                            client);
                         return data;
                     });
             }
@@ -280,16 +279,16 @@ namespace RiotPls.DataDragon
                 ThrowIfDisposed();
                 return ValueTaskHelper.Create(
                     !_options.SummonerSpells.IsExpired,
-                    (Client: this, Version: version, Language: language),
+                    (Client: this, version, language),
                     state => state.Client._options.SummonerSpells.Data!,
                     async state =>
                     {
-                        var data = await state.Client.MakeRequestAsync<SummonerSpellDataDto, SummonerSpellData>(
-                            $"{Cdn}/{state.Version}/data/{state.Language}/summoner.json", 
-                            dto => new SummonerSpellData(state.Client, dto)).ConfigureAwait(false);
+                        var (client, version, language) = state;
+                        var data = await client.MakeRequestAsync<SummonerSpellDataDto, SummonerSpellData>(
+                            $"{Cdn}/{version}/data/{language}/summoner.json", 
+                            dto => new SummonerSpellData(client, dto)).ConfigureAwait(false);
 
-                        state.Client._options.SummonerSpells.Data = data;
-
+                        client._options.SummonerSpells.Data = data;
                         return data;
                     });
             }
@@ -300,7 +299,7 @@ namespace RiotPls.DataDragon
         ///     about the whole profile icons.
         /// </summary>
         /// <param name="version">
-        ///    The version of Data Dragon to use.
+        ///     The version of Data Dragon to use.
         /// </param>
         public ValueTask<ProfileIconData> GetProfileIconsAsync(GameVersion version)
         {
@@ -328,23 +327,23 @@ namespace RiotPls.DataDragon
                 ThrowIfDisposed();
                 return ValueTaskHelper.Create(
                     !_options.SummonerSpells.IsExpired,
-                    (Client: this, Version: version, Language: language),
+                    (Client: this, version, language),
                     state => state.Client._options.ProfileIcons.Data!,
                     async state =>
                     {
-                        var data = await state.Client.MakeRequestAsync<ProfileIconDataDto, ProfileIconData>(
-                            $"{Cdn}/{state.Version}/data/{state.Language}/profileicon.json", 
-                            dto => new ProfileIconData(state.Client, dto)).ConfigureAwait(false);
+                        var (client, version, language) = state;
+                        var data = await client.MakeRequestAsync<ProfileIconDataDto, ProfileIconData>(
+                            $"{Cdn}/{version}/data/{language}/profileicon.json", 
+                            dto => new ProfileIconData(client, dto)).ConfigureAwait(false);
 
-                        state.Client._options.ProfileIcons.Data = data;
-
+                        client._options.ProfileIcons.Data = data;
                         return data;
                     });
             }
         }
 
-        private async Task<TEntity> MakeRequestAsync<TDto, TEntity>(string url, Func<TDto, TEntity> ctor)
-            => ctor(await MakeRequestAsync<TDto>(url).ConfigureAwait(false));
+        private async Task<TEntity> MakeRequestAsync<TDto, TEntity>(string url, Func<TDto, TEntity> func)
+            => func(await MakeRequestAsync<TDto>(url).ConfigureAwait(false));
 
         private async Task<TEntity> MakeRequestAsync<TEntity>(string url)
         {
