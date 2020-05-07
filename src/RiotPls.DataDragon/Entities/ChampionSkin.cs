@@ -5,8 +5,6 @@
     /// </summary>
     public sealed class ChampionSkin
     {
-        private readonly DataDragonClient _client;
-
         /// <summary>
         ///     Id of the skin.
         /// </summary>
@@ -27,10 +25,8 @@
         /// </summary>
         public bool HasChromas { get; }
 
-        internal ChampionSkin(DataDragonClient client, ChampionSkinDto dto)
+        internal ChampionSkin( ChampionSkinDto dto)
         {
-            _client = client;
-            
             Id = int.Parse(dto.Id);
             SkinIndex = dto.Num;
             Name = dto.Name;

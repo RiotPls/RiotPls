@@ -14,9 +14,18 @@ namespace RiotPls.DataDragon.Helpers
             return default;
         }
 
-        public static ValueTask Create<TState>(bool isSyncPathAvailable, TState state, Action<TState> syncResult, Func<TState, Task> asyncResult)
+        public static ValueTask Create<TState>(TState state, bool isSyncPathAvailable, Action<TState> syncResult, Func<TState, Task> asyncResult)
         {
             if (!isSyncPathAvailable)
+                return new ValueTask(asyncResult(state));
+
+            syncResult(state);
+            return default;
+        }
+
+        public static ValueTask Create<TState>(TState state, Func<TState, bool> isSyncPathAvailable, Action<TState> syncResult, Func<TState, Task> asyncResult)
+        {
+            if (!isSyncPathAvailable(state))
                 return new ValueTask(asyncResult(state));
 
             syncResult(state);
@@ -28,8 +37,13 @@ namespace RiotPls.DataDragon.Helpers
             ? new ValueTask<T>(syncResult())
             : new ValueTask<T>(asyncResult());
 
-        public static ValueTask<T> Create<TState, T>(bool isSyncPathAvailable, TState state, Func<TState, T> syncResult, Func<TState, Task<T>> asyncResult) 
+        public static ValueTask<T> Create<TState, T>(TState state, bool isSyncPathAvailable, Func<TState, T> syncResult, Func<TState, Task<T>> asyncResult) 
             => isSyncPathAvailable
+            ? new ValueTask<T>(syncResult(state))
+            : new ValueTask<T>(asyncResult(state));
+
+        public static ValueTask<T> Create<TState, T>(TState state, Func<TState, bool> isSyncPathAvailable, Func<TState, T> syncResult, Func<TState, Task<T>> asyncResult)
+            => isSyncPathAvailable(state)
             ? new ValueTask<T>(syncResult(state))
             : new ValueTask<T>(asyncResult(state));
     }

@@ -7,13 +7,14 @@ namespace RiotPls.DataDragon.Entities
 {
     public sealed class Recommendation
     {
-        private readonly DataDragonClient _client;
-
         /// <summary>
         ///     Name of the champion
         /// </summary>
         public string ChampionName { get; }
         
+        /// <summary>
+        ///     Title of the champion
+        /// </summary>
         public string Title { get; }
         
         /// <summary>
@@ -60,10 +61,8 @@ namespace RiotPls.DataDragon.Entities
         
         public ReadOnlyCollection<Block> Blocks { get; }
 
-        internal Recommendation(DataDragonClient client, RecommendationDto dto)
+        internal Recommendation(RecommendationDto dto)
         {
-            _client = client;
-            
             ChampionName = dto.ChampionName;
             Title = dto.Title;
             Map = Enum.Parse<RecommendationMap>(dto.Map, true);
@@ -74,7 +73,7 @@ namespace RiotPls.DataDragon.Entities
             HasExtensionPage = dto.HasExtensionPage;
             UseObviousCheckMark = dto.UseObviousCheckMark;
             CustomPanel = dto.CustomPanel;
-            Blocks = dto.Blocks.Select(x => new Block(client, x)).ToList().AsReadOnly();
+            Blocks = dto.Blocks.Select(x => new Block(x)).ToList().AsReadOnly();
             RequiredPerk = dto.RequiredPerk;
             ExtennOrnnPage = dto.ExtennOrnnPage;
         }

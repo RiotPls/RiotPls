@@ -16,6 +16,8 @@ namespace RiotPls.DataDragon
         public const string Api = "/api";
         public const string Cdn = "/cdn";
 
+        internal static IDataDragonClient Instance { get; } = new DataDragonClient();
+
         public GameLanguage DefaultLanguage { get; }
 
         private readonly DataDragonClientOptions _options;
@@ -54,17 +56,17 @@ namespace RiotPls.DataDragon
             {
                 ThrowIfDisposed();
                 return ValueTaskHelper.Create(
-                      !_options.Versions.IsExpired,
-                      this,
-                      client => client._options.Versions.Data!,
-                      async client =>
-                      {
-                          var data = await client.MakeRequestAsync<IReadOnlyList<GameVersion>>(
-                              $"{Api}/versions.json").ConfigureAwait(false);
+                    this,
+                    !_options.Versions.IsExpired,
+                    client => client._options.Versions.Data!,
+                    async client =>
+                    {
+                        var data = await client.MakeRequestAsync<IReadOnlyList<GameVersion>>(
+                            $"{Api}/versions.json").ConfigureAwait(false);
 
-                          client._options.Versions.Data = data;
-                          return data;
-                      });
+                        client._options.Versions.Data = data;
+                        return data;
+                    });
             }
         }
 
@@ -78,17 +80,17 @@ namespace RiotPls.DataDragon
             {
                 ThrowIfDisposed();
                 return ValueTaskHelper.Create(
-                      !_options.Languages.IsExpired,
-                      this,
-                      client => client._options.Languages.Data!,
-                      async client =>
-                      {
-                          var data = await client.MakeRequestAsync<IReadOnlyList<GameLanguage>>(
-                              $"{Cdn}/languages.json").ConfigureAwait(false);
+                    this,
+                    !_options.Languages.IsExpired,
+                    client => client._options.Languages.Data!,
+                    async client =>
+                    {
+                        var data = await client.MakeRequestAsync<IReadOnlyList<GameLanguage>>(
+                            $"{Cdn}/languages.json").ConfigureAwait(false);
 
-                          client._options.Languages.Data = data;
-                          return data;
-                      });
+                        client._options.Languages.Data = data;
+                        return data;
+                    });
             }
         }
 
@@ -124,20 +126,19 @@ namespace RiotPls.DataDragon
             {
                 ThrowIfDisposed();
                 return ValueTaskHelper.Create(
-                      !_options.PartialChampions.IsExpired,
-                      (Client: this, version, language),
-                      state => state.Client._options.PartialChampions.Data!,
-                      async state =>
-                      {
-                          var (client, version, language) = state;
-                          var data = await client.MakeRequestAsync<DataDragonClient, ChampionBaseDataDto, ChampionBaseData>(
-                              $"{Cdn}/{version}/data/{language}/champion.json", 
-                              client,
-                              (client, dto) => new ChampionBaseData(client, dto)).ConfigureAwait(false);
+                    (Client: this, version, language),
+                    !_options.PartialChampions.IsExpired,
+                    state => state.Client._options.PartialChampions.Data!,
+                    async state =>
+                    {
+                        var (client, version, language) = state;
+                        var data = await client.MakeRequestAsync<ChampionBaseDataDto, ChampionBaseData>(
+                            $"{Cdn}/{version}/data/{language}/champion.json", 
+                            dto => new ChampionBaseData(dto)).ConfigureAwait(false);
 
-                          client._options.PartialChampions.Data = data;
-                          return data;
-                      });
+                        client._options.PartialChampions.Data = data;
+                        return data;
+                    });
             }
         }
         
@@ -173,16 +174,15 @@ namespace RiotPls.DataDragon
             {
                 ThrowIfDisposed();
                 return ValueTaskHelper.Create(
-                    !_options.PartialChampions.IsExpired,
                     (Client: this, version, language),
+                    !_options.PartialChampions.IsExpired,
                     state => state.Client._options.FullChampions.Data!,
                     async state =>
                     {
                         var (client, version, language) = state;
-                        var data = await client.MakeRequestAsync<DataDragonClient, ChampionFullDataDto, ChampionFullData>(
-                            $"{Cdn}/{version}/data/{language}/championFull.json", 
-                            client,
-                            (client, dto) => new ChampionFullData(client, dto)).ConfigureAwait(false);
+                        var data = await client.MakeRequestAsync<ChampionFullDataDto, ChampionFullData>(
+                            $"{Cdn}/{version}/data/{language}/championFull.json",
+                            dto => new ChampionFullData(dto)).ConfigureAwait(false);
 
                         client._options.FullChampions.Data = data;
                         return data;
@@ -228,21 +228,19 @@ namespace RiotPls.DataDragon
             {
                 ThrowIfDisposed();
                 return ValueTaskHelper.Create(
-                    _options.Champions.TryGetValue(championName.CapitalizeFirstLetter(), out var cache) && !cache.IsExpired,
                     (Client: this, ChampionName: championName, version, language),
+                    _options.Champions.TryGetValue(championName.CapitalizeFirstLetter(), out var cache) && !cache.IsExpired,
                     state => state.Client._options.Champions[state.ChampionName].Data!,
                     async state =>
                     {
                         var (client, championName, version, language) = state;
-                        var data = await client.MakeRequestAsync<DataDragonClient, ChampionDataDto, ChampionData>(
+                        var data = await client.MakeRequestAsync<ChampionDataDto, ChampionData>(
                             $"{Cdn}/{version}/data/{language}/champion/{championName}.json", 
-                            client,
-                            (client, dto) => new ChampionData(client, dto)).ConfigureAwait(false);
+                            dto => new ChampionData(dto)).ConfigureAwait(false);
                         
                         client._options._champions.AddOrUpdate(championName,
                             (_, c) => CacheControl<ChampionData>.TimedCache(c._options.ChampionFullCacheDuration),
-                            (_, __, c) =>
-                                CacheControl<ChampionData>.TimedCache(c._options.ChampionFullCacheDuration),
+                            (_, __, c) => CacheControl<ChampionData>.TimedCache(c._options.ChampionFullCacheDuration),
                             client);
                         return data;
                     });
@@ -281,16 +279,15 @@ namespace RiotPls.DataDragon
             {
                 ThrowIfDisposed();
                 return ValueTaskHelper.Create(
-                    !_options.SummonerSpells.IsExpired,
                     (Client: this, version, language),
+                    !_options.SummonerSpells.IsExpired,                  
                     state => state.Client._options.SummonerSpells.Data!,
                     async state =>
                     {
                         var (client, version, language) = state;
-                        var data = await client.MakeRequestAsync<DataDragonClient, SummonerSpellDataDto, SummonerSpellData>(
+                        var data = await client.MakeRequestAsync<SummonerSpellDataDto, SummonerSpellData>(
                             $"{Cdn}/{version}/data/{language}/summoner.json", 
-                            client,
-                            (client, dto) => new SummonerSpellData(client, dto)).ConfigureAwait(false);
+                            dto => new SummonerSpellData(dto)).ConfigureAwait(false);
 
                         client._options.SummonerSpells.Data = data;
                         return data;
@@ -330,16 +327,15 @@ namespace RiotPls.DataDragon
             {
                 ThrowIfDisposed();
                 return ValueTaskHelper.Create(
-                    !_options.SummonerSpells.IsExpired,
                     (Client: this, version, language),
+                    !_options.SummonerSpells.IsExpired,
                     state => state.Client._options.ProfileIcons.Data!,
                     async state =>
                     {
                         var (client, version, language) = state;
-                        var data = await client.MakeRequestAsync<DataDragonClient, ProfileIconDataDto, ProfileIconData>(
+                        var data = await client.MakeRequestAsync<ProfileIconDataDto, ProfileIconData>(
                             $"{Cdn}/{version}/data/{language}/profileicon.json", 
-                            client,
-                            (client, dto) => new ProfileIconData(client, dto)).ConfigureAwait(false);
+                            dto => new ProfileIconData(dto)).ConfigureAwait(false);
 
                         client._options.ProfileIcons.Data = data;
                         return data;
@@ -360,8 +356,8 @@ namespace RiotPls.DataDragon
             }
         }
 
-        private async Task<TEntity> MakeRequestAsync<TState, TDto, TEntity>(string url, TState state, Func<TState, TDto, TEntity> func)
-            => func(state, await MakeRequestAsync<TDto>(url).ConfigureAwait(false));
+        private async Task<TEntity> MakeRequestAsync<TDto, TEntity>(string url, Func<TDto, TEntity> func)
+            => func(await MakeRequestAsync<TDto>(url).ConfigureAwait(false));
 
         private async Task<TEntity> MakeRequestAsync<TEntity>(string url)
         {

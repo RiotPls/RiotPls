@@ -10,12 +10,12 @@ namespace RiotPls.DataDragon.Entities
         /// </summary>
         public ReadOnlyDictionary<int, SummonerSpell> SummonerSpells { get; }
         
-        internal SummonerSpellData(DataDragonClient client, SummonerSpellDataDto dto) : base(client, dto)
+        internal SummonerSpellData(SummonerSpellDataDto dto) : base(dto)
         {
             SummonerSpells = new ReadOnlyDictionary<int, SummonerSpell>(
                 dto.SummonerSpells.ToDictionary(
                     x => int.Parse(x.Value.Key),
-                    y => new SummonerSpell(client, y.Value)));
+                    y => new SummonerSpell(y.Value)));
         }
     }
 }

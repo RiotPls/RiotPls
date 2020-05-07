@@ -12,7 +12,7 @@
         /// </summary>
         public int SummonerLevel { get; }
         
-        internal SummonerSpell(DataDragonClient client, SummonerSpellDto dto) : base(client, dto)
+        internal SummonerSpell(SummonerSpellDto dto) : base(dto)
         {
             Key = int.Parse(dto.Key);
             SummonerLevel = dto.SummonerLevel;

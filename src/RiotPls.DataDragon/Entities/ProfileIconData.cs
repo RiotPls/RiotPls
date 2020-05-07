@@ -10,12 +10,12 @@ namespace RiotPls.DataDragon.Entities
         /// </summary>
         public ReadOnlyDictionary<int, ProfileIcon> ProfileIcons { get; }
         
-        internal ProfileIconData(DataDragonClient client, ProfileIconDataDto dto) : base(client, dto)
+        internal ProfileIconData(ProfileIconDataDto dto) : base(dto)
         {
             ProfileIcons = new ReadOnlyDictionary<int, ProfileIcon>(
                 dto.ProfileIcons.ToDictionary(
                     x => int.Parse(x.Key),
-                    y => new ProfileIcon(client, y.Value)));
+                    y => new ProfileIcon(y.Value)));
         }
     }
 }

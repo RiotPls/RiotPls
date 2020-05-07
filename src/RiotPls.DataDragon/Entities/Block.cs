@@ -7,7 +7,6 @@ namespace RiotPls.DataDragon.Entities
 {
     public sealed class Block
     {
-        private readonly DataDragonClient _client;
         public string Type { get; }
         
         public bool RecMath { get; }
@@ -30,10 +29,8 @@ namespace RiotPls.DataDragon.Entities
         
         public IReadOnlyCollection<ItemBlock> Items { get; }
 
-        internal Block(DataDragonClient client, BlockDto dto)
+        internal Block(BlockDto dto)
         {
-            _client = client;
-            
             Type = dto.Type;
             RecMath = dto.RecMath;
             RecSteps = dto.RecSteps;
@@ -46,7 +43,7 @@ namespace RiotPls.DataDragon.Entities
             AppendAfterSection = dto.AppendAfterSection;
             VisibleWithAllOf = dto.VisibleWithAllOf;
             HiddenWithAllOf = dto.HiddenWithAllOf;
-            Items = dto.Items.Select(x => new ItemBlock(client, x)).ToList().AsReadOnly();
+            Items = dto.Items.Select(x => new ItemBlock(x)).ToList().AsReadOnly();
         }
     }
 }

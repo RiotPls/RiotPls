@@ -11,7 +11,7 @@ namespace RiotPls.Tests.DataDragon
         public async Task Test_That_SummonerSpellApi_Works()
         {
             var versions = await _client.GetVersionsAsync();
-            var profileIcons = await _client.GetProfileIconsAsync(versions.First());
+            var profileIcons = await _client.GetProfileIconsAsync(versions[0]);
             Assert.NotNull(profileIcons.ProfileIcons);
             Assert.Equal(0, profileIcons.ProfileIcons[0].Id);
         }
