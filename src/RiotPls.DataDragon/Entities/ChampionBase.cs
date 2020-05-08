@@ -35,7 +35,7 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     The summary of the champion.
         /// </summary>
-        public string Blurb { get; }
+        public string Summary { get; }
 
         /// <summary>
         ///     The resource type of the champion. (mana, energy, fury)
@@ -43,9 +43,10 @@ namespace RiotPls.DataDragon.Entities
         public ResourceType ResourceType { get; }
 
         /// <summary>
-        ///     Statistics about the champion.
+        ///     General statistics about the champion. 
+        ///     Such a power and difficulty.
         /// </summary>
-        public ChampionInfo Info { get; }
+        public ChampionInformation Information { get; }
 
         /// <summary>
         ///     Information and name of the images associated with that champion.
@@ -55,12 +56,12 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     Tags representing the champion.
         /// </summary>
-        public IReadOnlyCollection<ChampionType> Tags { get; }
+        public ChampionType Tags { get; }
 
         /// <summary>
         ///     Statistics related to the champion.
         /// </summary>
-        public ChampionStats Stats { get; }
+        public ChampionStatistics Statistics { get; }
 
         internal ChampionBase(ChampionBaseDto dto)
         {
@@ -69,12 +70,12 @@ namespace RiotPls.DataDragon.Entities
             Key = int.Parse(dto.Key);
             Name = dto.Name;
             Title = dto.Title;
-            Blurb = dto.Blurb;
-            ResourceType = Enum.Parse<ResourceType>(dto.Partype.Replace(" ", ""), true);
-            Info = new ChampionInfo(dto.Info);
+            Summary = dto.Blurb;
+            ResourceType = Enum.Parse<ResourceType>(dto.Partype.Replace(" ", string.Empty), true);
+            Information = new ChampionInformation(dto.Info);
             Image = new StaticImage(dto.Image);
-            Tags = dto.Tags.Select(x => Enum.Parse<ChampionType>(x, true)).ToList().AsReadOnly();
-            Stats = new ChampionStats(dto.Stats);
+            Tags = dto.Tags;
+            Statistics = new ChampionStatistics(dto.Stats);
         }
     }
 }

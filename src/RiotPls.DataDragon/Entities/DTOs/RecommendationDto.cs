@@ -36,7 +36,7 @@ namespace RiotPls.DataDragon.Entities
         public object CustomPanel { get; set; }
 
         [JsonPropertyName("blocks")]
-        public IReadOnlyCollection<BlockDto> Blocks { get; set; }
+        public BlockDto[] Blocks { get; set; }
 
         [JsonPropertyName("requiredPerk")]
         public string RequiredPerk { get; set; }

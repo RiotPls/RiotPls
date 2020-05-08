@@ -30,12 +30,12 @@ namespace RiotPls.DataDragon.Entities
         public string AppendAfterSection { get; set; }
 
         [JsonPropertyName("visibleWithAllof")]
-        public IReadOnlyCollection<string> VisibleWithAllOf { get; set; }
+        public string[] VisibleWithAllOf { get; set; }
 
         [JsonPropertyName("hiddenWithAllOf")]
-        public IReadOnlyCollection<string> HiddenWithAllOf { get; set; }
+        public string[] HiddenWithAllOf { get; set; }
 
         [JsonPropertyName("items")]
-        public IReadOnlyCollection<ItemBlockDto> Items { get; set; }
+        public ItemBlockDto[] Items { get; set; }
     }
 }

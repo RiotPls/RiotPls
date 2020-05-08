@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using RiotPls.DataDragon.Enums;
 #nullable disable
 namespace RiotPls.DataDragon.Entities
 {
@@ -34,7 +35,7 @@ namespace RiotPls.DataDragon.Entities
         public StaticImageDto Image { get; set; }
 
         [JsonPropertyName("tags")]
-        public IReadOnlyCollection<string> Tags { get; set; }
+        public ChampionType Tags { get; set; }
 
         [JsonPropertyName("stats")]
         public ChampionStatsDto Stats { get; set; }

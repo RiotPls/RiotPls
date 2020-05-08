@@ -6,9 +6,9 @@ namespace RiotPls.DataDragon.Entities
     internal class LevelTipDto
     {
         [JsonPropertyName("label")]
-        public IReadOnlyCollection<string> Labels { get; set; }
+        public string[] Labels { get; set; }
 
         [JsonPropertyName("effect")]
-        public IReadOnlyCollection<string> Effects { get; set; }
+        public string[] Effects { get; set; }
     }
 }

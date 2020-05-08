@@ -1,11 +1,14 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
+using RiotPls.DataDragon.Converters;
 
 namespace RiotPls.DataDragon.Entities
 {
     /// <summary>
     ///     Represents a game version for League of Legends, like "10.9.1".
     /// </summary>
+    [JsonConverter(typeof(GameVersionJsonConverter))]
     public sealed class GameVersion : IEquatable<GameVersion>, IComparable<GameVersion>
     {
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -14,22 +15,22 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     Skins of the champion.
         /// </summary>
-        public ReadOnlyCollection<ChampionSkin> Skins { get; }
+        public ChampionSkin[] Skins { get; }
 
         /// <summary>
         ///     Ally tips of the champion.
         /// </summary>
-        public IReadOnlyCollection<string> AllyTips { get; }
+        public string[] AllyTips { get; }
 
         /// <summary>
         ///     Enemy tips of the champion.
         /// </summary>
-        public IReadOnlyCollection<string> EnemyTips { get; }
+        public string[] EnemyTips { get; }
 
         /// <summary>
         ///     Spells of the champion.
         /// </summary>
-        public ReadOnlyCollection<Spell> Spells { get; }
+        public Spell[] Spells { get; }
 
         /// <summary>
         ///     Passive spell of the champion.
@@ -39,17 +40,17 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     Recommendations by their game mode.
         /// </summary>
-        public IReadOnlyCollection<Recommendation> Recommendations { get; }
+        public Recommendation[] Recommendations { get; }
 
         internal Champion(ChampionDto dto) : base(dto)
         {
             Lore = dto.Lore;
-            Skins = dto.Skins.Select(x => new ChampionSkin(x)).ToList().AsReadOnly();
+            Skins = Array.ConvertAll(dto.Skins, dto => new ChampionSkin(dto));
             AllyTips = dto.AllyTips;
             EnemyTips = dto.EnemyTips;
-            Spells = dto.Spells.Select(x => new Spell(x)).ToList().AsReadOnly();
+            Spells = Array.ConvertAll(dto.Spells, dto => new Spell(dto));
             PassiveSpell = new SpellBase(dto.Passive);
-            Recommendations = dto.Recommendations.Select(x => new Recommendation(x)).ToList().AsReadOnly();
+            Recommendations = Array.ConvertAll(dto.Recommendations, dto => new Recommendation(dto));
         }
     }
 }

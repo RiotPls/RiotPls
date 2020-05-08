@@ -43,8 +43,6 @@ namespace RiotPls.DataDragon
             {
                 PropertyNameCaseInsensitive = true
             };
-            _jsonSerializerOptions.Converters.Add(GameVersionJsonConverter.Instance);
-            _jsonSerializerOptions.Converters.Add(LanguageJsonConverter.Instance);
             _lock = new object();
         }
 
@@ -229,8 +227,8 @@ namespace RiotPls.DataDragon
             {
                 ThrowIfDisposed();
                 return ValueTaskHelper.Create(
-                    (Client: this, ChampionName: championName, version, language.GetCode()),
-                    _options.Champions.TryGetValue(championName.CapitalizeFirstLetter(), out var cache) && !cache.IsExpired,
+                    (Client: this, ChampionName: championName.CapitalizeFirstLetter(), version, language.GetCode()),
+                    _options.Champions.TryGetValue(championName, out var cache) && !cache.IsExpired,
                     state => state.Client._options.Champions[state.ChampionName].Data!,
                     async state =>
                     {

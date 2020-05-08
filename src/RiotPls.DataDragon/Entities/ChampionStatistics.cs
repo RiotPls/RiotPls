@@ -3,7 +3,7 @@
     /// <summary>
     ///     Represents in-game statistics for a champion, which are used for balancing.
     /// </summary>
-    public sealed class ChampionStats
+    public sealed class ChampionStatistics
     {
         /// <summary>
         ///     The base HP of the champion.
@@ -105,7 +105,7 @@
         /// </summary>
         public double AttackSpeedPerLevel { get; }
 
-        internal ChampionStats(ChampionStatsDto dto)
+        internal ChampionStatistics(ChampionStatsDto dto)
         {
             HP = dto.Hp;
             HPRegeneration = dto.HpRegen;

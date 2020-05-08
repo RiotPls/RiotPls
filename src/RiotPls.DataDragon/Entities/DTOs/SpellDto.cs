@@ -18,13 +18,13 @@ namespace RiotPls.DataDragon.Entities
         public int MaxRank { get; set; }
 
         [JsonPropertyName("cooldown")]
-        public IReadOnlyCollection<double> Cooldowns { get; set; }
+        public double[] Cooldowns { get; set; }
 
         [JsonPropertyName("cooldownBurn")]
         public string CooldownBurn { get; set; }
 
         [JsonPropertyName("cost")]
-        public IReadOnlyCollection<double> Costs { get; set; }
+        public double[] Costs { get; set; }
 
         [JsonPropertyName("costBurn")]
         public string CostBurn { get; set; }
@@ -33,13 +33,13 @@ namespace RiotPls.DataDragon.Entities
         public object DataValues { get; set; }
 
         [JsonPropertyName("effect")]
-        public IReadOnlyCollection<IReadOnlyCollection<double>> Effects { get; set; }
+        public double[] Effects { get; set; }
 
         [JsonPropertyName("effectBurn")]
-        public IReadOnlyCollection<string> EffectBurn { get; set; }
+        public string[] EffectBurn { get; set; }
 
         [JsonPropertyName("vars")]
-        public IReadOnlyCollection<SpellVarDto> Vars { get; set; }
+        public SpellVarDto[] Vars { get; set; }
 
         [JsonPropertyName("costType")]
         public string CostType { get; set; }
@@ -48,7 +48,7 @@ namespace RiotPls.DataDragon.Entities
         public string MaxAmmo { get; set; }
 
         [JsonPropertyName("range")]
-        public IReadOnlyCollection<int> Ranges { get; set; }
+        public int[] Ranges { get; set; }
 
         [JsonPropertyName("rangeBurn")]
         public string RangeBurn { get; set; }

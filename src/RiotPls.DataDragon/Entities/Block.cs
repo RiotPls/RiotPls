@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using RiotPls.DataDragon.Enums;
 
@@ -23,11 +24,11 @@ namespace RiotPls.DataDragon.Entities
 
         public string AppendAfterSection { get; }
 
-        public IReadOnlyCollection<string> VisibleWithAllOf { get; }
+        public string[] VisibleWithAllOf { get; }
 
-        public IReadOnlyCollection<string> HiddenWithAllOf { get; }
+        public string[] HiddenWithAllOf { get; }
 
-        public IReadOnlyCollection<ItemBlock> Items { get; }
+        public ItemBlock[] Items { get; }
 
         internal Block(BlockDto dto)
         {
@@ -36,14 +37,16 @@ namespace RiotPls.DataDragon.Entities
             RecSteps = dto.RecSteps;
             MinSummonerLevel = dto.MinSummonerLevel;
             MaxSummonerLevel = dto.MaxSummonerLevel;
-            if (!string.IsNullOrWhiteSpace(dto.ShowIfSummonerSpell))
-                ShowIfSummonerSpell = Enum.Parse<BlockSummonerSpell>(dto.ShowIfSummonerSpell.Replace("_", ""), true);
-            if (!string.IsNullOrWhiteSpace(dto.HideIfSummonerSpell))
-                HideIfSummonerSpell = Enum.Parse<BlockSummonerSpell>(dto.HideIfSummonerSpell.Replace("_", ""), true);
             AppendAfterSection = dto.AppendAfterSection;
             VisibleWithAllOf = dto.VisibleWithAllOf;
             HiddenWithAllOf = dto.HiddenWithAllOf;
-            Items = dto.Items.Select(x => new ItemBlock(x)).ToList().AsReadOnly();
+            Items = Array.ConvertAll(dto.Items, dto => new ItemBlock(dto));
+
+            if (!string.IsNullOrWhiteSpace(dto.ShowIfSummonerSpell))
+                ShowIfSummonerSpell = Enum.Parse<BlockSummonerSpell>(dto.ShowIfSummonerSpell.Replace("_", string.Empty), true);
+
+            if (!string.IsNullOrWhiteSpace(dto.HideIfSummonerSpell))
+                HideIfSummonerSpell = Enum.Parse<BlockSummonerSpell>(dto.HideIfSummonerSpell.Replace("_", string.Empty), true);
         }
     }
 }

@@ -1,5 +1,9 @@
-﻿namespace RiotPls.DataDragon.Enums
+﻿using System.Text.Json.Serialization;
+using RiotPls.DataDragon.Converters;
+
+namespace RiotPls.DataDragon.Enums
 {
+    [JsonConverter(typeof(LanguageJsonConverter))]
     public enum Language
     {
         /// <summary>
