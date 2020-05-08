@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -380,10 +382,58 @@ namespace RiotPls.DataDragon
                     {
                         var (client, version, language) = state;
                         var data = await client.MakeRequestAsync<MapDataDto, MapData>(
-                            $"{Cdn}/{version}/data/{language}/profileicon.json",
+                            $"{Cdn}/{version}/data/{language}/map.json",
                             dto => new MapData(dto)).ConfigureAwait(false);
 
                         client._options.Maps.Data = data;
+                        return data;
+                    });
+            }
+        }
+        
+        /// <summary>
+        ///    Returns a set of <see cref="Rune"/> containing full information
+        ///    about the different runes and their slots.
+        /// </summary>
+        /// <param name="version">
+        ///    The version of Data Dragon to use.
+        /// </param>
+        public ValueTask<IReadOnlyList<Rune>> GetRunesAsync(GameVersion version)
+        {
+            lock (_lock)
+            {
+                ThrowIfDisposed();
+                return GetRunesAsync(version, DefaultLanguage);
+            }
+        }
+        
+        /// <summary>
+        ///    Returns a set of <see cref="Rune"/> containing full information
+        ///    about the different runes and their slots.
+        /// </summary>
+        /// <param name="version">
+        ///    The version of Data Dragon to use.
+        /// </param>
+        /// <param name="language">
+        ///    The language in which the data must be returned. Defaults to English (United States).
+        /// </param>
+        public ValueTask<IReadOnlyList<Rune>> GetRunesAsync(GameVersion version, Language language)
+        {
+            lock (_lock)
+            {
+                ThrowIfDisposed();
+                return ValueTaskHelper.Create(
+                    (Client: this, version, language.GetCode()),
+                    !_options.Runes.IsExpired,
+                    state => state.Client._options.Runes.Data!,
+                    async state =>
+                    {
+                        var (client, version, language) = state;
+                        var data = await client.MakeRequestAsync<IReadOnlyList<RuneDto>, IReadOnlyList<Rune>>(
+                            $"{Cdn}/{version}/data/{language}/runesReforged.json",
+                            dtos => dtos.Select(x => new Rune(x)).ToImmutableArray()).ConfigureAwait(false);
+
+                        client._options.Runes.Data = data;
                         return data;
                     });
             }

@@ -54,6 +54,12 @@ namespace RiotPls.DataDragon
         /// </summary>
         public ICache<MapData> Maps { get; set; }
             = CacheControl<MapData>.Permanent;
+        
+        /// <summary>
+        ///     The cache options for runes data. Defaults to 14 days cache.
+        /// </summary>
+        public ICache<IReadOnlyList<Rune>> Runes { get; set; }
+            = CacheControl<IReadOnlyList<Rune>>.TimedCache(TimeSpan.FromDays(14));
 
         /// <summary>
         ///     The cache options for profile icons data. Defaults to 30 days cache.
