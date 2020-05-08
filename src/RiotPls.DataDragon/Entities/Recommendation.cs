@@ -59,7 +59,7 @@ namespace RiotPls.DataDragon.Entities
 
         public bool ExtennOrnnPage { get; }
 
-        public ReadOnlyCollection<Block> Blocks { get; }
+        public Block[] Blocks { get; }
 
         internal Recommendation(RecommendationDto dto)
         {
@@ -73,7 +73,7 @@ namespace RiotPls.DataDragon.Entities
             HasExtensionPage = dto.HasExtensionPage;
             UseObviousCheckMark = dto.UseObviousCheckMark;
             CustomPanel = dto.CustomPanel;
-            Blocks = dto.Blocks.Select(x => new Block(x)).ToList().AsReadOnly();
+            Blocks = Array.ConvertAll(dto.Blocks, dto => new Block(dto));
             RequiredPerk = dto.RequiredPerk;
             ExtennOrnnPage = dto.ExtennOrnnPage;
         }

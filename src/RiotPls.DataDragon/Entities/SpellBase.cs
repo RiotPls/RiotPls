@@ -20,7 +20,7 @@
         internal SpellBase(SpellBaseDto dto)
         {
             Name = dto.Name;
-            RawDescription = dto.DescriptionRaw;
+            RawDescription = dto.RawDescription;
             Image = new StaticImage(dto.Image);
         }
     }

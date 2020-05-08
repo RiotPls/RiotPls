@@ -33,7 +33,7 @@ namespace RiotPls.DataDragon.Entities
         public object DataValues { get; set; }
 
         [JsonPropertyName("effect")]
-        public double[] Effects { get; set; }
+        public double[][] Effects { get; set; }
 
         [JsonPropertyName("effectBurn")]
         public string[] EffectBurn { get; set; }
