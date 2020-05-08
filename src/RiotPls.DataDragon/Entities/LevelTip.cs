@@ -12,8 +12,8 @@ namespace RiotPls.DataDragon.Entities
 
         internal LevelTip(LevelTipDto dto)
         {
-            Labels = dto.Labels ?? Array.Empty<string>();
-            Effects = dto.Effects ?? Array.Empty<string>();
+            Labels = dto?.Labels ?? Array.Empty<string>();
+            Effects = dto?.Effects ?? Array.Empty<string>();
         }
     }
 }

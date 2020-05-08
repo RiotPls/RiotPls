@@ -33,8 +33,8 @@ namespace RiotPls.DataDragon
 
         public DataDragonClient(DataDragonClientOptions? options)
         {
-            DefaultLanguage = _options.DefaultLanguage;
             _options = options ?? new DataDragonClientOptions();
+            DefaultLanguage = _options.DefaultLanguage;
             _client = new HttpClient
             {
                 BaseAddress = new Uri(Host)
@@ -127,7 +127,7 @@ namespace RiotPls.DataDragon
             {
                 ThrowIfDisposed();
                 return ValueTaskHelper.Create(
-                    (Client: this, version, language),
+                    (Client: this, version, language.GetCode()),
                     !_options.PartialChampions.IsExpired,
                     state => state.Client._options.PartialChampions.Data!,
                     async state =>
@@ -175,7 +175,7 @@ namespace RiotPls.DataDragon
             {
                 ThrowIfDisposed();
                 return ValueTaskHelper.Create(
-                    (Client: this, version, language),
+                    (Client: this, version, language.GetCode()),
                     !_options.PartialChampions.IsExpired,
                     state => state.Client._options.FullChampions.Data!,
                     async state =>
@@ -229,7 +229,7 @@ namespace RiotPls.DataDragon
             {
                 ThrowIfDisposed();
                 return ValueTaskHelper.Create(
-                    (Client: this, ChampionName: championName, version, language),
+                    (Client: this, ChampionName: championName, version, language.GetCode()),
                     _options.Champions.TryGetValue(championName.CapitalizeFirstLetter(), out var cache) && !cache.IsExpired,
                     state => state.Client._options.Champions[state.ChampionName].Data!,
                     async state =>
@@ -280,7 +280,7 @@ namespace RiotPls.DataDragon
             {
                 ThrowIfDisposed();
                 return ValueTaskHelper.Create(
-                    (Client: this, version, language),
+                    (Client: this, version, language.GetCode()),
                     !_options.SummonerSpells.IsExpired,
                     state => state.Client._options.SummonerSpells.Data!,
                     async state =>
@@ -328,7 +328,7 @@ namespace RiotPls.DataDragon
             {
                 ThrowIfDisposed();
                 return ValueTaskHelper.Create(
-                    (Client: this, version, language),
+                    (Client: this, version, language.GetCode()),
                     !_options.SummonerSpells.IsExpired,
                     state => state.Client._options.ProfileIcons.Data!,
                     async state =>

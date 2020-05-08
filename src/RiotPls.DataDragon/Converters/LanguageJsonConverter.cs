@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using RiotPls.DataDragon.Enums;
+using RiotPls.DataDragon.Extensions;
 
 namespace RiotPls.DataDragon.Converters
 {
@@ -46,36 +47,6 @@ namespace RiotPls.DataDragon.Converters
         }
 
         public override void Write(Utf8JsonWriter writer, Language value, JsonSerializerOptions options)
-            => writer.WriteStringValue(value switch
-            {
-                Language.AmericanEnglish => "en_US",
-                Language.Czech => "cs_CZ",
-                Language.German => "de_DE",
-                Language.Greek => "el_GR",
-                Language.AustralianEnglish => "en_AU",
-                Language.EnglandEnglish => "en_GB",
-                Language.PhilippinesEnglish => "en_PH",
-                Language.SingaporeEnglish => "en_SG",
-                Language.ArgentinianSpanish => "es_AR",
-                Language.SpainSpanish => "es_ES",
-                Language.MexicanSpanish => "es_MX",
-                Language.French => "fr_FR",
-                Language.Hungarian => "hu_HU",
-                Language.Indonesian => "id_ID",
-                Language.Italian => "it_IT",
-                Language.Japanese => "ja_JP",
-                Language.Korea => "ko_KR",
-                Language.Polish => "pl_PL",
-                Language.BrazilianPortuguese => "pt_BR",
-                Language.Romanian => "ro_RO",
-                Language.Russian => "ru_RU",
-                Language.Thai => "th_TH",
-                Language.Turkish => "tr_TR",
-                Language.Vietnamese => "vn_VN",
-                Language.ChinaChinese => "zh_CN",
-                Language.MalaysianChinese => "zh_MY",
-                Language.TaiwanChinese => "zh_TW",
-                _ => throw new InvalidOperationException($"Attempted to write an invalid value. Value: {value}")
-            });
+            => writer.WriteStringValue(value.GetCode());
     }
 }
