@@ -5,6 +5,9 @@
         Champion,
         Passive,
         Spell,
-        ProfileIcon
+        ProfileIcon,
+        Item,
+        Mission,
+        Map
     }
 }
