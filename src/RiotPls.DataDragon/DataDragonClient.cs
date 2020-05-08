@@ -656,7 +656,7 @@ namespace RiotPls.DataDragon
                                 $"{Cdn}/{version}/data/{language}/mission-assets.json",
                                 dto => new MissionAssetData(dto)).ConfigureAwait(false);
 
-                            client._options.MissionAssets.Data = data;
+                            client._options.MissionAssets[version] = data;
                             return data;
                         }
                         finally
