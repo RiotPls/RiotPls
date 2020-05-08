@@ -48,6 +48,12 @@ namespace RiotPls.DataDragon
         /// </summary>
         public ICache<SummonerSpellData> SummonerSpells { get; set; }
             = CacheControl<SummonerSpellData>.TimedCache(TimeSpan.FromDays(30));
+        
+        /// <summary>
+        ///     The cache options for maps data. Defaults to permanent cache.
+        /// </summary>
+        public ICache<MapData> Maps { get; set; }
+            = CacheControl<MapData>.Permanent;
 
         /// <summary>
         ///     The cache options for profile icons data. Defaults to 30 days cache.

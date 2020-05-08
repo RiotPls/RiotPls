@@ -340,6 +340,54 @@ namespace RiotPls.DataDragon
                     });
             }
         }
+        
+        /// <summary>
+        ///    Returns a <see cref="MapData"/> containing full information
+        ///    about the whole maps.
+        /// </summary>
+        /// <param name="version">
+        ///    The version of Data Dragon to use.
+        /// </param>
+        public ValueTask<MapData> GetMapsAsync(GameVersion version)
+        {
+            lock (_lock)
+            {
+                ThrowIfDisposed();
+                return GetMapsAsync(version, DefaultLanguage);
+            }
+        }
+        
+        /// <summary>
+        ///    Returns a <see cref="MapData"/> containing full information
+        ///    about the whole maps.
+        /// </summary>
+        /// <param name="version">
+        ///    The version of Data Dragon to use.
+        /// </param>
+        /// <param name="language">
+        ///    The language in which the data must be returned. Defaults to English (United States).
+        /// </param>
+        public ValueTask<MapData> GetMapsAsync(GameVersion version, Language language)
+        {
+            lock (_lock)
+            {
+                ThrowIfDisposed();
+                return ValueTaskHelper.Create(
+                    (Client: this, version, language.GetCode()),
+                    !_options.Maps.IsExpired,
+                    state => state.Client._options.Maps.Data!,
+                    async state =>
+                    {
+                        var (client, version, language) = state;
+                        var data = await client.MakeRequestAsync<MapDataDto, MapData>(
+                            $"{Cdn}/{version}/data/{language}/profileicon.json",
+                            dto => new MapData(dto)).ConfigureAwait(false);
+
+                        client._options.Maps.Data = data;
+                        return data;
+                    });
+            }
+        }
 
         public void Dispose()
         {
