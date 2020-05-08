@@ -78,7 +78,7 @@ namespace RiotPls.DataDragon.Entities
             Cooldowns = dto.Cooldowns.ToImmutableArray();
             Costs = dto.Costs.ToImmutableArray();
             DataValues = dto.DataValues;
-            Effects = dto.Effects.Select(x => !(x is null) 
+            Effects = dto.Effects.Select(x => x is object 
                 ? (IReadOnlyList<double>)x.ToImmutableArray() 
                 : ImmutableArray<double>.Empty).ToImmutableArray();
             Vars = Array.ConvertAll(dto.Vars, dto => new SpellVar(dto)).ToImmutableArray();

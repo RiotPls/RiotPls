@@ -157,5 +157,17 @@ namespace RiotPls.DataDragon.Entities
                 }
             }
         }
+
+        public static bool operator >(GameVersion? left, GameVersion? right)
+            => left is object && left.CompareTo(right) > 0;
+
+        public static bool operator <(GameVersion? left, GameVersion? right)
+            => left is null || left.CompareTo(right) < 0;
+
+        public static bool operator >=(GameVersion? left, GameVersion? right)
+            => left is object && left.CompareTo(right) >= 0;
+
+        public static bool operator <=(GameVersion? left, GameVersion? right)
+            => left is null || left.CompareTo(right) < 0;
     }
 }

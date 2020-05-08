@@ -1,11 +1,13 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using RiotPls.DataDragon.Entities;
 using RiotPls.DataDragon.Enums;
 
 namespace RiotPls.DataDragon.Extensions
 {
-    public static class ChampionExtensions
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public static class DataDragonClientExtensions
     {
         /// <summary>
         ///    Gets a champion base information by its id.

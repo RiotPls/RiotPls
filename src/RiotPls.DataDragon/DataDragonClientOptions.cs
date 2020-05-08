@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using RiotPls.DataDragon.Entities;
@@ -23,67 +22,64 @@ namespace RiotPls.DataDragon
         ///     The cache options for version data. Defaults to expiring every every day.
         /// </summary>
         public ICache<IReadOnlyList<GameVersion>> Versions { get; set; }
-            = CacheControl<IReadOnlyList<GameVersion>>.TimedCache(TimeSpan.FromDays(1));
+            = CacheControl<IReadOnlyList<GameVersion>>.Instance;
 
         /// <summary>
         ///     The cache options for language data. Defaults to permanent cache.
         /// </summary>
         public ICache<IReadOnlyList<Language>> Languages { get; set; }
-            = CacheControl<IReadOnlyList<Language>>.Permanent;
+            = CacheControl<IReadOnlyList<Language>>.Instance;
 
         /// <summary>
         ///     The cache options for champions data. Defaults to expiring every day.
         /// </summary>
         public ICache<ChampionBaseData> PartialChampions { get; set; }
-            = CacheControl<ChampionBaseData>.TimedCache(TimeSpan.FromDays(1));
+            = CacheControl<ChampionBaseData>.Instance;
 
         /// <summary>
         ///     The cache options for champions data. Defaults to expiring every day.
         /// </summary>
         public ICache<ChampionFullData> FullChampions { get; set; }
-            = CacheControl<ChampionFullData>.TimedCache(TimeSpan.FromDays(1));
+            = CacheControl<ChampionFullData>.Instance;
 
         /// <summary>
         ///     The cache options for summoner spells data. Defaults to 30 days cache.
         /// </summary>
         public ICache<SummonerSpellData> SummonerSpells { get; set; }
-            = CacheControl<SummonerSpellData>.TimedCache(TimeSpan.FromDays(30));
-        
+            = CacheControl<SummonerSpellData>.Instance;
+
         /// <summary>
         ///     The cache options for maps data. Defaults to permanent cache.
         /// </summary>
         public ICache<MapData> Maps { get; set; }
-            = CacheControl<MapData>.Permanent;
-        
+            = CacheControl<MapData>.Instance;
+
         /// <summary>
         ///     The cache options for runes data. Defaults to 14 days cache.
         /// </summary>
         public ICache<IReadOnlyList<Rune>> Runes { get; set; }
-            = CacheControl<IReadOnlyList<Rune>>.TimedCache(TimeSpan.FromDays(14));
+            = CacheControl<IReadOnlyList<Rune>>.Instance;
 
         /// <summary>
         ///     The cache options for profile icons data. Defaults to 30 days cache.
         /// </summary>
         public ICache<ProfileIconData> ProfileIcons { get; set; }
-            = CacheControl<ProfileIconData>.TimedCache(TimeSpan.FromDays(30));
+            = CacheControl<ProfileIconData>.Instance;
 
         // todo: review this since it's kinda different from others.
         /// <summary>
         ///     The cache options for full champions data.
         /// </summary>
-        public IReadOnlyDictionary<string, CacheControl<ChampionData>> Champions { get; }
-        internal ConcurrentDictionary<string, CacheControl<ChampionData>> _champions;
+        public IReadOnlyDictionary<ChampionId, CacheControl<ChampionData>> Champions { get; }
+        internal ConcurrentDictionary<ChampionId, CacheControl<ChampionData>> _champions;
 
         /// <summary>
-        ///     Duration of the cache for full champions data.
+        ///     Initializes a new instance of the <see cref="DataDragonClientOptions"/> <see langword="class"/>.
         /// </summary>
-        public TimeSpan ChampionFullCacheDuration { get; set; }
-            = TimeSpan.FromDays(30);
-
-        public DataDragonClientOptions()
+        public DataDragonClientOptions() 
         {
-            _champions = new ConcurrentDictionary<string, CacheControl<ChampionData>>();
-            Champions = new ReadOnlyDictionary<string, CacheControl<ChampionData>>(_champions);
+            _champions = new ConcurrentDictionary<ChampionId, CacheControl<ChampionData>>();
+            Champions = new ReadOnlyDictionary<ChampionId, CacheControl<ChampionData>>(_champions);
         }
     }
 }

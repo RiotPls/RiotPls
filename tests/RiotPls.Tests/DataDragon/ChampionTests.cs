@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using RiotPls.DataDragon.Enums;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -30,7 +32,7 @@ namespace RiotPls.Tests.DataDragon
             foreach (var championData in championsData.Champions.Values)
             {
                 _output.WriteLine($"Trying to deserialize {championData.Id}...");
-                var champion = await _client.GetChampionAsync(championData.Id, latestVersion);
+                var champion = await _client.GetChampionAsync(Enum.Parse<ChampionId>(championData.Id), latestVersion);
                 Assert.NotNull(champion.Champion);
             }
         }
