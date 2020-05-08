@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+using System.Collections.Immutable;
 using RiotPls.DataDragon.Enums;
 
 namespace RiotPls.DataDragon.Entities
@@ -24,11 +23,11 @@ namespace RiotPls.DataDragon.Entities
 
         public string AppendAfterSection { get; }
 
-        public string[] VisibleWithAllOf { get; }
+        public IReadOnlyList<string> VisibleWithAllOf { get; }
 
-        public string[] HiddenWithAllOf { get; }
+        public IReadOnlyList<string> HiddenWithAllOf { get; }
 
-        public ItemBlock[] Items { get; }
+        public IReadOnlyList<ItemBlock> Items { get; }
 
         internal Block(BlockDto dto)
         {
@@ -38,9 +37,9 @@ namespace RiotPls.DataDragon.Entities
             MinSummonerLevel = dto.MinSummonerLevel;
             MaxSummonerLevel = dto.MaxSummonerLevel;
             AppendAfterSection = dto.AppendAfterSection;
-            VisibleWithAllOf = dto.VisibleWithAllOf;
-            HiddenWithAllOf = dto.HiddenWithAllOf;
-            Items = Array.ConvertAll(dto.Items, dto => new ItemBlock(dto));
+            VisibleWithAllOf = dto.VisibleWithAllOf.ToImmutableArray();
+            HiddenWithAllOf = dto.HiddenWithAllOf.ToImmutableArray();
+            Items = Array.ConvertAll(dto.Items, dto => new ItemBlock(dto)).ToImmutableArray();
 
             if (!string.IsNullOrWhiteSpace(dto.ShowIfSummonerSpell))
                 ShowIfSummonerSpell = Enum.Parse<BlockSummonerSpell>(dto.ShowIfSummonerSpell.Replace("_", string.Empty), true);

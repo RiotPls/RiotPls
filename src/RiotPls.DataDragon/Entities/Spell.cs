@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 
 namespace RiotPls.DataDragon.Entities
@@ -32,21 +33,21 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     Cooldown per level of the spell.
         /// </summary>
-        public double[] Cooldowns { get; }
+        public IReadOnlyList<double> Cooldowns { get; }
 
         /// <summary>
         ///     Cost per level of the spell.
         /// </summary>
-        public double[] Costs { get; }
+        public IReadOnlyList<double> Costs { get; }
 
         // todo: check this object. (always empty)
         public object? DataValues { get; }
 
         // todo: check this object.
-        public double[][] Effects { get; }
+        public IReadOnlyList<IReadOnlyList<double>> Effects { get; }
 
         // todo: dunno what it is for.
-        public SpellVar[] Vars { get; }
+        public IReadOnlyList<SpellVar> Vars { get; }
 
         /// <summary>
         ///     Type of the cost.
@@ -61,7 +62,7 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     Ranges per level of the spell.
         /// </summary>
-        public int[] Ranges { get; }
+        public IReadOnlyList<int> Ranges { get; }
 
         /// <summary>
         ///     Resources of the spell.
@@ -74,14 +75,14 @@ namespace RiotPls.DataDragon.Entities
             ToolTip = dto.ToolTip;
             LevelTip = new LevelTip(dto.LevelTip);
             MaxRank = dto.MaxRank;
-            Cooldowns = dto.Cooldowns;
-            Costs = dto.Costs;
+            Cooldowns = dto.Cooldowns.ToImmutableArray();
+            Costs = dto.Costs.ToImmutableArray();
             DataValues = dto.DataValues;
-            Effects = dto.Effects;
-            Vars = Array.ConvertAll(dto.Vars, dto => new SpellVar(dto));
+            Effects = dto.Effects.Select(x => (IReadOnlyList<double>)x.ToImmutableArray()).ToImmutableArray();
+            Vars = Array.ConvertAll(dto.Vars, dto => new SpellVar(dto)).ToImmutableArray();
             CostType = dto.CostType;
             MaxAmmo = int.Parse(dto.MaxAmmo);
-            Ranges = dto.Ranges;
+            Ranges = dto.Ranges.ToImmutableArray();
             Resource = dto.Resource;
         }
     }

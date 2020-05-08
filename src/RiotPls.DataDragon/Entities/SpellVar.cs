@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using RiotPls.DataDragon.Enums;
 
 namespace RiotPls.DataDragon.Entities
@@ -7,14 +9,14 @@ namespace RiotPls.DataDragon.Entities
     {
         public string Link { get; }
 
-        public double[] Coeff { get; }
+        public IReadOnlyList<double> Coeff { get; }
 
         public SpellKey Key { get; }
 
         internal SpellVar(SpellVarDto dto)
         {
             Link = dto.Link;
-            Coeff = dto.Coeff;
+            Coeff = dto.Coeff.ToImmutableArray();
             Key = Enum.Parse<SpellKey>(dto.Key, true);
         }
     }

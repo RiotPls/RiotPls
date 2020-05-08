@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace RiotPls.DataDragon.Entities
 {
     // todo: find a better way to handle when its optional, so null.
     public sealed class LevelTip
     {
-        public IReadOnlyCollection<string> Labels { get; }
+        public IReadOnlyList<string> Labels { get; }
 
-        public IReadOnlyCollection<string> Effects { get; }
+        public IReadOnlyList<string> Effects { get; }
 
         internal LevelTip(LevelTipDto dto)
         {
-            Labels = dto?.Labels ?? Array.Empty<string>();
-            Effects = dto?.Effects ?? Array.Empty<string>();
+            Labels = dto?.Labels.ToImmutableArray() ?? ImmutableArray<string>.Empty;
+            Effects = dto?.Effects.ToImmutableArray() ?? ImmutableArray<string>.Empty;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using RiotPls.DataDragon.Enums;
 
 namespace RiotPls.DataDragon.Entities
@@ -53,13 +53,13 @@ namespace RiotPls.DataDragon.Entities
         public bool UseObviousCheckMark { get; }
 
         // todo: see what that is, seems to always be null
-        public object CustomPanel { get; }
+        public object? CustomPanel { get; }
 
         public string RequiredPerk { get; }
 
         public bool ExtennOrnnPage { get; }
 
-        public Block[] Blocks { get; }
+        public IReadOnlyList<Block> Blocks { get; }
 
         internal Recommendation(RecommendationDto dto)
         {
@@ -73,7 +73,7 @@ namespace RiotPls.DataDragon.Entities
             HasExtensionPage = dto.HasExtensionPage;
             UseObviousCheckMark = dto.UseObviousCheckMark;
             CustomPanel = dto.CustomPanel;
-            Blocks = Array.ConvertAll(dto.Blocks, dto => new Block(dto));
+            Blocks = Array.ConvertAll(dto.Blocks, dto => new Block(dto)).ToImmutableArray();
             RequiredPerk = dto.RequiredPerk;
             ExtennOrnnPage = dto.ExtennOrnnPage;
         }

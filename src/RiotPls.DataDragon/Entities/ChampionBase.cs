@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using RiotPls.DataDragon.Enums;
 
 namespace RiotPls.DataDragon.Entities
