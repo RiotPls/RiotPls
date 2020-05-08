@@ -7,7 +7,7 @@ namespace RiotPls.DataDragon.Entities
     {
         [JsonPropertyName("label")]
         public IReadOnlyCollection<string> Labels { get; set; }
-        
+
         [JsonPropertyName("effect")]
         public IReadOnlyCollection<string> Effects { get; set; }
     }

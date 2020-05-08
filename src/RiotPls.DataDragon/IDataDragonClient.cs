@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using RiotPls.DataDragon.Entities;
+using RiotPls.DataDragon.Enums;
 
 namespace RiotPls.DataDragon
 {
     public interface IDataDragonClient : IDisposable
     {
-        GameLanguage DefaultLanguage { get; }
+        Language DefaultLanguage { get; }
         ValueTask<IReadOnlyList<GameVersion>> GetVersionsAsync();
-        ValueTask<IReadOnlyList<GameLanguage>> GetLanguagesAsync();
-        ValueTask<ChampionBaseData> GetPartialChampionsAsync(GameVersion version, GameLanguage language);
-        ValueTask<ChampionFullData> GetChampionsAsync(GameVersion version, GameLanguage language);
-        ValueTask<ChampionData> GetChampionAsync(string championName, GameVersion version, GameLanguage language);
-        ValueTask<SummonerSpellData> GetSummonerSpellsAsync(GameVersion version, GameLanguage language);
-        ValueTask<ProfileIconData> GetProfileIconsAsync(GameVersion version, GameLanguage language);
+        ValueTask<IReadOnlyList<Language>> GetLanguagesAsync();
+        ValueTask<ChampionBaseData> GetPartialChampionsAsync(GameVersion version, Language language);
+        ValueTask<ChampionFullData> GetChampionsAsync(GameVersion version, Language language);
+        ValueTask<ChampionData> GetChampionAsync(string championName, GameVersion version, Language language);
+        ValueTask<SummonerSpellData> GetSummonerSpellsAsync(GameVersion version, Language language);
+        ValueTask<ProfileIconData> GetProfileIconsAsync(GameVersion version, Language language);
 
         public ValueTask<ChampionBaseData> GetPartialChampionsAsync(GameVersion version)
             => GetPartialChampionsAsync(version, DefaultLanguage);

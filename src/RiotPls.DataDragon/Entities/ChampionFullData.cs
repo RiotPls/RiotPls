@@ -14,7 +14,7 @@ namespace RiotPls.DataDragon.Entities
         {
             Champions = new ReadOnlyDictionary<int, Champion>(
                 dto.Champions.ToDictionary(
-                    x => int.Parse(x.Value.Key), 
+                    x => int.Parse(x.Value.Key),
                     y => new Champion(y.Value)));
         }
     }

@@ -9,7 +9,7 @@
         ///     Id of the skin.
         /// </summary>
         public int Id { get; }
-        
+
         /// <summary>
         ///     Index of the skin. Counts chromatics.
         /// </summary>
@@ -19,13 +19,13 @@
         ///     Name of the skin.
         /// </summary>
         public string Name { get; }
- 
+
         /// <summary>
         ///     Whether the skin has chromatics.
         /// </summary>
         public bool HasChromas { get; }
 
-        internal ChampionSkin( ChampionSkinDto dto)
+        internal ChampionSkin(ChampionSkinDto dto)
         {
             Id = int.Parse(dto.Id);
             SkinIndex = dto.Num;

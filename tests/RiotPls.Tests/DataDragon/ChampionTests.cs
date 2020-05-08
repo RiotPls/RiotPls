@@ -19,7 +19,7 @@ namespace RiotPls.Tests.DataDragon
             Assert.Equal(champions.Version.Minor, latestVersion.Minor);
             Assert.Equal(champions.Version.Patch, latestVersion.Patch);
         }
-        
+
         [Fact(DisplayName = "Champions can properly be parsed without exceptions.")]
         public async Task Test_That_Champions_AreProperlyParsed()
         {
@@ -34,7 +34,7 @@ namespace RiotPls.Tests.DataDragon
                 Assert.NotNull(champion.Champion);
             }
         }
-        
+
         [Fact(DisplayName = "Champions can properly be parsed without exceptions.")]
         public async Task Test_That_FullChampions_AreProperlyParsed()
         {

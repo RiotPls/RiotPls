@@ -9,7 +9,7 @@
     /// </typeparam>
     public interface ICache<T> where T : class
     {
-        ICacheExpiryPolicy ExpiryPolicy {get;}
+        ICacheExpiryPolicy ExpiryPolicy { get; }
         /// <summary>
         ///     Indicates if the cache has expired.
         /// </summary>

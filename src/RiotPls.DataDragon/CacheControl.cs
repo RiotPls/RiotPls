@@ -12,17 +12,17 @@ namespace RiotPls.DataDragon
         /// </summary>
         public static CacheControl<T> None
             => new CacheControl<T>(CacheControlExpiryPolicy.None);
-        
+
         /// <summary>
         ///     Instructs the client to cache this data, using the default expiry time of 24 hours.
         /// </summary>
-        public static CacheControl<T> Default 
+        public static CacheControl<T> Default
             => new CacheControl<T>(CacheControlExpiryPolicy.Default);
 
         /// <summary>
         ///     Instructs the client to cache this data permanently.
         /// </summary>
-        public static CacheControl<T> Permanent 
+        public static CacheControl<T> Permanent
             => new CacheControl<T>(CacheControlExpiryPolicy.Permanent);
 
         /// <summary>
@@ -49,13 +49,13 @@ namespace RiotPls.DataDragon
         {
             get
             {
-                if (!ExpiryPolicy.IsCached) 
+                if (!ExpiryPolicy.IsCached)
                     return true;
 
-                if (_data is null || ExpiryPolicy.LastSetTime is null) 
+                if (_data is null || ExpiryPolicy.LastSetTime is null)
                     return true;
 
-                if (ExpiryPolicy.CacheExpiry is null) 
+                if (ExpiryPolicy.CacheExpiry is null)
                     return false;
 
                 return DateTimeOffset.Now.ToUnixTimeSeconds() >
@@ -66,8 +66,8 @@ namespace RiotPls.DataDragon
         /// <inheritdoc/>
         public T? Data
         {
-            get => IsExpired 
-                ? null 
+            get => IsExpired
+                ? null
                 : _data;
             set
             {
@@ -127,7 +127,7 @@ namespace RiotPls.DataDragon
             /// <inheritdoc/>
             public TimeSpan? CacheExpiry { get; }
 
-            internal CacheControlExpiryPolicy(bool isCached) : this (isCached, null)
+            internal CacheControlExpiryPolicy(bool isCached) : this(isCached, null)
             {
             }
 

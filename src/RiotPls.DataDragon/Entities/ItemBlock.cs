@@ -6,7 +6,7 @@
         ///     Id of the item.
         /// </summary>
         public int Id { get; }
-        
+
         /// <summary>
         ///     Amount of time the item is recommended.
         /// </summary>

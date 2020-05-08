@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using RiotPls.DataDragon.Entities;
+using RiotPls.DataDragon.Enums;
 
 namespace RiotPls.DataDragon.Extensions
 {
@@ -44,7 +45,7 @@ namespace RiotPls.DataDragon.Extensions
         ///    Thrown when <paramref name="client"/> is <see langword="null"/>.
         /// </exception>
         public static async ValueTask<ChampionBase?> GetChampionAsync(this IDataDragonClient client,
-            int id, GameVersion version, GameLanguage language)
+            int id, GameVersion version, Language language)
         {
             if (client is null)
                 throw new ArgumentNullException(nameof(client));

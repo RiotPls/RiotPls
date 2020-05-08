@@ -9,7 +9,7 @@ namespace RiotPls.DataDragon.Entities
         ///     A dictionary of profile icons, keyed by their unique identifier.
         /// </summary>
         public ReadOnlyDictionary<int, ProfileIcon> ProfileIcons { get; }
-        
+
         internal ProfileIconData(ProfileIconDataDto dto) : base(dto)
         {
             ProfileIcons = new ReadOnlyDictionary<int, ProfileIcon>(

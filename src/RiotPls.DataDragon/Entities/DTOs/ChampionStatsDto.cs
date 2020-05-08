@@ -42,7 +42,7 @@ namespace RiotPls.DataDragon.Entities
 
         [JsonPropertyName("mpregen")]
         public double MpRegen { get; set; }
-        
+
         [JsonPropertyName("mpregenperlevel")]
         public double MpRegenPerLevel { get; set; }
 

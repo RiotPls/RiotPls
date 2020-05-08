@@ -7,7 +7,7 @@ namespace RiotPls.DataDragon.Entities
     public sealed class LevelTip
     {
         public IReadOnlyCollection<string> Labels { get; }
-        
+
         public IReadOnlyCollection<string> Effects { get; }
 
         internal LevelTip(LevelTipDto dto)

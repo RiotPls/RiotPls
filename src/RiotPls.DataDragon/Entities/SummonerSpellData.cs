@@ -9,7 +9,7 @@ namespace RiotPls.DataDragon.Entities
         ///     A dictionary of summoner spells, keyed by their unique identifier.
         /// </summary>
         public ReadOnlyDictionary<int, SummonerSpell> SummonerSpells { get; }
-        
+
         internal SummonerSpellData(SummonerSpellDataDto dto) : base(dto)
         {
             SummonerSpells = new ReadOnlyDictionary<int, SummonerSpell>(

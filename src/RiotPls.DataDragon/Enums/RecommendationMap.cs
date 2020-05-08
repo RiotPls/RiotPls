@@ -2,13 +2,13 @@
 {
     public enum RecommendationMap
     {
-        Any, 
-        CityPark, 
-        CrystalScar, 
-        Ha, 
-        Nb, 
-        Odyssey, 
-        ProjectSlums, 
+        Any,
+        CityPark,
+        CrystalScar,
+        Ha,
+        Nb,
+        Odyssey,
+        ProjectSlums,
         Sr
     }
 }

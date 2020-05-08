@@ -14,10 +14,10 @@ namespace RiotPls.Tests.DataDragon
             var sums = await _client.GetSummonerSpellsAsync(versions.First());
             Assert.NotNull(sums.SummonerSpells);
             Assert.Equal(14, sums.SummonerSpells.Count);
-            Assert.True(sums.SummonerSpells.ContainsKey(21) 
+            Assert.True(sums.SummonerSpells.ContainsKey(21)
                         && sums.SummonerSpells[21].Id == "SummonerBarrier");
         }
-        
+
         public SpellsTests(ITestOutputHelper helper) : base(helper)
         {
         }

@@ -9,7 +9,7 @@ namespace RiotPls.DataDragon.Entities
 
         [JsonPropertyName("format")]
         public string Format { get; set; }
-        
+
         [JsonPropertyName("version")]
         public GameVersion Version { get; set; }
     }

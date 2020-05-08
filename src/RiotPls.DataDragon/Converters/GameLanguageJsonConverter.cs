@@ -1,18 +1,81 @@
 ﻿using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using RiotPls.DataDragon.Entities;
+using RiotPls.DataDragon.Enums;
 
 namespace RiotPls.DataDragon.Converters
 {
-    public sealed class GameLanguageJsonConverter : JsonConverter<GameLanguage>
+    public sealed class LanguageJsonConverter : JsonConverter<Language>
     {
-        public static GameLanguageJsonConverter Instance { get; } = new GameLanguageJsonConverter();
-        
-        public override GameLanguage Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-            => GameLanguage.Parse(reader.GetString());
+        public static LanguageJsonConverter Instance { get; } = new LanguageJsonConverter();
 
-        public override void Write(Utf8JsonWriter writer, GameLanguage value, JsonSerializerOptions options)
-            => writer.WriteStringValue(value.ToString());
+        public override Language Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            var language = reader.GetString();
+            return language switch
+            {
+                "en_US" => Language.AmericanEnglish,
+                "cs_CZ" => Language.Czech,
+                "de_DE" => Language.German,
+                "el_GR" => Language.Greek,
+                "en_AU" => Language.AustralianEnglish,
+                "en_GB" => Language.EnglandEnglish,
+                "en_PH" => Language.PhilippinesEnglish,
+                "en_SG" => Language.SingaporeEnglish,
+                "es_AR" => Language.ArgentinianSpanish,
+                "es_ES" => Language.SpainSpanish,
+                "es_MX" => Language.MexicanSpanish,
+                "fr_FR" => Language.French,
+                "hu_HU" => Language.Hungarian,
+                "id_ID" => Language.Indonesian,
+                "it_IT" => Language.Italian,
+                "ja_JP" => Language.Japanese,
+                "ko_KR" => Language.Korea,
+                "pl_PL" => Language.Polish,
+                "pt_BR" => Language.BrazilianPortuguese,
+                "ro_RO" => Language.Romanian,
+                "ru_RU" => Language.Russian,
+                "th_TH" => Language.Thai,
+                "tr_TR" => Language.Turkish,
+                "vn_VN" => Language.Vietnamese,
+                "zh_CN" => Language.ChinaChinese,
+                "zh_MY" => Language.MalaysianChinese,
+                "zh_TW" => Language.TaiwanChinese,
+                _ => throw new NotImplementedException($"The language \"{language}\" has not been implemented")
+            };
+        }
+
+        public override void Write(Utf8JsonWriter writer, Language value, JsonSerializerOptions options)
+            => writer.WriteStringValue(value switch
+            {
+                Language.AmericanEnglish => "en_US",
+                Language.Czech => "cs_CZ",
+                Language.German => "de_DE",
+                Language.Greek => "el_GR",
+                Language.AustralianEnglish => "en_AU",
+                Language.EnglandEnglish => "en_GB",
+                Language.PhilippinesEnglish => "en_PH",
+                Language.SingaporeEnglish => "en_SG",
+                Language.ArgentinianSpanish => "es_AR",
+                Language.SpainSpanish => "es_ES",
+                Language.MexicanSpanish => "es_MX",
+                Language.French => "fr_FR",
+                Language.Hungarian => "hu_HU",
+                Language.Indonesian => "id_ID",
+                Language.Italian => "it_IT",
+                Language.Japanese => "ja_JP",
+                Language.Korea => "ko_KR",
+                Language.Polish => "pl_PL",
+                Language.BrazilianPortuguese => "pt_BR",
+                Language.Romanian => "ro_RO",
+                Language.Russian => "ru_RU",
+                Language.Thai => "th_TH",
+                Language.Turkish => "tr_TR",
+                Language.Vietnamese => "vn_VN",
+                Language.ChinaChinese => "zh_CN",
+                Language.MalaysianChinese => "zh_MY",
+                Language.TaiwanChinese => "zh_TW",
+                _ => throw new InvalidOperationException($"Attempted to write an invalid value. Value: {value}")
+            });
     }
 }

@@ -6,7 +6,7 @@ namespace RiotPls.DataDragon.Entities
     {
         [JsonPropertyName("key")]
         public string Key { get; set; }
-        
+
         [JsonPropertyName("summonerLevel")]
         public int SummonerLevel { get; set; }
     }

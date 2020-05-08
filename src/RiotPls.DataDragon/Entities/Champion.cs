@@ -10,32 +10,32 @@ namespace RiotPls.DataDragon.Entities
         ///     Lore of the champion.
         /// </summary>
         public string Lore { get; }
-        
+
         /// <summary>
         ///     Skins of the champion.
         /// </summary>
         public ReadOnlyCollection<ChampionSkin> Skins { get; }
-        
+
         /// <summary>
         ///     Ally tips of the champion.
         /// </summary>
         public IReadOnlyCollection<string> AllyTips { get; }
-        
+
         /// <summary>
         ///     Enemy tips of the champion.
         /// </summary>
         public IReadOnlyCollection<string> EnemyTips { get; }
-        
+
         /// <summary>
         ///     Spells of the champion.
         /// </summary>
         public ReadOnlyCollection<Spell> Spells { get; }
-        
+
         /// <summary>
         ///     Passive spell of the champion.
         /// </summary>
         public SpellBase PassiveSpell { get; }
-        
+
         /// <summary>
         ///     Recommendations by their game mode.
         /// </summary>

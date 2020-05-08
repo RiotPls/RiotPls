@@ -8,11 +8,11 @@ namespace RiotPls.DataDragon.Entities
     {
         [JsonPropertyName("link")]
         public string Link { get; set; }
-        
-        [JsonPropertyName("coeff")] 
+
+        [JsonPropertyName("coeff")]
         [JsonConverter(typeof(DoubleArrayJsonConverter))]
         public double[] Coeff { get; set; }
-        
+
         [JsonPropertyName("key")]
         public string Key { get; set; }
     }

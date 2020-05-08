@@ -14,26 +14,26 @@ namespace RiotPls.DataDragon.Entities
         ///     The name of the image for the full splash art for the champion.
         /// </summary>
         public string Full { get; }
-        
+
         /// <summary>
         ///     The name of the image for the sprite of the champion.
         /// </summary>
         public string Sprite { get; }
-        
+
         /// <summary>
         ///     The group of the champion.
         /// </summary>
         public ImageGroup Group { get; }
-        
+
         public int X { get; }
-        
+
         public int Y { get; }
-        
+
         /// <summary>
         ///     Width of the image.
         /// </summary>
         public int W { get; }
-        
+
         /// <summary>
         ///     Height of the image.
         /// </summary>

@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using RiotPls.DataDragon.Converters;
 using RiotPls.DataDragon.Entities;
+using RiotPls.DataDragon.Enums;
 using RiotPls.DataDragon.Extensions;
 using RiotPls.DataDragon.Helpers;
 
@@ -18,7 +19,7 @@ namespace RiotPls.DataDragon
 
         internal static IDataDragonClient Instance { get; } = new DataDragonClient();
 
-        public GameLanguage DefaultLanguage { get; }
+        public Language DefaultLanguage { get; }
 
         private readonly DataDragonClientOptions _options;
         private readonly HttpClient _client;
@@ -29,21 +30,21 @@ namespace RiotPls.DataDragon
         public DataDragonClient() : this(null)
         {
         }
-        
+
         public DataDragonClient(DataDragonClientOptions? options)
         {
             DefaultLanguage = _options.DefaultLanguage;
             _options = options ?? new DataDragonClientOptions();
-            _client = new HttpClient 
+            _client = new HttpClient
             {
                 BaseAddress = new Uri(Host)
-            };        
+            };
             _jsonSerializerOptions = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             };
             _jsonSerializerOptions.Converters.Add(GameVersionJsonConverter.Instance);
-            _jsonSerializerOptions.Converters.Add(GameLanguageJsonConverter.Instance);       
+            _jsonSerializerOptions.Converters.Add(LanguageJsonConverter.Instance);
             _lock = new object();
         }
 
@@ -74,7 +75,7 @@ namespace RiotPls.DataDragon
         ///    Returns a list of every available language for the latest version
         ///    of Data Dragon, expressed as UTF-8 culture codes. (i.e. en_US)
         /// </summary>
-        public ValueTask<IReadOnlyList<GameLanguage>> GetLanguagesAsync()
+        public ValueTask<IReadOnlyList<Language>> GetLanguagesAsync()
         {
             lock (_lock)
             {
@@ -85,7 +86,7 @@ namespace RiotPls.DataDragon
                     client => client._options.Languages.Data!,
                     async client =>
                     {
-                        var data = await client.MakeRequestAsync<IReadOnlyList<GameLanguage>>(
+                        var data = await client.MakeRequestAsync<IReadOnlyList<Language>>(
                             $"{Cdn}/languages.json").ConfigureAwait(false);
 
                         client._options.Languages.Data = data;
@@ -120,7 +121,7 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///    The language in which the data must be returned. Defaults to English (United States).
         /// </param>
-        public ValueTask<ChampionBaseData> GetPartialChampionsAsync(GameVersion version, GameLanguage language)
+        public ValueTask<ChampionBaseData> GetPartialChampionsAsync(GameVersion version, Language language)
         {
             lock (_lock)
             {
@@ -133,7 +134,7 @@ namespace RiotPls.DataDragon
                     {
                         var (client, version, language) = state;
                         var data = await client.MakeRequestAsync<ChampionBaseDataDto, ChampionBaseData>(
-                            $"{Cdn}/{version}/data/{language}/champion.json", 
+                            $"{Cdn}/{version}/data/{language}/champion.json",
                             dto => new ChampionBaseData(dto)).ConfigureAwait(false);
 
                         client._options.PartialChampions.Data = data;
@@ -141,7 +142,7 @@ namespace RiotPls.DataDragon
                     });
             }
         }
-        
+
         /// <summary>
         ///    Returns a <see cref="ChampionFullData"/> containing full information
         ///    about every champion on the game.
@@ -157,7 +158,7 @@ namespace RiotPls.DataDragon
                 return GetChampionsAsync(version, DefaultLanguage);
             }
         }
-        
+
         /// <summary>
         ///    Returns a <see cref="ChampionFullData"/> containing full information
         ///    about every champion on the game.
@@ -168,7 +169,7 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///    The language in which the data must be returned. Defaults to English (United States).
         /// </param>
-        public ValueTask<ChampionFullData> GetChampionsAsync(GameVersion version, GameLanguage language)
+        public ValueTask<ChampionFullData> GetChampionsAsync(GameVersion version, Language language)
         {
             lock (_lock)
             {
@@ -222,7 +223,7 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///    The language in which the data must be returned. Defaults to English (United States).
         /// </param>
-        public ValueTask<ChampionData> GetChampionAsync(string championName, GameVersion version, GameLanguage language)
+        public ValueTask<ChampionData> GetChampionAsync(string championName, GameVersion version, Language language)
         {
             lock (_lock)
             {
@@ -235,9 +236,9 @@ namespace RiotPls.DataDragon
                     {
                         var (client, championName, version, language) = state;
                         var data = await client.MakeRequestAsync<ChampionDataDto, ChampionData>(
-                            $"{Cdn}/{version}/data/{language}/champion/{championName}.json", 
+                            $"{Cdn}/{version}/data/{language}/champion/{championName}.json",
                             dto => new ChampionData(dto)).ConfigureAwait(false);
-                        
+
                         client._options._champions.AddOrUpdate(championName,
                             (_, c) => CacheControl<ChampionData>.TimedCache(c._options.ChampionFullCacheDuration),
                             (_, __, c) => CacheControl<ChampionData>.TimedCache(c._options.ChampionFullCacheDuration),
@@ -273,20 +274,20 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///    The language in which the data must be returned. Defaults to English (United States).
         /// </param>
-        public ValueTask<SummonerSpellData> GetSummonerSpellsAsync(GameVersion version, GameLanguage language)
+        public ValueTask<SummonerSpellData> GetSummonerSpellsAsync(GameVersion version, Language language)
         {
             lock (_lock)
             {
                 ThrowIfDisposed();
                 return ValueTaskHelper.Create(
                     (Client: this, version, language),
-                    !_options.SummonerSpells.IsExpired,                  
+                    !_options.SummonerSpells.IsExpired,
                     state => state.Client._options.SummonerSpells.Data!,
                     async state =>
                     {
                         var (client, version, language) = state;
                         var data = await client.MakeRequestAsync<SummonerSpellDataDto, SummonerSpellData>(
-                            $"{Cdn}/{version}/data/{language}/summoner.json", 
+                            $"{Cdn}/{version}/data/{language}/summoner.json",
                             dto => new SummonerSpellData(dto)).ConfigureAwait(false);
 
                         client._options.SummonerSpells.Data = data;
@@ -294,7 +295,7 @@ namespace RiotPls.DataDragon
                     });
             }
         }
-        
+
         /// <summary>
         ///    Returns a <see cref="ProfileIconData"/> containing full information
         ///    about the whole profile icons.
@@ -321,7 +322,7 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///    The language in which the data must be returned. Defaults to English (United States).
         /// </param>
-        public ValueTask<ProfileIconData> GetProfileIconsAsync(GameVersion version, GameLanguage language)
+        public ValueTask<ProfileIconData> GetProfileIconsAsync(GameVersion version, Language language)
         {
             lock (_lock)
             {
@@ -334,7 +335,7 @@ namespace RiotPls.DataDragon
                     {
                         var (client, version, language) = state;
                         var data = await client.MakeRequestAsync<ProfileIconDataDto, ProfileIconData>(
-                            $"{Cdn}/{version}/data/{language}/profileicon.json", 
+                            $"{Cdn}/{version}/data/{language}/profileicon.json",
                             dto => new ProfileIconData(dto)).ConfigureAwait(false);
 
                         client._options.ProfileIcons.Data = data;

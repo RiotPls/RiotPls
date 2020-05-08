@@ -6,12 +6,12 @@
         ///     The type of retrieved data.
         /// </summary>
         public string Type { get; }
-        
+
         /// <summary>
         ///     The format of this data.
         /// </summary>
         public string Format { get; }
-        
+
         /// <summary>
         ///     The version of the data.
         /// </summary>

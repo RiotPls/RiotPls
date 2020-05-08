@@ -10,17 +10,17 @@
         ///     The attack level of the champion.
         /// </summary>
         public int AttackLevel { get; }
-        
+
         /// <summary>
         ///     The defense level of the champion.
         /// </summary>
         public int DefenseLevel { get; }
-        
+
         /// <summary>
         ///     The magic level of the champion.
         /// </summary>
         public int MagicLevel { get; }
-        
+
         /// <summary>
         ///     The difficulty level of the champion.
         /// </summary>

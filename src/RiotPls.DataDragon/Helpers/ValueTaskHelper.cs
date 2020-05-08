@@ -37,7 +37,7 @@ namespace RiotPls.DataDragon.Helpers
             ? new ValueTask<T>(syncResult())
             : new ValueTask<T>(asyncResult());
 
-        public static ValueTask<T> Create<TState, T>(TState state, bool isSyncPathAvailable, Func<TState, T> syncResult, Func<TState, Task<T>> asyncResult) 
+        public static ValueTask<T> Create<TState, T>(TState state, bool isSyncPathAvailable, Func<TState, T> syncResult, Func<TState, Task<T>> asyncResult)
             => isSyncPathAvailable
             ? new ValueTask<T>(syncResult(state))
             : new ValueTask<T>(asyncResult(state));

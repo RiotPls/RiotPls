@@ -6,7 +6,7 @@ namespace RiotPls.DataDragon.Entities
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
-        
+
         [JsonPropertyName("image")]
         public StaticImageDto Image { get; set; }
     }

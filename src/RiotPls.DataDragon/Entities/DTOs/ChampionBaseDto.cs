@@ -32,11 +32,11 @@ namespace RiotPls.DataDragon.Entities
 
         [JsonPropertyName("image")]
         public StaticImageDto Image { get; set; }
-        
+
         [JsonPropertyName("tags")]
         public IReadOnlyCollection<string> Tags { get; set; }
 
         [JsonPropertyName("stats")]
-        public ChampionStatsDto Stats { get; set; } 
+        public ChampionStatsDto Stats { get; set; }
     }
 }

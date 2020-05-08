@@ -70,7 +70,7 @@ namespace RiotPls.DataDragon.Entities
 
             if (string.IsNullOrWhiteSpace(input))
                 return false;
-            
+
             ReadOnlySpan<char> inputSpan = input.StartsWith("lolpatch_", StringComparison.Ordinal) ? input.AsSpan(9) : input;
 
             var major = -1;
@@ -80,7 +80,7 @@ namespace RiotPls.DataDragon.Entities
             var length = inputSpan.Length;
             var currentSpan = inputSpan;
 
-            for (var i = 0; i <= length; i++) 
+            for (var i = 0; i <= length; i++)
             {
                 var finished = i == length;
 
@@ -111,7 +111,7 @@ namespace RiotPls.DataDragon.Entities
             return true;
         }
 
-        public override string ToString() 
+        public override string ToString()
             => _version;
 
         public override bool Equals(object? obj)

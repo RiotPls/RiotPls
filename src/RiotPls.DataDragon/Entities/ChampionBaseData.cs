@@ -12,12 +12,12 @@ namespace RiotPls.DataDragon.Entities
         ///     A dictionary of champion objects, keyed by their unique identifiers.
         /// </summary>
         public ReadOnlyDictionary<int, ChampionBase> Champions { get; }
-        
+
         internal ChampionBaseData(ChampionBaseDataDto dto) : base(dto)
         {
             Champions = new ReadOnlyDictionary<int, ChampionBase>(
                 dto.Champions.ToDictionary(
-                x => int.Parse(x.Value.Key), 
+                x => int.Parse(x.Value.Key),
                 y => new ChampionBase(y.Value)));
         }
     }

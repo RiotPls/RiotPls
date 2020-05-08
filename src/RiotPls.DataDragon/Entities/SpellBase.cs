@@ -6,7 +6,7 @@
         ///     Name of the spell.
         /// </summary>
         public string Name { get; }
-        
+
         /// <summary>
         ///     Raw description of the spell.
         /// </summary>

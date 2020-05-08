@@ -6,10 +6,10 @@ namespace RiotPls.DataDragon.Entities
     {
         [JsonPropertyName("id")]
         public string Id { get; set; }
-        
+
         [JsonPropertyName("count")]
         public int Count { get; set; }
-        
+
         [JsonPropertyName("hideCount")]
         public bool HideCount { get; set; }
     }

@@ -22,12 +22,12 @@ namespace RiotPls.DataDragon.Entities
         ///     Level tip for the spell.
         /// </summary>
         public LevelTip LevelTip { get; }
-        
+
         /// <summary>
         ///     Maximum rank this spell can have.
         /// </summary>
         public int MaxRank { get; }
-        
+
         /// <summary>
         ///     Cooldown per level of the spell.
         /// </summary>
@@ -37,31 +37,31 @@ namespace RiotPls.DataDragon.Entities
         ///     Cost per level of the spell.
         /// </summary>
         public IReadOnlyCollection<double> Costs { get; }
-        
+
         // todo: check this object. (always empty)
         public object? DataValues { get; }
-        
+
         // todo: check this object.
         public IReadOnlyCollection<IReadOnlyCollection<double>> Effects { get; }
-        
+
         // todo: dunno what it is for.
         public IReadOnlyCollection<SpellVar> Vars { get; }
-        
+
         /// <summary>
         ///     Type of the cost.
         /// </summary>
         public string CostType { get; }
-        
+
         /// <summary>
         ///     Max ammo of the spell.
         /// </summary>
         public int MaxAmmo { get; }
-        
+
         /// <summary>
         ///     Ranges per level of the spell.
         /// </summary>
         public IReadOnlyCollection<int> Ranges { get; }
-        
+
         /// <summary>
         ///     Resources of the spell.
         /// </summary>

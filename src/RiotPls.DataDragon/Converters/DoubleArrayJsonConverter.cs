@@ -6,7 +6,7 @@ namespace RiotPls.DataDragon.Converters
 {
     public sealed class DoubleArrayJsonConverter : JsonConverter<double[]>
     {
-        public override bool CanConvert(Type typeToConvert) 
+        public override bool CanConvert(Type typeToConvert)
             => typeToConvert == typeof(double) || typeToConvert == typeof(double[]);
 
         public override double[] Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)

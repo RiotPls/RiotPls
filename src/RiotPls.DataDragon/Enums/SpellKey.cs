@@ -2,7 +2,7 @@
 {
     public enum SpellKey
     {
-        A1, 
+        A1,
         A2,
         F1,
         F2,

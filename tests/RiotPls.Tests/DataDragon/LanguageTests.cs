@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using RiotPls.DataDragon.Enums;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -17,9 +18,9 @@ namespace RiotPls.Tests.DataDragon
             var languages = await _client.GetLanguagesAsync();
             Assert.True(languages.Count > 10,
                 $"Expected there to be at least 10 languages in response, got {languages.Count}");
-            Assert.True(languages.Contains("en_US"), 
+            Assert.True(languages.Contains(Language.AmericanEnglish),
                 "Expected languages response to contain en_US.");
-            Assert.True(languages.Contains("de_DE"), 
+            Assert.True(languages.Contains(Language.German),
                 "Expected languages response to contain de_DE.");
         }
     }

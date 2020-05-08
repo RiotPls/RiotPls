@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -15,7 +14,7 @@ namespace RiotPls.Tests.DataDragon
             Assert.NotNull(profileIcons.ProfileIcons);
             Assert.Equal(0, profileIcons.ProfileIcons[0].Id);
         }
-        
+
         public ProfileIconTests(ITestOutputHelper helper) : base(helper)
         {
         }
