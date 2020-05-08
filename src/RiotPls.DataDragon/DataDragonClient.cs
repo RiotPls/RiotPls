@@ -609,6 +609,63 @@ namespace RiotPls.DataDragon
                     });
             }
         }
+        
+        /// <summary>
+        ///    Returns a set of <see cref="MissionAssetData"/> containing full information
+        ///    about the different mission assets.
+        /// </summary>
+        /// <param name="version">
+        ///    The version of Data Dragon to use.
+        /// </param>
+        public ValueTask<MissionAssetData> GetMissionAssetsAsync(GameVersion version)
+        {
+            lock (_lock)
+            {
+                ThrowIfDisposed();
+                return GetMissionAssetsAsync(version, DefaultLanguage);
+            }
+        }
+        
+        /// <summary>
+        ///    Returns a set of <see cref="MissionAssetData"/> containing full information
+        ///    about the different mission assets.
+        /// </summary>
+        /// <param name="version">
+        ///    The version of Data Dragon to use.
+        /// </param>
+        /// <param name="language">
+        ///    The language in which the data must be returned. Defaults to English (United States).
+        /// </param>
+        public ValueTask<MissionAssetData> GetMissionAssetsAsync(GameVersion version, Language language)
+        {
+            lock (_lock)
+            {
+                ThrowIfDisposed();
+                return ValueTaskHelper.Create(
+                    (Client: this, Version: version, language.GetCode()),
+                    _options.MissionAssets.Contains(version),
+                    state => state.Client._options.MissionAssets[state.Version],
+                    async state =>
+                    {
+                        var (client, version, language) = state;
+
+                        try
+                        {
+                            await client._semaphore.WaitAsync().ConfigureAwait(false);
+                            var data = await client.MakeRequestAsync<MissionAssetDataDto, MissionAssetData>(
+                                $"{Cdn}/{version}/data/{language}/mission-assets.json",
+                                dto => new MissionAssetData(dto)).ConfigureAwait(false);
+
+                            client._options.MissionAssets.Data = data;
+                            return data;
+                        }
+                        finally
+                        {
+                            client._semaphore.Release();
+                        }
+                    });
+            }
+        }
 
         public void Dispose()
         {
