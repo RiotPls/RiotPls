@@ -175,7 +175,7 @@ namespace RiotPls.DataDragon
                 ThrowIfDisposed();
                 return ValueTaskHelper.Create(
                     (Client: this, version, language.GetCode()),
-                    !_options.PartialChampions.IsExpired,
+                    !_options.FullChampions.IsExpired,
                     state => state.Client._options.FullChampions.Data!,
                     async state =>
                     {
@@ -328,7 +328,7 @@ namespace RiotPls.DataDragon
                 ThrowIfDisposed();
                 return ValueTaskHelper.Create(
                     (Client: this, version, language.GetCode()),
-                    !_options.SummonerSpells.IsExpired,
+                    !_options.ProfileIcons.IsExpired,
                     state => state.Client._options.ProfileIcons.Data!,
                     async state =>
                     {
@@ -434,6 +434,54 @@ namespace RiotPls.DataDragon
                             dtos => dtos.Select(x => new Rune(x)).ToImmutableArray()).ConfigureAwait(false);
 
                         client._options.Runes.Data = data;
+                        return data;
+                    });
+            }
+        }
+        
+        /// <summary>
+        ///    Returns a set of <see cref="MissionAssetData"/> containing full information
+        ///    about the different mission assets.
+        /// </summary>
+        /// <param name="version">
+        ///    The version of Data Dragon to use.
+        /// </param>
+        public ValueTask<MissionAssetData> GetMissionAssetsAsync(GameVersion version)
+        {
+            lock (_lock)
+            {
+                ThrowIfDisposed();
+                return GetMissionAssetsAsync(version, DefaultLanguage);
+            }
+        }
+        
+        /// <summary>
+        ///    Returns a set of <see cref="MissionAssetData"/> containing full information
+        ///    about the different mission assets.
+        /// </summary>
+        /// <param name="version">
+        ///    The version of Data Dragon to use.
+        /// </param>
+        /// <param name="language">
+        ///    The language in which the data must be returned. Defaults to English (United States).
+        /// </param>
+        public ValueTask<MissionAssetData> GetMissionAssetsAsync(GameVersion version, Language language)
+        {
+            lock (_lock)
+            {
+                ThrowIfDisposed();
+                return ValueTaskHelper.Create(
+                    (Client: this, version, language.GetCode()),
+                    !_options.MissionAssets.IsExpired,
+                    state => state.Client._options.MissionAssets.Data!,
+                    async state =>
+                    {
+                        var (client, version, language) = state;
+                        var data = await client.MakeRequestAsync<MissionAssetDataDto, MissionAssetData>(
+                            $"{Cdn}/{version}/data/{language}/mission-assets.json",
+                            dto => new MissionAssetData(dto)).ConfigureAwait(false);
+
+                        client._options.MissionAssets.Data = data;
                         return data;
                     });
             }

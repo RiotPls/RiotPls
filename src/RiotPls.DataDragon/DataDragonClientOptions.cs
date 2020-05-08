@@ -56,6 +56,12 @@ namespace RiotPls.DataDragon
             = CacheControl<MapData>.Permanent;
         
         /// <summary>
+        ///     The cache options for mission assets data. Defaults to permanent cache.
+        /// </summary>
+        public ICache<MissionAssetData> MissionAssets { get; set; }
+            = CacheControl<MissionAssetData>.TimedCache(TimeSpan.FromDays(14));
+        
+        /// <summary>
         ///     The cache options for runes data. Defaults to 14 days cache.
         /// </summary>
         public ICache<IReadOnlyList<Rune>> Runes { get; set; }
