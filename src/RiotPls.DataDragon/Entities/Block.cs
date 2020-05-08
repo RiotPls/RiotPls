@@ -37,8 +37,8 @@ namespace RiotPls.DataDragon.Entities
             MinSummonerLevel = dto.MinSummonerLevel;
             MaxSummonerLevel = dto.MaxSummonerLevel;
             AppendAfterSection = dto.AppendAfterSection;
-            VisibleWithAllOf = dto.VisibleWithAllOf.ToImmutableArray();
-            HiddenWithAllOf = dto.HiddenWithAllOf.ToImmutableArray();
+            VisibleWithAllOf = dto.VisibleWithAllOf?.ToImmutableArray() ?? ImmutableArray<string>.Empty;
+            HiddenWithAllOf = dto.HiddenWithAllOf?.ToImmutableArray() ?? ImmutableArray<string>.Empty;
             Items = Array.ConvertAll(dto.Items, dto => new ItemBlock(dto)).ToImmutableArray();
 
             if (!string.IsNullOrWhiteSpace(dto.ShowIfSummonerSpell))

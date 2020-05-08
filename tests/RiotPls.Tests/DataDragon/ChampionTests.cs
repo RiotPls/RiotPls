@@ -43,6 +43,15 @@ namespace RiotPls.Tests.DataDragon
 
             var championsData = await _client.GetChampionsAsync(latestVersion);
             Assert.NotNull(championsData);
+            foreach (var champion in championsData.Champions.Values)
+            {
+                Assert.NotNull(champion.Recommendations);
+                Assert.NotNull(champion.Skins);
+                Assert.NotNull(champion.Spells);
+                Assert.NotNull(champion.AllyTips);
+                Assert.NotNull(champion.EnemyTips);
+                _output.WriteLine($"Testing {champion.Name}: pass");
+            }
         }
 
         public ChampionTests(ITestOutputHelper helper) : base(helper)
