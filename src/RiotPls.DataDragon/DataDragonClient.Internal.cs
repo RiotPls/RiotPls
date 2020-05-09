@@ -98,6 +98,12 @@ namespace RiotPls.DataDragon
             if (typeof(T) == typeof(ChampionBaseData) ||
                 typeof(T) == typeof(ChampionFullData))
                 return $"{Cdn}/{version}/data/{language}/champion.json";
+            else if (typeof(T) == typeof(ChampionData))
+                return $"{Cdn}/{version}/data/{language}/champion/{championId}.json";
+            else if (typeof(T) == typeof(SummonerSpellData))
+                return $"{Cdn}/{version}/data/{language}/summoner.json";
+            else if (typeof(T) == typeof(ProfileIconData))
+                return $"{Cdn}/{version}/data/{language}/profileicon.json";
 
             throw new NotImplementedException($"Endpoint for the type {typeof(T).Name} has not been implemented.");
         }

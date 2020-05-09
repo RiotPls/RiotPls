@@ -53,6 +53,11 @@ namespace RiotPls.DataDragon
             _semaphore = new SemaphoreSlim(1, 1);
         }
 
+        ~DataDragonClient()
+        {
+            Dispose();
+        }
+
         /// <inheritdoc/>
         public ValueTask<IReadOnlyList<GameVersion>> GetVersionsAsync()
         {
@@ -263,6 +268,8 @@ namespace RiotPls.DataDragon
                 _client.CancelPendingRequests();
                 _client.Dispose();
                 _isDisposed = true;
+
+                GC.SuppressFinalize(this);
             }
         }
     }
