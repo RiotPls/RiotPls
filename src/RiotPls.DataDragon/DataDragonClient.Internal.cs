@@ -76,7 +76,7 @@ namespace RiotPls.DataDragon
                     GetEndpoint<T>(version, language.Value, championId.GetValueOrDefault()),
                     Factory<TDto, T>.CreateInstance).ConfigureAwait(false);
 
-                if (_options.CacheMode == CacheMode.MostRecentOnly && latestVersion == data.Version)
+                if (_options.CacheMode == CacheMode.MostRecentOnly && latestVersion.Equals(data.Version))
                     Cache<T>.Instance[latestVersion, language.Value] = data;
                 else if (_options.CacheMode == CacheMode.KeepAll)
                     Cache<T>.Instance[version, language.Value] = data;
@@ -95,15 +95,26 @@ namespace RiotPls.DataDragon
 
         private static string GetEndpoint<T>(GameVersion version, Language language, ChampionId championId)
         {
-            if (typeof(T) == typeof(ChampionBaseData) ||
-                typeof(T) == typeof(ChampionFullData))
+            if (typeof(T) == typeof(ChampionBaseData))
                 return $"{Cdn}/{version}/data/{language}/champion.json";
-            else if (typeof(T) == typeof(ChampionData))
+            
+            if (typeof(T) == typeof(ChampionFullData))
+                return $"{Cdn}/{version}/data/{language}/championFull.json";
+            
+            if (typeof(T) == typeof(ChampionData))
                 return $"{Cdn}/{version}/data/{language}/champion/{championId}.json";
-            else if (typeof(T) == typeof(SummonerSpellData))
+            
+            if (typeof(T) == typeof(SummonerSpellData))
                 return $"{Cdn}/{version}/data/{language}/summoner.json";
-            else if (typeof(T) == typeof(ProfileIconData))
+            
+            if (typeof(T) == typeof(ProfileIconData))
                 return $"{Cdn}/{version}/data/{language}/profileicon.json";
+
+            if (typeof(T) == typeof(MapData))
+                return $"{Cdn}/{version}/data/{language}/map.json";
+            
+            if (typeof(T) == typeof(MissionAssetData))
+                return $"{Cdn}/{version}/data/{language}/mission-assets.json";
 
             throw new NotImplementedException($"Endpoint for the type {typeof(T).Name} has not been implemented.");
         }
