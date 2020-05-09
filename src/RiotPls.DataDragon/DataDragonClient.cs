@@ -242,7 +242,7 @@ namespace RiotPls.DataDragon
             }
             catch (Exception e)
             {
-                throw new DataNotFoundException($"We couldn't fetch data for the version: {version}. Read the inner exception for more details.", e);
+                throw new DataNotFoundException($"We couldn't fetch data for the version: {version}. Read the inner exception for more details.", e,  $"{_client.BaseAddress}/{Cdn}/{version}/data/{language}/runesReforged.json");
             }
             finally
             {

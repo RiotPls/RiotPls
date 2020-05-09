@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Immutable;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
 using RiotPls.DataDragon.Entities;
 using RiotPls.DataDragon.Enums;
+using RiotPls.DataDragon.Extensions;
 
 namespace RiotPls.DataDragon
 {
@@ -64,7 +66,7 @@ namespace RiotPls.DataDragon
             {
                 await _semaphore.WaitAsync().ConfigureAwait(false);
 
-                var latestVersion = await FetchLatestVersionAsync().ConfigureAwait(false);
+                var latestVersion = await InternalFetchLatestVersionAsync().ConfigureAwait(false);
 
                 language ??= DefaultLanguage;
                 version ??= latestVersion;
@@ -73,7 +75,7 @@ namespace RiotPls.DataDragon
                     throw new ArgumentOutOfRangeException(nameof(version), $"The providen version is higher than the latest Data Dragon version.");
 
                 var data = await MakeRequestAsync<TDto, T>(
-                    GetEndpoint<T>(version, language.Value, championId.GetValueOrDefault()),
+                    GetEndpoint<T>(version, language.Value.GetCode(), championId.GetValueOrDefault()),
                     Factory<TDto, T>.CreateInstance).ConfigureAwait(false);
 
                 if (_options.CacheMode == CacheMode.MostRecentOnly && latestVersion.Equals(data.Version))
@@ -85,7 +87,10 @@ namespace RiotPls.DataDragon
             }
             catch (Exception e)
             {
-                throw new DataNotFoundException($"We couldn't fetch data for the version: {version}. Read the inner exception for more details.", e);
+                throw new DataNotFoundException(
+                    $"We couldn't fetch data for the version: {version}. Read the inner exception for more details.",
+                    e,
+                    _client.BaseAddress.ToString() + GetEndpoint<T>(version!, language.GetValueOrDefault().GetCode(), championId.GetValueOrDefault())[1..]);
             }
             finally
             {
@@ -93,7 +98,7 @@ namespace RiotPls.DataDragon
             }
         }
 
-        private static string GetEndpoint<T>(GameVersion version, Language language, ChampionId championId)
+        private static string GetEndpoint<T>(GameVersion version, string language, ChampionId championId)
         {
             if (typeof(T) == typeof(ChampionBaseData))
                 return $"{Cdn}/{version}/data/{language}/champion.json";
@@ -143,7 +148,8 @@ namespace RiotPls.DataDragon
             static Factory()
             {
                 var parameter = Expression.Parameter(typeof(TDto));
-                var @new = Expression.New(typeof(T).GetConstructor(new Type[] { typeof(TDto) }), new Expression[] { parameter });
+                var constructor = typeof(T).GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(TDto) }, null);
+                var @new = Expression.New(constructor, new Expression[] { parameter });
                 var lambda = Expression.Lambda<Func<TDto, T>>(@new, parameter);
 
                 _func = lambda.Compile();

@@ -422,3 +422,5 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 .idea
+/RiotPls.Debug/RiotPls.Debug.csproj
+/RiotPls.Debug
