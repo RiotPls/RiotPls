@@ -41,107 +41,185 @@ namespace RiotPls.DataDragon
         Task<GameVersion> FetchLatestVersionAsync();
 
         /// <summary>
-        ///     Gets a <see cref="ChampionBaseData"/> from the cache containing base information
-        ///     about every champion on the game. If the data is not available it will be fetched from the API.
+        ///     Gets a <see cref="ChampionBaseData"/> from the cache. If the data is not cached it will be fetched from the API.
         /// </summary>
         /// <param name="version">
         ///     The version of Data Dragon to use.
         /// </param>
         /// <param name="language">
-        ///     The language to use.
+        ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is providen.
         /// </param>
-        ValueTask<ChampionBaseData> GetPartialChampionsAsync(GameVersion version, Language language);
+        ValueTask<ChampionBaseData> GetPartialChampionsAsync(GameVersion version, Language? language);
 
         /// <summary>
         ///     Fetches a <see cref="ChampionBaseData"/> from the API.
         /// </summary>
         /// <param name="version">
+        ///     The version of Data Dragon to use. The lastest version will be fetched if <see langword="null"/> is providen.
+        /// </param>
+        /// <param name="language">
+        ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is providen.
+        /// </param>
+        Task<ChampionBaseData> FetchPartialChampionAsync(GameVersion? version, Language? language);
+
+        /// <summary>
+        ///     Gets a <see cref="ChampionFullData"/> from the cache. If the data is not cached it will be fetched from the API.
+        /// </summary>
+        /// <param name="version">
         ///     The version of Data Dragon to use.
         /// </param>
         /// <param name="language">
-        ///     The language to use.
+        ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is providen.
         /// </param>
-        Task<ChampionBaseData> FetchPartialChampionAsync(GameVersion version, Language language);
+        ValueTask<ChampionFullData> GetChampionsAsync(GameVersion version, Language? language);
 
         /// <summary>
-        ///    Returns a <see cref="ChampionFullData"/> containing full information
-        ///    about every champion on the game.
+        ///     Fetches a <see cref="ChampionFullData"/> from the API.
         /// </summary>
         /// <param name="version">
-        ///    The version of Data Dragon to use.
-        /// </param>
-        ValueTask<ChampionFullData> GetChampionsAsync(GameVersion version, Language language);
-
-        /// <summary>
-        ///    Returns a <see cref="ChampionData"/> containing full information
-        ///    about a specific champion on the game.
-        /// </summary>
-        /// <param name="championName">
-        ///    Name of the champion to query.
-        /// </param>
-        /// <param name="version">
-        ///   The version of Data Dragon to use.
-        /// </param>
-        ValueTask<ChampionData> GetChampionAsync(ChampionId championName, GameVersion version, Language language);
-
-        /// <summary>
-        ///    Returns a <see cref="SummonerSpellData"/> containing full information
-        ///    about the whole game's summoner spells
-        /// </summary>
-        /// <param name="version">
-        ///    The version of Data Dragon to use.
+        ///     The version of Data Dragon to use. The lastest version will be fetched if <see langword="null"/> is providen.
         /// </param>
         /// <param name="language">
-        ///    The language in which the data must be returned. Defaults to English (United States).
+        ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is providen.
         /// </param>
-        ValueTask<SummonerSpellData> GetSummonerSpellsAsync(GameVersion version, Language language);
+        Task<ChampionFullData> FetchChampionsAsync(GameVersion? version, Language? language);
 
         /// <summary>
-        ///    Returns a <see cref="SummonerSpellData"/> containing full information
-        ///    about the whole game's summoner spells
+        ///     Gets a <see cref="ChampionData"/> from the cache. If the data is not cached it will be fetched from the API.
         /// </summary>
+        /// <param name="championId">
+        ///     The id of the Champion.
+        /// </param>
         /// <param name="version">
-        ///    The version of Data Dragon to use.
+        ///     The version of Data Dragon to use.
         /// </param>
         /// <param name="language">
-        ///    The language in which the data must be returned. Defaults to English (United States).
+        ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is providen.
         /// </param>
-        ValueTask<ProfileIconData> GetProfileIconsAsync(GameVersion version, Language language);
+        ValueTask<ChampionData> GetChampionAsync(ChampionId championId, GameVersion version, Language? language);
 
         /// <summary>
-        ///    Returns a <see cref="MapData"/> containing full information
-        ///    about the whole maps.
+        ///     Fetches a <see cref="ChampionData"/> from the API.
         /// </summary>
+        /// <param name="championId">
+        ///     The id of the Champion.
+        /// </param>
         /// <param name="version">
-        ///    The version of Data Dragon to use.
+        ///     The version of Data Dragon to use. The lastest version will be fetched if <see langword="null"/> is providen.
         /// </param>
         /// <param name="language">
-        ///    The language in which the data must be returned. Defaults to English (United States).
+        ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is providen.
         /// </param>
-        ValueTask<MapData> GetMapsAsync(GameVersion version, Language language);
+        Task<ChampionData> FetchChampionAsync(ChampionId championId, GameVersion? version, Language? language);
 
         /// <summary>
-        ///    Returns a set of <see cref="Rune"/> containing full information
-        ///    about the different runes and their slots.
+        ///     Gets a <see cref="SummonerSpellData"/> from the cache. If the data is not cached it will be fetched from the API.
         /// </summary>
         /// <param name="version">
-        ///    The version of Data Dragon to use.
+        ///     The version of Data Dragon to use.
         /// </param>
         /// <param name="language">
-        ///    The language in which the data must be returned. Defaults to English (United States).
+        ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is providen.
         /// </param>
-        ValueTask<IReadOnlyList<Rune>> GetRunesAsync(GameVersion version, Language language);
+        ValueTask<SummonerSpellData> GetSummonerSpellsAsync(GameVersion version, Language? language);
 
         /// <summary>
-        ///    Returns a set of <see cref="MissionAssetData"/> containing full information
-        ///    about the different mission assets.
+        ///     Fetches a <see cref="SummonerSpellData"/> from the API.
         /// </summary>
         /// <param name="version">
-        ///    The version of Data Dragon to use.
+        ///     The version of Data Dragon to use. The lastest version will be fetched if <see langword="null"/> is providen.
         /// </param>
         /// <param name="language">
-        ///    The language in which the data must be returned. Defaults to English (United States).
+        ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is providen.
         /// </param>
-        public ValueTask<MissionAssetData> GetMissionAssetsAsync(GameVersion version, Language? language = null);
+        Task<SummonerSpellData> FetchSummonerSpellsAsync(GameVersion? version, Language? language);
+
+        /// <summary>
+        ///     Gets a <see cref="ProfileIconData"/> from the cache. If the data is not cached it will be fetched from the API.
+        /// </summary>
+        /// <param name="version">
+        ///     The version of Data Dragon to use.
+        /// </param>
+        /// <param name="language">
+        ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is providen.
+        /// </param>
+        ValueTask<ProfileIconData> GetProfileIconsAsync(GameVersion version, Language? language);
+
+        /// <summary>
+        ///     Fetches a <see cref="ProfileIconData"/> from the API.
+        /// </summary>
+        /// <param name="version">
+        ///     The version of Data Dragon to use. The lastest version will be fetched if <see langword="null"/> is providen.
+        /// </param>
+        /// <param name="language">
+        ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is providen.
+        /// </param>
+        Task<ProfileIconData> FetchProfileIconsAsync(GameVersion? version, Language? language);
+
+        /// <summary>
+        ///     Gets a <see cref="MapData"/> from the cache. If the data is not cached it will be fetched from the API.
+        /// </summary>
+        /// <param name="version">
+        ///     The version of Data Dragon to use.
+        /// </param>
+        /// <param name="language">
+        ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is providen.
+        /// </param>
+        ValueTask<MapData> GetMapsAsync(GameVersion version, Language? language);
+
+        /// <summary>
+        ///     Fetches a <see cref="MapData"/> from the API.
+        /// </summary>
+        /// <param name="version">
+        ///     The version of Data Dragon to use. The lastest version will be fetched if <see langword="null"/> is providen.
+        /// </param>
+        /// <param name="language">
+        ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is providen.
+        /// </param>
+        Task<MapData> FetchMapsAsync(GameVersion? version, Language? language);
+
+        /// <summary>
+        ///     Gets a <see cref="IReadOnlyList{Rune}"/> from the cache. If the data is not cached it will be fetched from the API.
+        /// </summary>
+        /// <param name="version">
+        ///     The version of Data Dragon to use.
+        /// </param>
+        /// <param name="language">
+        ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is providen.
+        /// </param>
+        ValueTask<IReadOnlyList<Rune>> GetRunesAsync(GameVersion version, Language? language);
+
+        /// <summary>
+        ///     Fetches a <see cref="IReadOnlyList{Rune}"/> from the API.
+        /// </summary>
+        /// <param name="version">
+        ///     The version of Data Dragon to use. The lastest version will be fetched if <see langword="null"/> is providen.
+        /// </param>
+        /// <param name="language">
+        ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is providen.
+        /// </param>
+        Task<IReadOnlyList<Rune>> FetchRunesAsync(GameVersion? version, Language? language);
+
+        /// <summary>
+        ///     Gets a <see cref="MissionAssetData"/> from the cache. If the data is not cached it will be fetched from the API.
+        /// </summary>
+        /// <param name="version">
+        ///     The version of Data Dragon to use.
+        /// </param>
+        /// <param name="language">
+        ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is providen.
+        /// </param>
+        ValueTask<MissionAssetData> GetMissionAssetsAsync(GameVersion version, Language? language);
+
+        /// <summary>
+        ///     Fetches a <see cref="MapData"/> from the API.
+        /// </summary>
+        /// <param name="version">
+        ///     The version of Data Dragon to use. The lastest version will be fetched if <see langword="null"/> is providen.
+        /// </param>
+        /// <param name="language">
+        ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is providen.
+        /// </param>
+        Task<MissionAssetData> FetchMissionAssetsAsync(GameVersion? version, Language? language = null);
     }
 }

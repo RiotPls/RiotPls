@@ -12,7 +12,7 @@ using RiotPls.DataDragon.Helpers;
 
 namespace RiotPls.DataDragon
 {
-    public sealed partial class DataDragonClient //: IDataDragonClient
+    public sealed partial class DataDragonClient : IDataDragonClient
     {
         public const string Host = "https://ddragon.leagueoflegends.com";
         public const string Api = "/api";
@@ -150,23 +150,11 @@ namespace RiotPls.DataDragon
             => FetchBaseDataAsync<ChampionBaseDataDto, ChampionBaseData>(version, language);
 
         /// <inheritdoc/>
-        public ValueTask<ChampionFullData> GetChampionsAsync(GameVersion version)
-            => GetBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, DefaultLanguage);
-
-        /// <inheritdoc/>
-        public ValueTask<ChampionFullData> GetChampionsAsync(GameVersion version, Language language)
+        public ValueTask<ChampionFullData> GetChampionsAsync(GameVersion version, Language? language = null)
             => GetBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language);
 
         /// <inheritdoc/>
-        public Task<ChampionFullData> FetchChampionAsync()
-            => FetchBaseDataAsync<ChampionFullDataDto, ChampionFullData>(null, DefaultLanguage);
-
-        /// <inheritdoc/>
-        public Task<ChampionFullData> FetchChampionAsync(GameVersion version)
-            => FetchBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, DefaultLanguage);
-
-        /// <inheritdoc/>
-        public Task<ChampionFullData> FetchChampionAsync(GameVersion version, Language language)
+        public Task<ChampionFullData> FetchChampionsAsync(GameVersion? version = null, Language? language = null)
             => FetchBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language);
 
         /// <inheritdoc/>
@@ -180,14 +168,17 @@ namespace RiotPls.DataDragon
         /// <inheritdoc/>
         public ValueTask<SummonerSpellData> GetSummonerSpellsAsync(GameVersion version, Language? language = null)
             => GetBaseDataAsync<SummonerSpellDataDto, SummonerSpellData>(version, language);
-    
+
+        /// <inheritdoc/>
+        public Task<SummonerSpellData> FetchSummonerSpellsAsync(GameVersion? version = null, Language? language = null)
+            => FetchBaseDataAsync<SummonerSpellDataDto, SummonerSpellData>(version, language);
 
         /// <inheritdoc/>
         public ValueTask<ProfileIconData> GetProfileIconsAsync(GameVersion version, Language? language = null)
             => GetBaseDataAsync<ProfileIconDataDto, ProfileIconData>(version, language);
 
         /// <inheritdoc/>
-        public Task<ProfileIconData> FetchProfileIconsAsync(GameVersion version, Language? language = null)
+        public Task<ProfileIconData> FetchProfileIconsAsync(GameVersion? version = null, Language? language = null)
             => FetchBaseDataAsync<ProfileIconDataDto, ProfileIconData>(version, language);
 
         /// <inheritdoc/>
@@ -259,7 +250,7 @@ namespace RiotPls.DataDragon
             => GetBaseDataAsync<MissionAssetDataDto, MissionAssetData>(version, language);
 
         /// <inheritdoc/>
-        public Task<MissionAssetData> FetchMissionAssetsAsync(GameVersion version, Language? language = null)
+        public Task<MissionAssetData> FetchMissionAssetsAsync(GameVersion? version = null, Language? language = null)
             => FetchBaseDataAsync<MissionAssetDataDto, MissionAssetData>(version, language);
 
         public void Dispose()
