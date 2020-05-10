@@ -22,9 +22,9 @@ steps:
     
 - script: dotnet restore
 
-- script: dotnet build -c Release -v minimal --no-restore
+- script: dotnet build -c $(buildConfiguration) -v minimal --no-restore
 
-- script: dotnet test -c Release -v normal --no-build
+- script: dotnet test -c $(buildConfiguration) -v normal --no-build
 
 - task: NuGetCommand@2
   inputs:
