@@ -6,7 +6,7 @@
         ///     Name of the map.
         /// </summary>
         public string Name { get; }
-        
+
         /// <summary>
         ///     Id of the map.
         /// </summary>
@@ -16,7 +16,7 @@
         ///     Image information of the map.
         /// </summary>
         public StaticImage Image { get; }
-        
+
         internal Map(MapDto dto)
         {
             Name = dto.Name;

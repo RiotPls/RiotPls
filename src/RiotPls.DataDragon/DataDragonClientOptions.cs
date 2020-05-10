@@ -8,7 +8,8 @@ namespace RiotPls.DataDragon
     public sealed class DataDragonClientOptions
     {
         /// <summary>
-        ///     Gets a <see langword="new"/> instance of <see cref="DataDragonClient"/> with the <see langword="default"/> values.
+        ///     Gets a <see langword="new"/> instance of <see cref="DataDragonClient"/>
+        ///     with the <see langword="default"/> values.
         /// </summary>
         public static DataDragonClientOptions Default => new DataDragonClientOptions();
 

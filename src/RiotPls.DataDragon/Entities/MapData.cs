@@ -9,7 +9,7 @@ namespace RiotPls.DataDragon.Entities
         ///     A dictionary of map objects, keyed by their unique identifiers.
         /// </summary>
         public ReadOnlyDictionary<int, Map> Maps { get; }
-        
+
         internal MapData(MapDataDto dto) : base(dto)
         {
             Maps = new ReadOnlyDictionary<int, Map>(

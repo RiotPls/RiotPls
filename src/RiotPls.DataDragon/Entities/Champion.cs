@@ -44,12 +44,12 @@ namespace RiotPls.DataDragon.Entities
         internal Champion(ChampionDto dto) : base(dto)
         {
             Lore = dto.Lore;
-            Skins = Array.ConvertAll(dto.Skins, dto => new ChampionSkin(dto)).ToImmutableArray();
+            Skins = Array.ConvertAll(dto.Skins, x => new ChampionSkin(x)).ToImmutableArray();
             AllyTips = dto.AllyTips.ToImmutableArray();
             EnemyTips = dto.EnemyTips.ToImmutableArray();
-            Spells = Array.ConvertAll(dto.Spells, dto => new Spell(dto)).ToImmutableArray();
+            Spells = Array.ConvertAll(dto.Spells, x => new Spell(x)).ToImmutableArray();
             PassiveSpell = new SpellBase(dto.Passive);
-            Recommendations = Array.ConvertAll(dto.Recommendations, dto => new Recommendation(dto)).ToImmutableArray();
+            Recommendations = Array.ConvertAll(dto.Recommendations, x => new Recommendation(x)).ToImmutableArray();
         }
     }
 }

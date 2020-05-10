@@ -74,7 +74,8 @@ namespace RiotPls.DataDragon.Entities
             if (string.IsNullOrWhiteSpace(input))
                 return false;
 
-            ReadOnlySpan<char> inputSpan = input.StartsWith("lolpatch_", StringComparison.Ordinal) ? input.AsSpan(9) : input;
+            ReadOnlySpan<char> inputSpan =
+                input.StartsWith("lolpatch_", StringComparison.Ordinal) ? input.AsSpan(9) : input;
 
             var major = -1;
             var minor = -1;
@@ -126,9 +127,9 @@ namespace RiotPls.DataDragon.Entities
         /// <inheritdoc/>
         public bool Equals(GameVersion? other)
             => other is GameVersion version
-            && Major == version.Major
-            && Minor == version.Minor
-            && Patch == version.Patch;
+               && Major == version.Major
+               && Minor == version.Minor
+               && Patch == version.Patch;
 
         /// <inheritdoc/>
         public int CompareTo(GameVersion? other)

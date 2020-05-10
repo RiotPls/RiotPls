@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using RiotPls.DataDragon.Entities;
 using RiotPls.DataDragon.Enums;
+using RiotPls.DataDragon.Extensions;
 using RiotPls.DataDragon.Helpers;
 
 namespace RiotPls.DataDragon
@@ -37,10 +38,7 @@ namespace RiotPls.DataDragon
 
         public DataDragonClient(DataDragonClientOptions options)
         {
-            if (options is null)
-                throw new ArgumentNullException(nameof(options));
-
-            _options = options;
+            _options = options ?? throw new ArgumentNullException(nameof(options));
             _client = new HttpClient
             {
                 BaseAddress = new Uri(Host)
@@ -163,11 +161,13 @@ namespace RiotPls.DataDragon
             => FetchBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language);
 
         /// <inheritdoc/>
-        public ValueTask<ChampionData> GetChampionAsync(ChampionId championId, GameVersion version, Language? language = null)
+        public ValueTask<ChampionData> GetChampionAsync(ChampionId championId, GameVersion version,
+            Language? language = null)
             => GetBaseDataAsync<ChampionDataDto, ChampionData>(version, language, championId);
 
         /// <inheritdoc/>
-        public Task<ChampionData> FetchChampionAsync(ChampionId championId, GameVersion? version = null, Language? language = null)
+        public Task<ChampionData> FetchChampionAsync(ChampionId championId, GameVersion? version = null,
+            Language? language = null)
             => FetchBaseDataAsync<ChampionDataDto, ChampionData>(version, language, championId);
 
         /// <inheritdoc/>
@@ -223,16 +223,17 @@ namespace RiotPls.DataDragon
             {
                 await _semaphore.WaitAsync().ConfigureAwait(false);
 
-                var latestVersion = await FetchLatestVersionAsync().ConfigureAwait(false);
+                var latestVersion = await InternalFetchLatestVersionAsync().ConfigureAwait(false);
 
                 language ??= DefaultLanguage;
                 version ??= latestVersion;
 
                 if (version > latestVersion)
-                    throw new ArgumentOutOfRangeException(nameof(version), $"The providen version is higher than the latest Data Dragon version.");
+                    throw new ArgumentOutOfRangeException(nameof(version),
+                        "The providen version is higher than the latest Data Dragon version.");
 
                 var data = await MakeRequestAsync<IReadOnlyList<RuneDto>, IReadOnlyList<Rune>>(
-                    $"{Cdn}/{version}/data/{language}/runesReforged.json",
+                    $"{Cdn}/{version}/data/{language.Value.GetCode()}/runesReforged.json",
                     dtos => dtos.Select(x => new Rune(x)).ToImmutableArray()).ConfigureAwait(false);
 
                 if (_options.CacheMode != CacheMode.None)
@@ -242,7 +243,9 @@ namespace RiotPls.DataDragon
             }
             catch (Exception e)
             {
-                throw new DataNotFoundException($"We couldn't fetch data for the version: {version}. Read the inner exception for more details.", e,  $"{_client.BaseAddress}/{Cdn}/{version}/data/{language}/runesReforged.json");
+                throw new DataNotFoundException(
+                    $"We couldn't fetch data for the version: {version}. Read the inner exception for more details.", e,
+                    $"{_client.BaseAddress}/{Cdn}/{version}/data/{language}/runesReforged.json");
             }
             finally
             {

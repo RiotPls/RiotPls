@@ -39,13 +39,15 @@ namespace RiotPls.DataDragon.Entities
             AppendAfterSection = dto.AppendAfterSection;
             VisibleWithAllOf = dto.VisibleWithAllOf?.ToImmutableArray() ?? ImmutableArray<string>.Empty;
             HiddenWithAllOf = dto.HiddenWithAllOf?.ToImmutableArray() ?? ImmutableArray<string>.Empty;
-            Items = Array.ConvertAll(dto.Items, dto => new ItemBlock(dto)).ToImmutableArray();
+            Items = Array.ConvertAll(dto.Items, x => new ItemBlock(x)).ToImmutableArray();
 
             if (!string.IsNullOrWhiteSpace(dto.ShowIfSummonerSpell))
-                ShowIfSummonerSpell = Enum.Parse<BlockSummonerSpell>(dto.ShowIfSummonerSpell.Replace("_", string.Empty), true);
+                ShowIfSummonerSpell =
+                    Enum.Parse<BlockSummonerSpell>(dto.ShowIfSummonerSpell.Replace("_", string.Empty), true);
 
             if (!string.IsNullOrWhiteSpace(dto.HideIfSummonerSpell))
-                HideIfSummonerSpell = Enum.Parse<BlockSummonerSpell>(dto.HideIfSummonerSpell.Replace("_", string.Empty), true);
+                HideIfSummonerSpell =
+                    Enum.Parse<BlockSummonerSpell>(dto.HideIfSummonerSpell.Replace("_", string.Empty), true);
         }
     }
 }

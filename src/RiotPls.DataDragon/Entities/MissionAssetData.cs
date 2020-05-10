@@ -9,7 +9,7 @@ namespace RiotPls.DataDragon.Entities
         ///     A dictionary of mission asset objects, keyed by their unique mission identifiers.
         /// </summary>
         public ReadOnlyDictionary<int, MissionAsset> MissionAssets { get; }
-        
+
         internal MissionAssetData(MissionAssetDataDto dto) : base(dto)
         {
             MissionAssets = new ReadOnlyDictionary<int, MissionAsset>(

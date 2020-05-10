@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RiotPls.DataDragon", "src\R
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RiotPls.Tests", "tests\RiotPls.Tests\RiotPls.Tests.csproj", "{7EEAB149-5399-49CD-9D13-BF2CC4D0257D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RiotPls.Debug", "RiotPls.Debug\RiotPls.Debug.csproj", "{51067575-40B2-44CE-999E-1D4553A3B56E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{7EEAB149-5399-49CD-9D13-BF2CC4D0257D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EEAB149-5399-49CD-9D13-BF2CC4D0257D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EEAB149-5399-49CD-9D13-BF2CC4D0257D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{51067575-40B2-44CE-999E-1D4553A3B56E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{51067575-40B2-44CE-999E-1D4553A3B56E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{51067575-40B2-44CE-999E-1D4553A3B56E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{51067575-40B2-44CE-999E-1D4553A3B56E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

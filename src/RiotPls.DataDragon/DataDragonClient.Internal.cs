@@ -25,7 +25,8 @@ namespace RiotPls.DataDragon
             return latestVersion;
         }
 
-        private ValueTask<T> GetBaseDataAsync<TDto, T>(GameVersion version, Language? language = null, ChampionId? championId = null)
+        private ValueTask<T> GetBaseDataAsync<TDto, T>(GameVersion version, Language? language = null,
+            ChampionId? championId = null)
             where T : BaseData
         {
             ThrowIfDisposed();
@@ -43,12 +44,13 @@ namespace RiotPls.DataDragon
                         !ChampionCache.TryGetValue(id, out var cache) ||
                         !cache.TryGetValue((version, language.Value), out var championData) ||
                         _options.CacheMode == CacheMode.MostRecentOnly && championData.Version < version)
-                        return new ValueTask<T>((Task<T>)(object)FetchBaseDataAsync<ChampionDataDto, ChampionData>(version, language.Value, championId));
+                        return new ValueTask<T>((Task<T>) (object)
+                            FetchBaseDataAsync<ChampionDataDto, ChampionData>(version, language.Value, championId));
 
-                    return new ValueTask<T>((T)(object)championData);
+                    return new ValueTask<T>((T) (object) championData);
                 }
 
-                if (_options.CacheMode == CacheMode.None || 
+                if (_options.CacheMode == CacheMode.None ||
                     !Cache<T>.Instance.TryGetValue((version, language.Value), out var data) ||
                     _options.CacheMode == CacheMode.MostRecentOnly && data.Version < version)
                     return new ValueTask<T>(FetchBaseDataAsync<TDto, T>(version, language.Value));
@@ -57,8 +59,9 @@ namespace RiotPls.DataDragon
             }
         }
 
-        private async Task<T> FetchBaseDataAsync<TDto, T>(GameVersion? version, Language? language = null, ChampionId? championId = null)
-           where T : BaseData
+        private async Task<T> FetchBaseDataAsync<TDto, T>(
+            GameVersion? version, Language? language = null, ChampionId? championId = null)
+            where T : BaseData
         {
             ThrowIfDisposed();
 
@@ -72,7 +75,8 @@ namespace RiotPls.DataDragon
                 version ??= latestVersion;
 
                 if (version > latestVersion)
-                    throw new ArgumentOutOfRangeException(nameof(version), $"The providen version is higher than the latest Data Dragon version.");
+                    throw new ArgumentOutOfRangeException(nameof(version),
+                        "The providen version is higher than the latest Data Dragon version.");
 
                 var data = await MakeRequestAsync<TDto, T>(
                     GetEndpoint<T>(version, language.Value.GetCode(), championId.GetValueOrDefault()),
@@ -90,7 +94,11 @@ namespace RiotPls.DataDragon
                 throw new DataNotFoundException(
                     $"We couldn't fetch data for the version: {version}. Read the inner exception for more details.",
                     e,
-                    _client.BaseAddress.ToString() + GetEndpoint<T>(version!, language.GetValueOrDefault().GetCode(), championId.GetValueOrDefault())[1..]);
+                    _client.BaseAddress +
+                    GetEndpoint<T>(
+                        version!,
+                        language.GetValueOrDefault().GetCode(),
+                        championId.GetValueOrDefault())[1..]);
             }
             finally
             {
@@ -102,22 +110,22 @@ namespace RiotPls.DataDragon
         {
             if (typeof(T) == typeof(ChampionBaseData))
                 return $"{Cdn}/{version}/data/{language}/champion.json";
-            
+
             if (typeof(T) == typeof(ChampionFullData))
                 return $"{Cdn}/{version}/data/{language}/championFull.json";
-            
+
             if (typeof(T) == typeof(ChampionData))
                 return $"{Cdn}/{version}/data/{language}/champion/{championId}.json";
-            
+
             if (typeof(T) == typeof(SummonerSpellData))
                 return $"{Cdn}/{version}/data/{language}/summoner.json";
-            
+
             if (typeof(T) == typeof(ProfileIconData))
                 return $"{Cdn}/{version}/data/{language}/profileicon.json";
 
             if (typeof(T) == typeof(MapData))
                 return $"{Cdn}/{version}/data/{language}/map.json";
-            
+
             if (typeof(T) == typeof(MissionAssetData))
                 return $"{Cdn}/{version}/data/{language}/mission-assets.json";
 
@@ -148,8 +156,12 @@ namespace RiotPls.DataDragon
             static Factory()
             {
                 var parameter = Expression.Parameter(typeof(TDto));
-                var constructor = typeof(T).GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(TDto) }, null);
-                var @new = Expression.New(constructor, new Expression[] { parameter });
+                var constructor = typeof(T).GetConstructor(
+                    BindingFlags.NonPublic | BindingFlags.Instance,
+                    null,
+                    new[] { typeof(TDto) },
+                    null);
+                var @new = Expression.New(constructor, parameter);
                 var lambda = Expression.Lambda<Func<TDto, T>>(@new, parameter);
 
                 _func = lambda.Compile();

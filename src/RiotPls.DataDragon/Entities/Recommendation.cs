@@ -73,7 +73,7 @@ namespace RiotPls.DataDragon.Entities
             HasExtensionPage = dto.HasExtensionPage;
             UseObviousCheckMark = dto.UseObviousCheckMark;
             CustomPanel = dto.CustomPanel;
-            Blocks = Array.ConvertAll(dto.Blocks, dto => new Block(dto)).ToImmutableArray();
+            Blocks = Array.ConvertAll(dto.Blocks, x => new Block(x)).ToImmutableArray();
             RequiredPerk = dto.RequiredPerk;
             ExtennOrnnPage = dto.ExtennOrnnPage;
         }

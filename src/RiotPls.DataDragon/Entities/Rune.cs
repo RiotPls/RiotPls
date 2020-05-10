@@ -15,21 +15,21 @@ namespace RiotPls.DataDragon.Entities
         ///     Key of the rune.
         /// </summary>
         public string Key { get; }
-        
+
         /// <summary>
         ///     Icon path of the rune.
         /// </summary>
         public string Icon { get; }
-        
+
         /// <summary>
         ///     Name of the rune. 
         /// </summary>
         public string Name { get; }
-        
+
         /// <summary>
         ///     Different rune slots for that rune.
         /// </summary>
-        public IReadOnlyList<IReadOnlyList<RuneSlot>> Slots { get; }
+        public IReadOnlyList<RuneSlot> Slots { get; }
 
         internal Rune(RuneDto dto)
         {
@@ -37,8 +37,7 @@ namespace RiotPls.DataDragon.Entities
             Key = dto.Key;
             Icon = dto.Icon;
             Name = dto.Name;
-            Slots = dto.Slots.Select(
-                x => (IReadOnlyList<RuneSlot>)x.Select(y => new RuneSlot(y)).ToImmutableArray()).ToImmutableArray();
+            Slots = dto.Slots.Select(x => new RuneSlot(x)).ToImmutableArray();
         }
     }
 }

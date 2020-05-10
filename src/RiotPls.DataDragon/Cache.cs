@@ -5,7 +5,7 @@ using RiotPls.DataDragon.Enums;
 
 namespace RiotPls.DataDragon
 {
-    internal class Cache<T> 
+    internal class Cache<T>
     {
         public static Cache<T> Instance { get; } = new Cache<T>();
 
@@ -21,10 +21,10 @@ namespace RiotPls.DataDragon
             _cache = new Dictionary<(GameVersion, Language), T>();
         }
 
-        public void Clear() 
+        public void Clear()
             => _cache.Clear();
 
-        public bool TryGetValue((GameVersion, Language) key, [NotNullWhen(true)] out T value) 
+        public bool TryGetValue((GameVersion, Language) key, [NotNullWhen(true)] out T value)
             => _cache.TryGetValue(key, out value!);
     }
 

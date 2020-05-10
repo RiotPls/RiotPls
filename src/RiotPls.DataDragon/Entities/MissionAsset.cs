@@ -6,12 +6,12 @@
         ///     Id of the mission.
         /// </summary>
         public int Id { get; }
-        
+
         /// <summary>
         ///     Image of the mission asset.
         /// </summary>
         public StaticImage Image { get; }
-        
+
         internal MissionAsset(MissionAssetDto dto)
         {
             Id = dto.Id;

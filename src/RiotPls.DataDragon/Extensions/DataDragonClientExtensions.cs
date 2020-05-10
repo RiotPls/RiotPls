@@ -52,7 +52,8 @@ namespace RiotPls.DataDragon.Extensions
             if (client is null)
                 throw new ArgumentNullException(nameof(client));
 
-            var champions = await client.GetPartialChampionsAsync(version, language).ConfigureAwait(false);
+            var champions = await client.GetPartialChampionsAsync(version, language)
+                .ConfigureAwait(false);
 
             champions.Champions.TryGetValue(id, out var champion);
             return champion;
