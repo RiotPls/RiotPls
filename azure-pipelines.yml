@@ -25,3 +25,20 @@ steps:
 - script: dotnet build -c Release -v minimal --no-restore
 
 - script: dotnet test -c Release -v normal --no-build
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'pack'
+    packagesToPack: '**\*.csproj;!**\*.Tests.csproj'
+    versioningScheme: 'byBuildNumber'
+    includeSymbols: true
+    verbosityPack: 'Normal'
+
+- task: NuGetCommand@2
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'SlimGet'
+    verbosityPush: 'Normal'
