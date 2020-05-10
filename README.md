@@ -2,6 +2,8 @@
   
 > A .NET Core 3.1 library for the [Riot Games API.](https://developer.riotgames.com/)
 
+[![Build Status](https://dev.azure.com/allanmercou/RiotPls/_apis/build/status/RiotPls.RiotPls?branchName=master)](https://dev.azure.com/allanmercou/RiotPls/_build/latest?definitionId=9&branchName=master)
+
 ## Features
 
 Supports League of Legends, Teamfight Tactics, Legends of Runeterra, and Data Dragon.  

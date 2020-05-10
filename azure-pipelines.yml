@@ -1,0 +1,27 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
+- task: UseDotNet@2
+  inputs:
+    version: 3.1.x
+    
+- script: dotnet restore
+
+- script: dotnet build -c Release -v minimal --no-restore
+
+- script: dotnet test -c Release -v normal --no-build
