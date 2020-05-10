@@ -14,7 +14,7 @@ namespace RiotPls.DataDragon.Entities
         {
             Maps = new ReadOnlyDictionary<int, Map>(
                 dto.Maps.ToDictionary(
-                    x => x.Key,
+                    x => int.Parse(x.Key),
                     y => new Map(y.Value)));
         }
     }

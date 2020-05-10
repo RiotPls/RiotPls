@@ -230,7 +230,7 @@ namespace RiotPls.DataDragon
 
                 if (version > latestVersion)
                     throw new ArgumentOutOfRangeException(nameof(version),
-                        "The providen version is higher than the latest Data Dragon version.");
+                        "The provided version is higher than the latest Data Dragon version.");
 
                 var data = await MakeRequestAsync<IReadOnlyList<RuneDto>, IReadOnlyList<Rune>>(
                     $"{Cdn}/{version}/data/{language.Value.GetCode()}/runesReforged.json",
@@ -244,8 +244,11 @@ namespace RiotPls.DataDragon
             catch (Exception e)
             {
                 throw new DataNotFoundException(
-                    $"We couldn't fetch data for the version: {version}. Read the inner exception for more details.", e,
-                    $"{_client.BaseAddress}/{Cdn}/{version}/data/{language}/runesReforged.json");
+                    $"We couldn't fetch data for the version: {version}. Read the inner exception for more details.", 
+                    e,
+                    $"{_client.BaseAddress}/{Cdn}/{version}/data/{language}/runesReforged.json",
+                    version!,
+                    language!.Value);
             }
             finally
             {

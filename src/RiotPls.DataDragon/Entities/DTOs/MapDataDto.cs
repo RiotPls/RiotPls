@@ -6,6 +6,6 @@ namespace RiotPls.DataDragon.Entities
     internal class MapDataDto : BaseDataDto
     {
         [JsonPropertyName("data")]
-        public IReadOnlyDictionary<int, MapDto> Maps { get; set; }
+        public IReadOnlyDictionary<string, MapDto> Maps { get; set; }
     }
 }

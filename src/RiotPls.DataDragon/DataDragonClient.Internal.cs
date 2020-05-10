@@ -17,12 +17,7 @@ namespace RiotPls.DataDragon
             ThrowIfDisposed();
 
             var data = await MakeRequestAsync<string[]>($"{Api}/versions.json").ConfigureAwait(false);
-            var latestVersion = GameVersion.Parse(data[0]);
-
-            if (_options.CacheMode != CacheMode.None)
-                _versions = Array.ConvertAll(data, GameVersion.Parse).ToImmutableArray();
-
-            return latestVersion;
+            return GameVersion.Parse(data[0]);
         }
 
         private ValueTask<T> GetBaseDataAsync<TDto, T>(GameVersion version, Language? language = null,
@@ -76,7 +71,7 @@ namespace RiotPls.DataDragon
 
                 if (version > latestVersion)
                     throw new ArgumentOutOfRangeException(nameof(version),
-                        "The providen version is higher than the latest Data Dragon version.");
+                        "The provided version is higher than the latest Data Dragon version.");
 
                 var data = await MakeRequestAsync<TDto, T>(
                     GetEndpoint<T>(version, language.Value.GetCode(), championId.GetValueOrDefault()),
@@ -98,7 +93,9 @@ namespace RiotPls.DataDragon
                     GetEndpoint<T>(
                         version!,
                         language.GetValueOrDefault().GetCode(),
-                        championId.GetValueOrDefault())[1..]);
+                        championId.GetValueOrDefault())[1..],
+                    version!,
+                    language!.Value);
             }
             finally
             {
