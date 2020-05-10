@@ -18,7 +18,7 @@ namespace RiotPls.Tests.DataDragon
             Assert.Contains(runes, rune => rune.Key == "Resolve" && rune.Slots.Count == 4);
             Assert.Contains(runes, rune => rune.Key == "Sorcery" && rune.Slots.Count == 4);
         }
-        
+
         public RunesTests(ITestOutputHelper helper) : base(helper)
         {
         }

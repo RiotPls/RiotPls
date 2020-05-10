@@ -9,7 +9,7 @@ namespace RiotPls.Tests.DataDragon
         public MissionAssetsTests(ITestOutputHelper helper) : base(helper)
         {
         }
-        
+
         [Fact(DisplayName = "Mission assets API works and deserialization is accurate")]
         public async Task Test_That_MissionAssetsApi_Works()
         {

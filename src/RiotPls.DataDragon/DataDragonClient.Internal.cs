@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Immutable;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.Json;
@@ -20,7 +19,9 @@ namespace RiotPls.DataDragon
             return GameVersion.Parse(data[0]);
         }
 
-        private ValueTask<T> GetBaseDataAsync<TDto, T>(GameVersion version, Language? language = null,
+        private ValueTask<T> GetBaseDataAsync<TDto, T>(
+            GameVersion version,
+            Language? language = null,
             ChampionId? championId = null)
             where T : BaseData
         {
@@ -39,10 +40,10 @@ namespace RiotPls.DataDragon
                         !ChampionCache.TryGetValue(id, out var cache) ||
                         !cache.TryGetValue((version, language.Value), out var championData) ||
                         _options.CacheMode == CacheMode.MostRecentOnly && championData.Version < version)
-                        return new ValueTask<T>((Task<T>) (object)
+                        return new ValueTask<T>((Task<T>)(object)
                             FetchBaseDataAsync<ChampionDataDto, ChampionData>(version, language.Value, championId));
 
-                    return new ValueTask<T>((T) (object) championData);
+                    return new ValueTask<T>((T)(object)championData);
                 }
 
                 if (_options.CacheMode == CacheMode.None ||
@@ -55,7 +56,9 @@ namespace RiotPls.DataDragon
         }
 
         private async Task<T> FetchBaseDataAsync<TDto, T>(
-            GameVersion? version, Language? language = null, ChampionId? championId = null)
+            GameVersion? version, 
+            Language? language = null,
+            ChampionId? championId = null)
             where T : BaseData
         {
             ThrowIfDisposed();
@@ -70,7 +73,8 @@ namespace RiotPls.DataDragon
                 version ??= latestVersion;
 
                 if (version > latestVersion)
-                    throw new ArgumentOutOfRangeException(nameof(version),
+                    throw new ArgumentOutOfRangeException(
+                        nameof(version),
                         "The provided version is higher than the latest Data Dragon version.");
 
                 var data = await MakeRequestAsync<TDto, T>(

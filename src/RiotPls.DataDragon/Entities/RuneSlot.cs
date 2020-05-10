@@ -10,7 +10,7 @@ namespace RiotPls.DataDragon.Entities
         ///     Different rune items for that rune slot.
         /// </summary>
         public IReadOnlyList<RuneItem> Runes { get; }
-        
+
         internal RuneSlot(RuneSlotDto dto)
         {
             Runes = dto.Runes.Select(x => new RuneItem(x)).ToImmutableArray();

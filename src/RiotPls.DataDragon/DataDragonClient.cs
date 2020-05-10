@@ -93,19 +93,12 @@ namespace RiotPls.DataDragon
         }
 
         /// <inheritdoc/>
-        public async Task<GameVersion> FetchLatestVersionAsync()
+        public Task<GameVersion> FetchLatestVersionAsync()
         {
             ThrowIfDisposed();
 
-            try
-            {
-                await _semaphore.WaitAsync().ConfigureAwait(false);
-                return await InternalFetchLatestVersionAsync().ConfigureAwait(false);
-            }
-            finally
-            {
-                _semaphore.Release();
-            }
+            lock (_lock)
+                return InternalFetchLatestVersionAsync();
         }
 
         /// <inheritdoc/>

@@ -6,10 +6,10 @@ namespace RiotPls.DataDragon.Entities
     {
         [JsonPropertyName("MapName")]
         public string Name { get; set; }
-        
+
         [JsonPropertyName("MapId")]
         public string Id { get; set; }
-        
+
         [JsonPropertyName("image")]
         public StaticImageDto Image { get; set; }
     }

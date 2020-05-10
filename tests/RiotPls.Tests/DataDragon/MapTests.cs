@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using RiotPls.DataDragon.Enums;
+﻿using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
