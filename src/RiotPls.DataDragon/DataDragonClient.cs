@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using RiotPls.DataDragon.Entities;
 using RiotPls.DataDragon.Enums;
 using RiotPls.DataDragon.Extensions;
-using RiotPls.DataDragon.Helpers;
 
 namespace RiotPls.DataDragon
 {
@@ -62,11 +61,12 @@ namespace RiotPls.DataDragon
             ThrowIfDisposed();
 
             lock (_lock)
-                return ValueTaskHelper.Create(
-                    this,
-                    !_versions.IsDefaultOrEmpty,
-                    client => client._versions,
-                    async client => await client.FetchVersionsAsync().ConfigureAwait(false));
+            {
+                if (_options.CacheMode != CacheMode.None && !_languages.IsDefaultOrEmpty)
+                    return new ValueTask<IReadOnlyList<GameVersion>>(_versions);
+
+                return new ValueTask<IReadOnlyList<GameVersion>>(FetchVersionsAsync());
+            }
         }
 
         /// <inheritdoc/>
@@ -114,11 +114,12 @@ namespace RiotPls.DataDragon
             ThrowIfDisposed();
 
             lock (_lock)
-                return ValueTaskHelper.Create(
-                    this,
-                    _options.CacheMode != CacheMode.None && !_languages.IsDefaultOrEmpty,
-                    client => client._languages,
-                    async client => await client.FetchLanguagesAsync().ConfigureAwait(false));
+            {
+                if (_options.CacheMode != CacheMode.None && !_languages.IsDefaultOrEmpty)
+                    return new ValueTask<IReadOnlyList<Language>>(_languages);
+
+                return new ValueTask<IReadOnlyList<Language>>(FetchLanguagesAsync());
+            }
         }
 
         /// <inheritdoc/>
@@ -244,7 +245,7 @@ namespace RiotPls.DataDragon
             catch (Exception e)
             {
                 throw new DataNotFoundException(
-                    $"We couldn't fetch data for the version: {version}. Read the inner exception for more details.", 
+                    $"We couldn't fetch data for the version: {version}. Read the inner exception for more details.",
                     e,
                     $"{_client.BaseAddress}/{Cdn}/{version}/data/{language}/runesReforged.json",
                     version!,
