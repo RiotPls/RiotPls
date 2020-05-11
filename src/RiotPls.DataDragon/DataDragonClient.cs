@@ -18,7 +18,7 @@ namespace RiotPls.DataDragon
         public const string Api = "/api";
         public const string Cdn = "/cdn";
 
-        public Language DefaultLanguage 
+        public Language DefaultLanguage
             => _options.DefaultLanguage;
 
         internal static DataDragonClient Instance { get; } = new DataDragonClient(DataDragonClientOptions.Default);
@@ -140,87 +140,111 @@ namespace RiotPls.DataDragon
         }
 
         /// <inheritdoc/>
-        public async ValueTask<IReadOnlyList<ChampionSummary>> GetChampionsSummaryAsync(GameVersion version, Language? language = null)
+        public async ValueTask<IReadOnlyList<ChampionSummary>> GetChampionsSummaryAsync(GameVersion version,
+            Language? language = null)
         {
-            var data = await GetBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language).ConfigureAwait(false);
-            return (IReadOnlyList<ChampionSummary>)data.Champions.Values; // God bless covariance
+            var data = await GetBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language)
+                .ConfigureAwait(false);
+            return (IReadOnlyList<ChampionSummary>) data.Champions.Values; // God bless covariance
         }
 
         /// <inheritdoc/>
-        public async Task<IReadOnlyList<ChampionSummary>> FetchChampionsSummaryAsync(GameVersion? version = null, Language? language = null)
+        public async Task<IReadOnlyList<ChampionSummary>> FetchChampionsSummaryAsync(GameVersion? version = null,
+            Language? language = null)
         {
-            var data = await FetchBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language).ConfigureAwait(false);
-            return (IReadOnlyList<ChampionSummary>)data.Champions.Values;
+            var data = await FetchBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language)
+                .ConfigureAwait(false);
+            return (IReadOnlyList<ChampionSummary>) data.Champions.Values;
         }
 
         /// <inheritdoc/>
-        public async ValueTask<IReadOnlyList<Champion>> GetChampionsAsync(GameVersion version, Language? language = null)
+        public async ValueTask<IReadOnlyList<Champion>> GetChampionsAsync(GameVersion version,
+            Language? language = null)
         {
-            var data = await GetBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language).ConfigureAwait(false);
-            return (IReadOnlyList<Champion>)data.Champions.Values;
+            var data = await GetBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language)
+                .ConfigureAwait(false);
+            return (IReadOnlyList<Champion>) data.Champions.Values;
         }
 
         /// <inheritdoc/>
-        public async Task<IReadOnlyList<Champion>> FetchChampionsAsync(GameVersion? version = null, Language? language = null)
+        public async Task<IReadOnlyList<Champion>> FetchChampionsAsync(GameVersion? version = null,
+            Language? language = null)
         {
-            var data = await FetchBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language).ConfigureAwait(false);
-            return (IReadOnlyList<Champion>)data.Champions.Values;
+            var data = await FetchBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language)
+                .ConfigureAwait(false);
+            return (IReadOnlyList<Champion>) data.Champions.Values;
         }
 
         /// <inheritdoc/>
-        public async ValueTask<ChampionSummary> GetChampionSummaryAsync(ChampionId championId, GameVersion version, Language? language = null)
+        public async ValueTask<ChampionSummary> GetChampionSummaryAsync(ChampionId championId, GameVersion version,
+            Language? language = null)
         {
-            var data = await GetBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language, championId).ConfigureAwait(false);
+            var data = await GetBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language, championId)
+                .ConfigureAwait(false);
             return data.Champions[championId];
             // I don't want to cache summaries, I get full champion instead and expose it as summary.
         }
 
         /// <inheritdoc/>
-        public async Task<ChampionSummary> FetchChampionSummaryAsync(ChampionId championId, GameVersion? version = null, Language? language = null)
+        public async Task<ChampionSummary> FetchChampionSummaryAsync(ChampionId championId, GameVersion? version = null,
+            Language? language = null)
         {
-            var data = await FetchBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language, championId).ConfigureAwait(false);
+            var data = await FetchBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language, championId)
+                .ConfigureAwait(false);
             return data.Champions[championId]; // Same as above.
         }
 
         /// <inheritdoc/>
-        public async ValueTask<Champion> GetChampionAsync(ChampionId championId, GameVersion version, Language? language = null)
+        public async ValueTask<Champion> GetChampionAsync(ChampionId championId, GameVersion version,
+            Language? language = null)
         {
-            var data = await GetBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language, championId).ConfigureAwait(false);
+            var data = await GetBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language, championId)
+                .ConfigureAwait(false);
             return data.Champions[championId];
         }
 
         /// <inheritdoc/>
-        public async Task<Champion> FetchChampionAsync(ChampionId championId, GameVersion? version = null, Language? language = null)
+        public async Task<Champion> FetchChampionAsync(ChampionId championId, GameVersion? version = null,
+            Language? language = null)
         {
-            var data = await FetchBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language, championId).ConfigureAwait(false);
+            var data = await FetchBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language, championId)
+                .ConfigureAwait(false);
             return data.Champions[championId];
         }
 
         /// <inheritdoc/>
-        public async ValueTask<IReadOnlyCollection<SummonerSpell>> GetSummonerSpellsAsync(GameVersion version, Language? language = null)
+        public async ValueTask<IReadOnlyCollection<SummonerSpell>> GetSummonerSpellsAsync(GameVersion version,
+            Language? language = null)
         {
-            var data = await GetBaseDataAsync<SummonerSpellDataDto, SummonerSpellData>(version, language).ConfigureAwait(false);
+            var data = await GetBaseDataAsync<SummonerSpellDataDto, SummonerSpellData>(version, language)
+                .ConfigureAwait(false);
             return data.SummonerSpells.Values;
         }
 
         /// <inheritdoc/>
-        public async Task<IReadOnlyCollection<SummonerSpell>> FetchSummonerSpellsAsync(GameVersion? version = null, Language? language = null)
+        public async Task<IReadOnlyCollection<SummonerSpell>> FetchSummonerSpellsAsync(GameVersion? version = null,
+            Language? language = null)
         {
-            var data = await FetchBaseDataAsync<SummonerSpellDataDto, SummonerSpellData>(version, language).ConfigureAwait(false);
+            var data = await FetchBaseDataAsync<SummonerSpellDataDto, SummonerSpellData>(version, language)
+                .ConfigureAwait(false);
             return data.SummonerSpells.Values;
         }
 
         /// <inheritdoc/>
-        public async ValueTask<IReadOnlyCollection<ProfileIcon>> GetProfileIconsAsync(GameVersion version, Language? language = null)
+        public async ValueTask<IReadOnlyCollection<ProfileIcon>> GetProfileIconsAsync(GameVersion version,
+            Language? language = null)
         {
-            var data = await GetBaseDataAsync<ProfileIconDataDto, ProfileIconData>(version, language).ConfigureAwait(false);
+            var data = await GetBaseDataAsync<ProfileIconDataDto, ProfileIconData>(version, language)
+                .ConfigureAwait(false);
             return data.ProfileIcons.Values;
         }
 
         /// <inheritdoc/>
-        public async Task<IReadOnlyCollection<ProfileIcon>> FetchProfileIconsAsync(GameVersion? version = null, Language? language = null)
+        public async Task<IReadOnlyCollection<ProfileIcon>> FetchProfileIconsAsync(GameVersion? version = null,
+            Language? language = null)
         {
-            var data = await FetchBaseDataAsync<ProfileIconDataDto, ProfileIconData>(version, language).ConfigureAwait(false);
+            var data = await FetchBaseDataAsync<ProfileIconDataDto, ProfileIconData>(version, language)
+                .ConfigureAwait(false);
             return data.ProfileIcons.Values;
         }
 
@@ -232,7 +256,8 @@ namespace RiotPls.DataDragon
         }
 
         /// <inheritdoc/>
-        public async Task<IReadOnlyCollection<Map>> FetchMapsAsync(GameVersion? version = null, Language? language = null)
+        public async Task<IReadOnlyCollection<Map>> FetchMapsAsync(GameVersion? version = null,
+            Language? language = null)
         {
             var data = await FetchBaseDataAsync<MapDataDto, MapData>(version, language).ConfigureAwait(false);
             return data.Maps.Values;
@@ -301,16 +326,20 @@ namespace RiotPls.DataDragon
         }
 
         /// <inheritdoc/>
-        public async ValueTask<IReadOnlyCollection<MissionAsset>> GetMissionAssetsAsync(GameVersion version, Language? language = null)
+        public async ValueTask<IReadOnlyCollection<MissionAsset>> GetMissionAssetsAsync(GameVersion version,
+            Language? language = null)
         {
-            var data = await GetBaseDataAsync<MissionAssetDataDto, MissionAssetData>(version, language).ConfigureAwait(false);
+            var data = await GetBaseDataAsync<MissionAssetDataDto, MissionAssetData>(version, language)
+                .ConfigureAwait(false);
             return data.MissionAssets.Values;
         }
 
         /// <inheritdoc/>
-        public async Task<IReadOnlyCollection<MissionAsset>> FetchMissionAssetsAsync(GameVersion? version = null, Language? language = null)
+        public async Task<IReadOnlyCollection<MissionAsset>> FetchMissionAssetsAsync(GameVersion? version = null,
+            Language? language = null)
         {
-            var data = await FetchBaseDataAsync<MissionAssetDataDto, MissionAssetData>(version, language).ConfigureAwait(false);
+            var data = await FetchBaseDataAsync<MissionAssetDataDto, MissionAssetData>(version, language)
+                .ConfigureAwait(false);
             return data.MissionAssets.Values;
         }
 
