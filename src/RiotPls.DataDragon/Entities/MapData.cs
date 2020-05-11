@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace RiotPls.DataDragon.Entities
 {
-    public class MapData : BaseData
+    internal class MapData : BaseData
     {
         /// <summary>
         ///     A dictionary of map objects, keyed by their unique identifiers.
