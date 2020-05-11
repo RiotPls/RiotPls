@@ -40,8 +40,7 @@ namespace RiotPls.DataDragon
                         !ChampionCache.TryGetValue(id, out var cache) ||
                         !cache.TryGetValue((version, language.Value), out var championData) ||
                         _options.CacheMode == CacheMode.MostRecentOnly && championData.Version < version)
-                        return new ValueTask<T>((Task<T>)(object)
-                            FetchBaseDataAsync<ChampionDataDto, ChampionData>(version, language.Value, championId));
+                        return new ValueTask<T>(FetchBaseDataAsync<TDto, T>(version, language.Value, championId));
 
                     return new ValueTask<T>((T)(object)championData);
                 }

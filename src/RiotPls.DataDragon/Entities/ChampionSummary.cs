@@ -13,7 +13,7 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     The unique identifier of the champion.
         /// </summary>
-        public string Id { get; }
+        public ChampionId Id { get; }
 
         /// <summary>
         ///     The unique key of the champion.
@@ -64,7 +64,7 @@ namespace RiotPls.DataDragon.Entities
         internal ChampionSummary(ChampionSummaryDto dto)
         {
             Version = dto.Version;
-            Id = dto.Id;
+            Id = Enum.Parse<ChampionId>(dto.Id, true);
             Key = int.Parse(dto.Key);
             Name = dto.Name;
             Title = dto.Title;
