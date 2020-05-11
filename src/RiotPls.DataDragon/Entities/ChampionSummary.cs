@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Threading.Tasks;
 using RiotPls.DataDragon.Enums;
 
 namespace RiotPls.DataDragon.Entities
@@ -75,5 +77,11 @@ namespace RiotPls.DataDragon.Entities
             Tags = dto.Tags;
             Statistics = new ChampionStatistics(dto.Stats);
         }
+
+        public Task<Stream> DownloadSquareAssetAsync()
+            => DataDragonClient.Client.GetStreamAsync($"{Version}/img/champion/{Id}.png");
+
+        public Task<Stream> DownloadPassiveAssetAsync()
+            => DataDragonClient.Client.GetStreamAsync($"{Version}/img/passive/{Id}_P.png");
     }
 }

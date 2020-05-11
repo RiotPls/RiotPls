@@ -32,12 +32,12 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     Width of the image.
         /// </summary>
-        public int W { get; }
+        public int Width { get; }
 
         /// <summary>
         ///     Height of the image.
         /// </summary>
-        public int H { get; }
+        public int Height { get; }
 
         internal StaticImage(StaticImageDto dto)
         {
@@ -46,8 +46,8 @@ namespace RiotPls.DataDragon.Entities
             Group = Enum.Parse<ImageGroup>(dto.Group, true);
             X = dto.X;
             Y = dto.Y;
-            W = dto.W;
-            H = dto.H;
+            Width = dto.W;
+            Height = dto.H;
         }
     }
 }

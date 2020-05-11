@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace RiotPls.DataDragon.Entities
 {
@@ -44,12 +46,15 @@ namespace RiotPls.DataDragon.Entities
         internal Champion(ChampionDto dto) : base(dto)
         {
             Lore = dto.Lore;
-            Skins = Array.ConvertAll(dto.Skins, x => new ChampionSkin(x)).ToImmutableArray();
+            Skins = Array.ConvertAll(dto.Skins, Converter).ToImmutableArray();
             AllyTips = dto.AllyTips.ToImmutableArray();
             EnemyTips = dto.EnemyTips.ToImmutableArray();
             Spells = Array.ConvertAll(dto.Spells, x => new Spell(x)).ToImmutableArray();
             PassiveSpell = new SpellBase(dto.Passive);
             Recommendations = Array.ConvertAll(dto.Recommendations, x => new Recommendation(x)).ToImmutableArray();
         }
+
+        private ChampionSkin Converter(ChampionSkinDto dto)
+            => new ChampionSkin(this, dto);
     }
 }

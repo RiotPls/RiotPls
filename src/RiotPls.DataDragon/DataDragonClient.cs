@@ -22,6 +22,10 @@ namespace RiotPls.DataDragon
             => _options.DefaultLanguage;
 
         internal static DataDragonClient Instance { get; } = new DataDragonClient(DataDragonClientOptions.Default);
+        internal static HttpClient Client { get; } = new HttpClient
+        {
+            BaseAddress = new Uri(Host + Cdn)
+        };
 
         private readonly DataDragonClientOptions _options;
         private readonly HttpClient _client;
