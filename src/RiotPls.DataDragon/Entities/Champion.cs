@@ -4,7 +4,7 @@ using System.Collections.Immutable;
 
 namespace RiotPls.DataDragon.Entities
 {
-    public sealed class Champion : ChampionBase
+    public sealed class Champion : ChampionSummary
     {
         /// <summary>
         ///     Lore of the champion.

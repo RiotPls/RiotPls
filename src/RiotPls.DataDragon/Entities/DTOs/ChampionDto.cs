@@ -2,7 +2,7 @@
 #nullable disable
 namespace RiotPls.DataDragon.Entities
 {
-    internal class ChampionDto : ChampionBaseDto
+    internal class ChampionDto : ChampionSummaryDto
     {
         [JsonPropertyName("lore")]
         public string Lore { get; set; }

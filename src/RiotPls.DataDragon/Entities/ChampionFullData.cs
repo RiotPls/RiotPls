@@ -1,21 +1,24 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.ObjectModel;
 using System.Linq;
+using RiotPls.DataDragon.Enums;
 
 namespace RiotPls.DataDragon.Entities
 {
-    public class ChampionFullData : BaseData
+    internal class ChampionFullData : BaseData
     {
         /// <summary>
         ///     A dictionary of champion objects, keyed by their unique identifiers.
         /// </summary>
-        public ReadOnlyDictionary<int, Champion> Champions { get; }
+        public ConcurrentDictionary<ChampionId, Champion> Champions { get; }
 
         internal ChampionFullData(ChampionFullDataDto dto) : base(dto)
         {
-            Champions = new ReadOnlyDictionary<int, Champion>(
-                dto.Champions.ToDictionary(
-                    x => int.Parse(x.Value.Key),
-                    y => new Champion(y.Value)));
+            Champions = new ConcurrentDictionary<ChampionId, Champion>(
+                dto.Champions.Values.ToDictionary(
+                    x => Enum.Parse<ChampionId>(x.Id, true), 
+                    x => new Champion(x)));
         }
     }
 }

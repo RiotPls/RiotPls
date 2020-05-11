@@ -6,19 +6,19 @@ namespace RiotPls.DataDragon.Entities
     /// <summary>
     ///     Represents information about League of Legends champions.
     /// </summary>
-    public sealed class ChampionBaseData : BaseData
+    public sealed class ChampionSummaryData : BaseData
     {
         /// <summary>
         ///     A dictionary of champion objects, keyed by their unique identifiers.
         /// </summary>
-        public ReadOnlyDictionary<int, ChampionBase> Champions { get; }
+        public ReadOnlyDictionary<int, ChampionSummary> Champions { get; }
 
-        internal ChampionBaseData(ChampionBaseDataDto dto) : base(dto)
+        internal ChampionSummaryData(ChampionSummaryDataDto dto) : base(dto)
         {
-            Champions = new ReadOnlyDictionary<int, ChampionBase>(
+            Champions = new ReadOnlyDictionary<int, ChampionSummary>(
                 dto.Champions.ToDictionary(
                     x => int.Parse(x.Value.Key),
-                    y => new ChampionBase(y.Value)));
+                    y => new ChampionSummary(y.Value)));
         }
     }
 }

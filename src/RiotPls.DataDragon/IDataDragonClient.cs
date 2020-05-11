@@ -41,7 +41,7 @@ namespace RiotPls.DataDragon
         Task<GameVersion> FetchLatestVersionAsync();
 
         /// <summary>
-        ///     Gets a <see cref="ChampionBaseData"/> from the cache.
+        ///     Gets a <see cref="IReadOnlyList{ChampionSummary}"/> from the cache.
         ///     If the data is not cached it will be fetched from the API.
         /// </summary>
         /// <param name="version">
@@ -50,10 +50,10 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        ValueTask<ChampionBaseData> GetPartialChampionsAsync(GameVersion version, Language? language);
+        ValueTask<IReadOnlyList<ChampionSummary>> GetChampionsSummaryAsync(GameVersion version, Language? language);
 
         /// <summary>
-        ///     Fetches a <see cref="ChampionBaseData"/> from the API.
+        ///     Fetches a <see cref="IReadOnlyList{ChampionSummary}"/> from the API.
         /// </summary>
         /// <param name="version">
         ///     The version of Data Dragon to use.
@@ -62,10 +62,10 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        Task<ChampionBaseData> FetchPartialChampionAsync(GameVersion? version, Language? language);
+        Task<IReadOnlyList<ChampionSummary>> FetchChampionsSummaryAsync(GameVersion? version, Language? language);
 
         /// <summary>
-        ///     Gets a <see cref="ChampionFullData"/> from the cache.
+        ///     Gets a <see cref="IReadOnlyList{Champion}"/> from the cache.
         ///     If the data is not cached it will be fetched from the API.
         /// </summary>
         /// <param name="version">
@@ -74,10 +74,10 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        ValueTask<ChampionFullData> GetChampionsAsync(GameVersion version, Language? language);
+        ValueTask<IReadOnlyList<Champion>> GetChampionsAsync(GameVersion version, Language? language);
 
         /// <summary>
-        ///     Fetches a <see cref="ChampionFullData"/> from the API.
+        ///     Fetches a <see cref="IReadOnlyList{Champion}"/> from the API.
         /// </summary>
         /// <param name="version">
         ///     The version of Data Dragon to use.
@@ -86,10 +86,10 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        Task<ChampionFullData> FetchChampionsAsync(GameVersion? version, Language? language);
+        Task<IReadOnlyList<Champion>> FetchChampionsAsync(GameVersion? version, Language? language);
 
         /// <summary>
-        ///     Gets a <see cref="ChampionData"/> from the cache.
+        ///     Gets a <see cref="ChampionSummary"/> from the cache.
         ///     If the data is not cached it will be fetched from the API.
         /// </summary>
         /// <param name="championId">
@@ -101,10 +101,10 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        ValueTask<ChampionData> GetChampionAsync(ChampionId championId, GameVersion version, Language? language);
+        ValueTask<ChampionSummary> GetChampionSummaryAsync(ChampionId championId, GameVersion version, Language? language);
 
         /// <summary>
-        ///     Fetches a <see cref="ChampionData"/> from the API.
+        ///     Fetches a <see cref="ChampionSummary"/> from the API.
         /// </summary>
         /// <param name="championId">
         ///     The id of the Champion.
@@ -116,10 +116,40 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        Task<ChampionData> FetchChampionAsync(ChampionId championId, GameVersion? version, Language? language);
+        Task<ChampionSummary> FetchChampionSummaryAsync(ChampionId championId, GameVersion? version, Language? language);
 
         /// <summary>
-        ///     Gets a <see cref="SummonerSpellData"/> from the cache.
+        ///     Gets a <see cref="Champion"/> from the cache.
+        ///     If the data is not cached it will be fetched from the API.
+        /// </summary>
+        /// <param name="championId">
+        ///     The id of the Champion.
+        /// </param>
+        /// <param name="version">
+        ///     The version of Data Dragon to use.
+        /// </param>
+        /// <param name="language">
+        ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
+        /// </param>
+        ValueTask<Champion> GetChampionAsync(ChampionId championId, GameVersion version, Language? language);
+
+        /// <summary>
+        ///     Fetches a <see cref="Champion"/> from the API.
+        /// </summary>
+        /// <param name="championId">
+        ///     The id of the Champion.
+        /// </param>
+        /// <param name="version">
+        ///     The version of Data Dragon to use.
+        ///     The latest version will be fetched if <see langword="null"/> is provided.
+        /// </param>
+        /// <param name="language">
+        ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
+        /// </param>
+        Task<Champion> FetchChampionAsync(ChampionId championId, GameVersion? version, Language? language);
+
+        /// <summary>
+        ///     Gets a <see cref="IReadOnlyCollection{SummonerSpell}"/> from the cache.
         ///     If the data is not cached it will be fetched from the API.
         /// </summary>
         /// <param name="version">
@@ -128,10 +158,10 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        ValueTask<SummonerSpellData> GetSummonerSpellsAsync(GameVersion version, Language? language);
+        ValueTask<IReadOnlyCollection<SummonerSpell>> GetSummonerSpellsAsync(GameVersion version, Language? language);
 
         /// <summary>
-        ///     Fetches a <see cref="SummonerSpellData"/> from the API.
+        ///     Fetches a <see cref="IReadOnlyCollection{SummonerSpell}"/> from the API.
         /// </summary>
         /// <param name="version">
         ///     The version of Data Dragon to use.
@@ -140,10 +170,10 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        Task<SummonerSpellData> FetchSummonerSpellsAsync(GameVersion? version, Language? language);
+        Task<IReadOnlyCollection<SummonerSpell>> FetchSummonerSpellsAsync(GameVersion? version, Language? language);
 
         /// <summary>
-        ///     Gets a <see cref="ProfileIconData"/> from the cache.
+        ///     Gets a <see cref="IReadOnlyCollection{ProfileIcon}"/> from the cache.
         ///     If the data is not cached it will be fetched from the API.
         /// </summary>
         /// <param name="version">
@@ -152,10 +182,10 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        ValueTask<ProfileIconData> GetProfileIconsAsync(GameVersion version, Language? language);
+        ValueTask<IReadOnlyCollection<ProfileIcon>> GetProfileIconsAsync(GameVersion version, Language? language);
 
         /// <summary>
-        ///     Fetches a <see cref="ProfileIconData"/> from the API.
+        ///     Fetches a <see cref="IReadOnlyCollection{ProfileIcon}"/> from the API.
         /// </summary>
         /// <param name="version">
         ///     The version of Data Dragon to use.
@@ -164,10 +194,10 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        Task<ProfileIconData> FetchProfileIconsAsync(GameVersion? version, Language? language);
+        Task<IReadOnlyCollection<ProfileIcon>> FetchProfileIconsAsync(GameVersion? version, Language? language);
 
         /// <summary>
-        ///     Gets a <see cref="MapData"/> from the cache.
+        ///     Gets a <see cref="IReadOnlyCollection{Map}"/> from the cache.
         ///     If the data is not cached it will be fetched from the API.
         /// </summary>
         /// <param name="version">
@@ -176,10 +206,10 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        ValueTask<MapData> GetMapsAsync(GameVersion version, Language? language);
+        ValueTask<IReadOnlyCollection<Map>> GetMapsAsync(GameVersion version, Language? language);
 
         /// <summary>
-        ///     Fetches a <see cref="MapData"/> from the API.
+        ///     Fetches a <see cref="IReadOnlyCollection{Map}"/> from the API.
         /// </summary>
         /// <param name="version">
         ///     The version of Data Dragon to use.
@@ -188,7 +218,7 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        Task<MapData> FetchMapsAsync(GameVersion? version, Language? language);
+        Task<IReadOnlyCollection<Map>> FetchMapsAsync(GameVersion? version, Language? language);
 
         /// <summary>
         ///     Gets a <see cref="IReadOnlyList{Rune}"/> from the cache.
@@ -215,7 +245,7 @@ namespace RiotPls.DataDragon
         Task<IReadOnlyList<Rune>> FetchRunesAsync(GameVersion? version, Language? language);
 
         /// <summary>
-        ///     Gets a <see cref="MissionAssetData"/> from the cache.
+        ///     Gets a <see cref="IReadOnlyCollection{MissionAsset}"/> from the cache.
         ///     If the data is not cached it will be fetched from the API.
         /// </summary>
         /// <param name="version">
@@ -224,10 +254,10 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        ValueTask<MissionAssetData> GetMissionAssetsAsync(GameVersion version, Language? language);
+        ValueTask<IReadOnlyCollection<MissionAsset>> GetMissionAssetsAsync(GameVersion version, Language? language);
 
         /// <summary>
-        ///     Fetches a <see cref="MapData"/> from the API.
+        ///     Fetches a <see cref="IReadOnlyCollection{MissionAsset}"/> from the API.
         /// </summary>
         /// <param name="version">
         ///     The version of Data Dragon to use.
@@ -236,6 +266,6 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        Task<MissionAssetData> FetchMissionAssetsAsync(GameVersion? version, Language? language = null);
+        Task<IReadOnlyCollection<MissionAsset>> FetchMissionAssetsAsync(GameVersion? version, Language? language = null);
     }
 }

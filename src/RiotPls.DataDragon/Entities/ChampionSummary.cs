@@ -3,7 +3,7 @@ using RiotPls.DataDragon.Enums;
 
 namespace RiotPls.DataDragon.Entities
 {
-    public class ChampionBase
+    public class ChampionSummary
     {
         /// <summary>
         ///     The version of the data.
@@ -61,7 +61,7 @@ namespace RiotPls.DataDragon.Entities
         /// </summary>
         public ChampionStatistics Statistics { get; }
 
-        internal ChampionBase(ChampionBaseDto dto)
+        internal ChampionSummary(ChampionSummaryDto dto)
         {
             Version = dto.Version;
             Id = dto.Id;

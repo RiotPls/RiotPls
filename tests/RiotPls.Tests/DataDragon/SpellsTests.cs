@@ -12,10 +12,9 @@ namespace RiotPls.Tests.DataDragon
         {
             var versions = await _client.GetVersionsAsync();
             var sums = await _client.GetSummonerSpellsAsync(versions.First());
-            Assert.NotNull(sums.SummonerSpells);
-            Assert.Equal(14, sums.SummonerSpells.Count);
-            Assert.True(sums.SummonerSpells.ContainsKey(21)
-                        && sums.SummonerSpells[21].Id == "SummonerBarrier");
+            Assert.NotNull(sums);
+            Assert.Equal(14, sums.Count);
+            Assert.True(sums.Any(x => x.Key == 21) && sums.First(x => x.Key == 21).Id == "SummonerBarrier");
         }
 
         public SpellsTests(ITestOutputHelper helper) : base(helper)

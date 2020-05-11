@@ -3,7 +3,7 @@ using RiotPls.DataDragon.Enums;
 #nullable disable
 namespace RiotPls.DataDragon.Entities
 {
-    internal class ChampionBaseDto
+    internal class ChampionSummaryDto
     {
         // todo: make it optional?
         [JsonPropertyName("version")]

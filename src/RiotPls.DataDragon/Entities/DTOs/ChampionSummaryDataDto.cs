@@ -3,9 +3,9 @@ using System.Text.Json.Serialization;
 #nullable disable
 namespace RiotPls.DataDragon.Entities
 {
-    internal class ChampionBaseDataDto : BaseDataDto
+    internal class ChampionSummaryDataDto : BaseDataDto
     {
         [JsonPropertyName("data")]
-        public IReadOnlyDictionary<string, ChampionBaseDto> Champions { get; set; }
+        public IReadOnlyDictionary<string, ChampionSummaryDto> Champions { get; set; }
     }
 }

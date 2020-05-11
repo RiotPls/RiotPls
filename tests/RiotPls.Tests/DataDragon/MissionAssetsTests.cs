@@ -15,7 +15,7 @@ namespace RiotPls.Tests.DataDragon
         {
             var version = await _client.FetchLatestVersionAsync();
             var missionAssets = await _client.GetMissionAssetsAsync(version);
-            Assert.NotEmpty(missionAssets.MissionAssets);
+            Assert.NotEmpty(missionAssets);
         }
     }
 }
