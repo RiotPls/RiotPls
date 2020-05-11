@@ -50,7 +50,7 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        ValueTask<IReadOnlyList<ChampionSummary>> GetChampionsSummaryAsync(GameVersion version, Language? language);
+        ValueTask<IReadOnlyList<ChampionSummary>> GetChampionSummariesAsync(GameVersion version, Language? language);
 
         /// <summary>
         ///     Fetches a <see cref="IReadOnlyList{ChampionSummary}"/> from the API.
@@ -62,7 +62,7 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        Task<IReadOnlyList<ChampionSummary>> FetchChampionsSummaryAsync(GameVersion? version, Language? language);
+        Task<IReadOnlyList<ChampionSummary>> FetchChampionSummariesAsync(GameVersion? version, Language? language);
 
         /// <summary>
         ///     Gets a <see cref="IReadOnlyList{Champion}"/> from the cache.

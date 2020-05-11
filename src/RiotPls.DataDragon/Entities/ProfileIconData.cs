@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace RiotPls.DataDragon.Entities
 {
-    public sealed class ProfileIconData : BaseData
+    internal sealed class ProfileIconData : BaseData
     {
         /// <summary>
         ///     A dictionary of profile icons, keyed by their unique identifier.

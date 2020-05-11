@@ -82,10 +82,13 @@ namespace RiotPls.DataDragon
                     GetEndpoint<T>(version, language.Value.GetCode(), championId.GetValueOrDefault()),
                     Factory<TDto, T>.CreateInstance).ConfigureAwait(false);
 
-                if (_options.CacheMode == CacheMode.MostRecentOnly && latestVersion.Equals(data.Version))
-                    Cache<T>.Instance[latestVersion, language.Value] = data;
-                else if (_options.CacheMode == CacheMode.KeepAll)
+                if (_options.CacheMode != CacheMode.None)
+                {
+                    if (_options.CacheMode == CacheMode.MostRecentOnly && latestVersion == version)
+                        Cache<T>.Instance.Clear();
+
                     Cache<T>.Instance[version, language.Value] = data;
+                }
 
                 return data;
             }

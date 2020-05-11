@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace RiotPls.DataDragon.Entities
 {
-    public class MissionAssetData : BaseData
+    internal class MissionAssetData : BaseData
     {
         /// <summary>
         ///     A dictionary of mission asset objects, keyed by their unique mission identifiers.

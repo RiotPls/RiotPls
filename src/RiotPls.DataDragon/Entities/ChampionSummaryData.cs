@@ -6,7 +6,7 @@ namespace RiotPls.DataDragon.Entities
     /// <summary>
     ///     Represents information about League of Legends champions.
     /// </summary>
-    public sealed class ChampionSummaryData : BaseData
+    internal sealed class ChampionSummaryData : BaseData
     {
         /// <summary>
         ///     A dictionary of champion objects, keyed by their unique identifiers.

@@ -142,7 +142,8 @@ namespace RiotPls.DataDragon
         }
 
         /// <inheritdoc/>
-        public async ValueTask<IReadOnlyList<ChampionSummary>> GetChampionsSummaryAsync(GameVersion version,
+        public async ValueTask<IReadOnlyList<ChampionSummary>> GetChampionSummariesAsync(
+            GameVersion version,
             Language? language = null)
         {
             var data = await GetBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language)
@@ -151,7 +152,8 @@ namespace RiotPls.DataDragon
         }
 
         /// <inheritdoc/>
-        public async Task<IReadOnlyList<ChampionSummary>> FetchChampionsSummaryAsync(GameVersion? version = null,
+        public async Task<IReadOnlyList<ChampionSummary>> FetchChampionSummariesAsync(
+            GameVersion? version = null,
             Language? language = null)
         {
             var data = await FetchBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language)
@@ -160,7 +162,8 @@ namespace RiotPls.DataDragon
         }
 
         /// <inheritdoc/>
-        public async ValueTask<IReadOnlyList<Champion>> GetChampionsAsync(GameVersion version,
+        public async ValueTask<IReadOnlyList<Champion>> GetChampionsAsync(
+            GameVersion version,
             Language? language = null)
         {
             var data = await GetBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language)
@@ -169,7 +172,8 @@ namespace RiotPls.DataDragon
         }
 
         /// <inheritdoc/>
-        public async Task<IReadOnlyList<Champion>> FetchChampionsAsync(GameVersion? version = null,
+        public async Task<IReadOnlyList<Champion>> FetchChampionsAsync(
+            GameVersion? version = null,
             Language? language = null)
         {
             var data = await FetchBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language)
@@ -178,7 +182,9 @@ namespace RiotPls.DataDragon
         }
 
         /// <inheritdoc/>
-        public async ValueTask<ChampionSummary> GetChampionSummaryAsync(ChampionId championId, GameVersion version,
+        public async ValueTask<ChampionSummary> GetChampionSummaryAsync(
+            ChampionId championId, 
+            GameVersion version,
             Language? language = null)
         {
             var data = await GetBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language, championId)
@@ -188,7 +194,9 @@ namespace RiotPls.DataDragon
         }
 
         /// <inheritdoc/>
-        public async Task<ChampionSummary> FetchChampionSummaryAsync(ChampionId championId, GameVersion? version = null,
+        public async Task<ChampionSummary> FetchChampionSummaryAsync(
+            ChampionId championId, 
+            GameVersion? version = null,
             Language? language = null)
         {
             var data = await FetchBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language, championId)
@@ -197,7 +205,9 @@ namespace RiotPls.DataDragon
         }
 
         /// <inheritdoc/>
-        public async ValueTask<Champion> GetChampionAsync(ChampionId championId, GameVersion version,
+        public async ValueTask<Champion> GetChampionAsync(
+            ChampionId championId,
+            GameVersion version,
             Language? language = null)
         {
             var data = await GetBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language, championId)
@@ -206,7 +216,9 @@ namespace RiotPls.DataDragon
         }
 
         /// <inheritdoc/>
-        public async Task<Champion> FetchChampionAsync(ChampionId championId, GameVersion? version = null,
+        public async Task<Champion> FetchChampionAsync(
+            ChampionId championId,
+            GameVersion? version = null,
             Language? language = null)
         {
             var data = await FetchBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language, championId)
@@ -215,7 +227,8 @@ namespace RiotPls.DataDragon
         }
 
         /// <inheritdoc/>
-        public async ValueTask<IReadOnlyCollection<SummonerSpell>> GetSummonerSpellsAsync(GameVersion version,
+        public async ValueTask<IReadOnlyCollection<SummonerSpell>> GetSummonerSpellsAsync(
+            GameVersion version,
             Language? language = null)
         {
             var data = await GetBaseDataAsync<SummonerSpellDataDto, SummonerSpellData>(version, language)
@@ -224,7 +237,8 @@ namespace RiotPls.DataDragon
         }
 
         /// <inheritdoc/>
-        public async Task<IReadOnlyCollection<SummonerSpell>> FetchSummonerSpellsAsync(GameVersion? version = null,
+        public async Task<IReadOnlyCollection<SummonerSpell>> FetchSummonerSpellsAsync(
+            GameVersion? version = null,
             Language? language = null)
         {
             var data = await FetchBaseDataAsync<SummonerSpellDataDto, SummonerSpellData>(version, language)
@@ -233,7 +247,8 @@ namespace RiotPls.DataDragon
         }
 
         /// <inheritdoc/>
-        public async ValueTask<IReadOnlyCollection<ProfileIcon>> GetProfileIconsAsync(GameVersion version,
+        public async ValueTask<IReadOnlyCollection<ProfileIcon>> GetProfileIconsAsync(
+            GameVersion version,
             Language? language = null)
         {
             var data = await GetBaseDataAsync<ProfileIconDataDto, ProfileIconData>(version, language)
@@ -242,7 +257,8 @@ namespace RiotPls.DataDragon
         }
 
         /// <inheritdoc/>
-        public async Task<IReadOnlyCollection<ProfileIcon>> FetchProfileIconsAsync(GameVersion? version = null,
+        public async Task<IReadOnlyCollection<ProfileIcon>> FetchProfileIconsAsync(
+            GameVersion? version = null,
             Language? language = null)
         {
             var data = await FetchBaseDataAsync<ProfileIconDataDto, ProfileIconData>(version, language)
@@ -251,14 +267,17 @@ namespace RiotPls.DataDragon
         }
 
         /// <inheritdoc/>
-        public async ValueTask<IReadOnlyCollection<Map>> GetMapsAsync(GameVersion version, Language? language = null)
+        public async ValueTask<IReadOnlyCollection<Map>> GetMapsAsync(
+            GameVersion version,
+            Language? language = null)
         {
             var data = await GetBaseDataAsync<MapDataDto, MapData>(version, language).ConfigureAwait(false);
             return data.Maps.Values;
         }
 
         /// <inheritdoc/>
-        public async Task<IReadOnlyCollection<Map>> FetchMapsAsync(GameVersion? version = null,
+        public async Task<IReadOnlyCollection<Map>> FetchMapsAsync(
+            GameVersion? version = null,
             Language? language = null)
         {
             var data = await FetchBaseDataAsync<MapDataDto, MapData>(version, language).ConfigureAwait(false);
@@ -266,7 +285,9 @@ namespace RiotPls.DataDragon
         }
 
         /// <inheritdoc/>
-        public ValueTask<IReadOnlyList<Rune>> GetRunesAsync(GameVersion version, Language? language = null)
+        public ValueTask<IReadOnlyList<Rune>> GetRunesAsync(
+            GameVersion version, 
+            Language? language = null)
         {
             ThrowIfDisposed();
 
@@ -278,6 +299,7 @@ namespace RiotPls.DataDragon
                 language ??= DefaultLanguage;
 
                 if (_options.CacheMode == CacheMode.None ||
+                    _options.CacheMode == CacheMode.MostRecentOnly && version < _latestVersion ||
                     !Cache<IReadOnlyList<Rune>>.Instance.TryGetValue((version, language.Value), out var data))
                     return new ValueTask<IReadOnlyList<Rune>>(FetchRunesAsync(version, language.Value));
 
@@ -286,7 +308,9 @@ namespace RiotPls.DataDragon
         }
 
         /// <inheritdoc/>
-        public async Task<IReadOnlyList<Rune>> FetchRunesAsync(GameVersion? version = null, Language? language = null)
+        public async Task<IReadOnlyList<Rune>> FetchRunesAsync(
+            GameVersion? version = null,
+            Language? language = null)
         {
             ThrowIfDisposed();
 
@@ -308,7 +332,13 @@ namespace RiotPls.DataDragon
                     dtos => dtos.Select(x => new Rune(x)).ToImmutableArray()).ConfigureAwait(false);
 
                 if (_options.CacheMode != CacheMode.None)
+                {
+                    if (_options.CacheMode == CacheMode.MostRecentOnly && version == latestVersion)
+                        Cache<IReadOnlyList<Rune>>.Instance.Clear();
+
                     Cache<IReadOnlyList<Rune>>.Instance[version, language.Value] = data;
+                }
+
 
                 return data;
             }

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace RiotPls.DataDragon.Entities
 {
-    public sealed class SummonerSpellData : BaseData
+    internal sealed class SummonerSpellData : BaseData
     {
         /// <summary>
         ///     A dictionary of summoner spells, keyed by their unique identifier.
