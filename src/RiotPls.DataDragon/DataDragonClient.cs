@@ -30,6 +30,7 @@ namespace RiotPls.DataDragon
         private readonly object _lock;
         private ImmutableArray<GameVersion> _versions;
         private ImmutableArray<Language> _languages;
+        private GameVersion? _latestVersion;
         private bool _isDisposed;
 
         public DataDragonClient() : this(DataDragonClientOptions.Default)
@@ -49,6 +50,7 @@ namespace RiotPls.DataDragon
             };
             _lock = new object();
             _semaphore = new SemaphoreSlim(1, 1);
+            _latestVersion = null;
         }
 
         ~DataDragonClient()

@@ -40,6 +40,53 @@ namespace RiotPls.Tests.DataDragon
             Assert.Throws<FormatException>(() => GameVersion.Parse(version));
         }
 
+        [Fact(DisplayName = "Versions should compare properly")]
+        public void Test_That_Versions_Compare_Properly()
+        {
+            var lVersion = GameVersion.Parse("1.2.3");
+            var rVersion = GameVersion.Parse("3.2.1");
+
+            Assert.True(rVersion > lVersion, $"{rVersion} should be higher than {lVersion}");
+            Assert.True(rVersion >= lVersion, $"{rVersion} should be higher than or equal to {lVersion}");
+            Assert.Equal(1, rVersion.CompareTo(lVersion));
+            Assert.False(rVersion == lVersion, $"{rVersion} should not be equal to {lVersion}");
+            Assert.False(rVersion < lVersion, $"{rVersion} should not be lower than {lVersion}");
+            Assert.False(rVersion <= lVersion, $"{rVersion} should not be lower than or equal to {lVersion}");
+            Assert.Equal(-1, lVersion.CompareTo(rVersion));
+
+            Assert.True(rVersion > null, $"{rVersion} should be higher than null");
+            Assert.False(rVersion == null, $"{rVersion} should not be equal to null");
+            Assert.False(rVersion < null, $"{rVersion} should not be lower than null");
+
+            Assert.True(null < rVersion, $"null should be lower than {rVersion}");
+            Assert.False(null == rVersion, $"null should not be equal to {rVersion}");
+            Assert.False(null > rVersion, $"null should not be higher than {rVersion}");
+
+            var version = GameVersion.Parse("1.33.7");
+            var same = GameVersion.Parse("1.33.7");
+
+            Assert.True(version == same, $"{version} should be equal to {same}");
+            Assert.True(version >= same, $"{version} should be higher than or equal to {same}");
+            Assert.True(version <= same, $"{version} should be lower than or equal to {same}");
+            Assert.False(version > same, $"{version} should not be higher than {same}");
+            Assert.False(version < same, $"{version} should not be lower than {same}");
+            Assert.Equal(0, version.CompareTo(same));
+            Assert.Equal(0, same.CompareTo(version));
+
+            GameVersion @null = null;
+
+            Assert.True(@null == null, "@null should be equal to null");
+            Assert.True(@null >= null, "@null should be higher than or equal to null");
+            Assert.True(@null <= null, "@null should be lower than or equal to null");
+            Assert.False(@null > null, "@null should not be higher than null");
+            Assert.False(@null < null, "@null should not be lower than null");
+            Assert.True(null == @null, "null should be equal to @null");
+            Assert.True(null >= @null, "null should be higher than or equal to @null");
+            Assert.True(null <= @null, "null should be lower than or equal to @null");
+            Assert.False(null > @null, "null should not be higher than @null");
+            Assert.False(null < @null, "null should not be lower than @null");
+        }
+        
         public VersionTests(ITestOutputHelper helper) : base(helper)
         {
         }

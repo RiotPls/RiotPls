@@ -126,10 +126,10 @@ namespace RiotPls.DataDragon.Entities
 
         /// <inheritdoc/>
         public bool Equals(GameVersion? other)
-            => other is GameVersion version
-               && Major == version.Major
-               && Minor == version.Minor
-               && Patch == version.Patch;
+            => other is object
+            && Major == other.Major
+            && Minor == other.Minor
+            && Patch == other.Patch;
 
         /// <inheritdoc/>
         public int CompareTo(GameVersion? other)
@@ -139,36 +139,61 @@ namespace RiotPls.DataDragon.Entities
 
             if (Major > other.Major)
                 return 1;
-            else if (Major < other.Major)
-                return -1;
-            else
-            {
-                if (Minor > other.Minor)
-                    return 1;
-                else if (Minor < other.Minor)
-                    return -1;
-                else
-                {
-                    if (Patch > other.Patch)
-                        return 1;
-                    else if (Patch < other.Patch)
-                        return -1;
 
-                    return 0;
-                }
-            }
+            if (Major < other.Major)
+                return -1;
+
+            if (Minor > other.Minor)
+                return 1;
+
+            if (Minor < other.Minor)
+                return -1;
+
+            if (Patch > other.Patch)
+                return 1;
+
+            if (Patch < other.Patch)
+                return -1;
+
+            return 0;
+        }
+
+        public static bool operator ==(GameVersion? left, GameVersion? right)
+        {
+            if (left is null)
+                return right is null;
+
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(GameVersion? left, GameVersion? right)
+        {
+            if (left is null)
+                return right is object;
+
+            return !left.Equals(right);
         }
 
         public static bool operator >(GameVersion? left, GameVersion? right)
-            => left is object && left.CompareTo(right) > 0;
+        {
+            if (right is null)
+                return left is object;
+
+            return right.CompareTo(left) < 0;
+        }
 
         public static bool operator <(GameVersion? left, GameVersion? right)
-            => left is null || left.CompareTo(right) < 0;
+        {
+            if (left is null)
+                return right is object;
+
+            return left.CompareTo(right) < 0;
+        }
 
         public static bool operator >=(GameVersion? left, GameVersion? right)
-            => left is object && left.CompareTo(right) >= 0;
+            => right is null || right.CompareTo(left) <= 0;
 
         public static bool operator <=(GameVersion? left, GameVersion? right)
-            => left is null || left.CompareTo(right) < 0;
+            => left is null || left.CompareTo(right) <= 0;
     }
 }

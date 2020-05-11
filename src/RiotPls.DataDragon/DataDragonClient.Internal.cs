@@ -16,7 +16,9 @@ namespace RiotPls.DataDragon
             ThrowIfDisposed();
 
             var data = await MakeRequestAsync<string[]>($"{Api}/versions.json").ConfigureAwait(false);
-            return GameVersion.Parse(data[0]);
+            
+            _latestVersion = GameVersion.Parse(data[0]);
+            return _latestVersion;
         }
 
         private ValueTask<T> GetBaseDataAsync<TDto, T>(
@@ -42,7 +44,12 @@ namespace RiotPls.DataDragon
                         _options.CacheMode == CacheMode.MostRecentOnly && championData.Version < version)
                         return new ValueTask<T>(FetchBaseDataAsync<TDto, T>(version, language.Value, championId));
 
-                    return new ValueTask<T>((T)(object)championData);
+                        return new ValueTask<T>((T)(object)championData);
+                    }
+                    else
+                    {
+
+                    }
                 }
 
                 if (_options.CacheMode == CacheMode.None ||
