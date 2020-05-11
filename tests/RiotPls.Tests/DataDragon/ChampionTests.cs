@@ -1,7 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using RiotPls.DataDragon.Enums;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -29,12 +27,7 @@ namespace RiotPls.Tests.DataDragon
             var latestVersion = versions.First();
 
             var championsData = await _client.GetChampionsSummaryAsync(latestVersion);
-            foreach (var championData in championsData)
-            {
-                _output.WriteLine($"Trying to deserialize {championData.Id}...");
-                var champion = await _client.GetChampionAsync(championData.Id, latestVersion);
-                Assert.NotNull(champion);
-            }
+            Assert.NotNull(championsData);
         }
 
         [Fact(DisplayName = "Champions can properly be parsed without exceptions.")]
