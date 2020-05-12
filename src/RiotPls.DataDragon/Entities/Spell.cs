@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace RiotPls.DataDragon.Entities
 {
     /// <summary>
     ///     Represents a champion's spell.
     /// </summary>
-    public class Spell
+    public class Spell : SpellBase
     {
         /// <summary>
         ///     Id of the spell.
@@ -71,7 +69,7 @@ namespace RiotPls.DataDragon.Entities
         /// </summary>
         public string Resource { get; }
 
-        internal Spell(SpellDto dto)
+        internal Spell(SpellDto dto) : base(dto)
         {
             Id = dto.Id;
             ToolTip = dto.ToolTip;

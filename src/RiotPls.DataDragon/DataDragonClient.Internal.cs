@@ -16,7 +16,7 @@ namespace RiotPls.DataDragon
             ThrowIfDisposed();
 
             var data = await MakeRequestAsync<string[]>($"api/versions.json").ConfigureAwait(false);
-            
+
             _latestVersion = GameVersion.Parse(data[0]);
             return _latestVersion;
         }
@@ -57,7 +57,7 @@ namespace RiotPls.DataDragon
         }
 
         private async Task<T> FetchBaseDataAsync<TDto, T>(
-            GameVersion? version, 
+            GameVersion? version,
             Language? language = null,
             ChampionId? championId = null)
             where T : BaseData

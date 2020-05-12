@@ -62,6 +62,6 @@ namespace RiotPls.DataDragon.Entities
 
         public Task<Stream> DownloadTileAsync()
             => DataDragonClient.CommunityDragonHttpClient.GetStreamAsync(
-                $"{Champion.Version}/champion/{Champion.Id}/tile/skin/{SkinIndex}");            
+                $"{Champion.Version}/champion/{Champion.Id}/tile/skin/{SkinIndex}");
     }
 }

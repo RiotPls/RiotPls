@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RiotPls.DataDragon.Enums
+﻿namespace RiotPls.DataDragon.Enums
 {
     public enum ChampionAbility
     {

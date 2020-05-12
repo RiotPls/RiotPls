@@ -50,7 +50,7 @@ namespace RiotPls.DataDragon.Extensions
                 ChampionAbility.W => "w",
                 ChampionAbility.E => "e",
                 ChampionAbility.R => "r",
-                _ => string.Empty 
+                _ => string.Empty
             };
     }
 }

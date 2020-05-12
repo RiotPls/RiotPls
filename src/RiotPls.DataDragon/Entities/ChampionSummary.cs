@@ -5,13 +5,13 @@ using RiotPls.DataDragon.Enums;
 using RiotPls.DataDragon.Extensions;
 
 namespace RiotPls.DataDragon.Entities
-{ 
+{
     public class ChampionSummary
     {
         /// <summary>
         ///     The version of the data.
         /// </summary>
-        public GameVersion Version { get; } 
+        public GameVersion Version { get; }
 
         /// <summary>
         ///     The unique identifier of the champion.

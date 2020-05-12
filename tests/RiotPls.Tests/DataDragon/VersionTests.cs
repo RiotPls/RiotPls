@@ -86,7 +86,7 @@ namespace RiotPls.Tests.DataDragon
             Assert.False(null > @null, "null should not be higher than @null");
             Assert.False(null < @null, "null should not be lower than @null");
         }
-        
+
         public VersionTests(ITestOutputHelper helper) : base(helper)
         {
         }

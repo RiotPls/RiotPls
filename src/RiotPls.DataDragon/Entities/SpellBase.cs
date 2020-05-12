@@ -1,6 +1,6 @@
 ﻿namespace RiotPls.DataDragon.Entities
 {
-    public sealed class SpellBase
+    public class SpellBase
     {
         /// <summary>
         ///     Name of the spell.

@@ -151,7 +151,7 @@ namespace RiotPls.DataDragon
         {
             var data = await GetBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language)
                 .ConfigureAwait(false);
-            return (IReadOnlyList<Champion>) data.Champions.Values;
+            return (IReadOnlyList<Champion>)data.Champions.Values;
         }
 
         /// <inheritdoc/>
@@ -161,7 +161,7 @@ namespace RiotPls.DataDragon
         {
             var data = await FetchBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language)
                 .ConfigureAwait(false);
-            return (IReadOnlyList<Champion>) data.Champions.Values;
+            return (IReadOnlyList<Champion>)data.Champions.Values;
         }
 
         /// <inheritdoc/>
@@ -246,7 +246,7 @@ namespace RiotPls.DataDragon
 
         /// <inheritdoc/>
         public ValueTask<IReadOnlyList<Rune>> GetRunesAsync(
-            GameVersion version, 
+            GameVersion version,
             Language? language = null)
         {
             ThrowIfDisposed();
