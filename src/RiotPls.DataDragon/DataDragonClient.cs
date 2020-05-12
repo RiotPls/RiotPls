@@ -145,26 +145,6 @@ namespace RiotPls.DataDragon
         }
 
         /// <inheritdoc/>
-        public async ValueTask<IReadOnlyList<ChampionSummary>> GetChampionSummariesAsync(
-            GameVersion version,
-            Language? language = null)
-        {
-            var data = await GetBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language)
-                .ConfigureAwait(false);
-            return (IReadOnlyList<ChampionSummary>) data.Champions.Values; // God bless covariance
-        }
-
-        /// <inheritdoc/>
-        public async Task<IReadOnlyList<ChampionSummary>> FetchChampionSummariesAsync(
-            GameVersion? version = null,
-            Language? language = null)
-        {
-            var data = await FetchBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language)
-                .ConfigureAwait(false);
-            return (IReadOnlyList<ChampionSummary>) data.Champions.Values;
-        }
-
-        /// <inheritdoc/>
         public async ValueTask<IReadOnlyList<Champion>> GetChampionsAsync(
             GameVersion version,
             Language? language = null)
@@ -182,29 +162,6 @@ namespace RiotPls.DataDragon
             var data = await FetchBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language)
                 .ConfigureAwait(false);
             return (IReadOnlyList<Champion>) data.Champions.Values;
-        }
-
-        /// <inheritdoc/>
-        public async ValueTask<ChampionSummary> GetChampionSummaryAsync(
-            ChampionId championId, 
-            GameVersion version,
-            Language? language = null)
-        {
-            var data = await GetBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language, championId)
-                .ConfigureAwait(false);
-            return data.Champions[championId];
-            // I don't want to cache summaries, I get full champion instead and expose it as summary.
-        }
-
-        /// <inheritdoc/>
-        public async Task<ChampionSummary> FetchChampionSummaryAsync(
-            ChampionId championId, 
-            GameVersion? version = null,
-            Language? language = null)
-        {
-            var data = await FetchBaseDataAsync<ChampionFullDataDto, ChampionFullData>(version, language, championId)
-                .ConfigureAwait(false);
-            return data.Champions[championId]; // Same as above.
         }
 
         /// <inheritdoc/>
