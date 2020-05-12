@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using RiotPls.DataDragon.Enums;
+using RiotPls.DataDragon.Extensions;
 
 namespace RiotPls.DataDragon.Entities
 {
@@ -78,10 +79,61 @@ namespace RiotPls.DataDragon.Entities
             Statistics = new ChampionStatistics(dto.Stats);
         }
 
-        public Task<Stream> DownloadSquareAssetAsync()
-            => DataDragonClient.Client.GetStreamAsync($"{Version}/img/champion/{Id}.png");
+        /// <summary>
+        ///     Downloads the icon of the specificed ability.
+        /// </summary>
+        /// <param name="ability">
+        ///     The ability to download.
+        /// </param>
+        public Task<Stream> DownloadAbilityIconAsync(ChampionAbility ability)
+            => DataDragonClient.CommunityDragonHttpClient.GetStreamAsync(
+                $"{Version}/champion/{Id}/ability-icon/{ability.ToLower()}");
 
-        public Task<Stream> DownloadPassiveAssetAsync()
-            => DataDragonClient.Client.GetStreamAsync($"{Version}/img/passive/{Id}_P.png");
+        /// <summary>
+        ///     Downloads the default splash art of the champion. 
+        ///     You can optionally indicate if you want to download the centered version.
+        /// </summary>
+        /// <param name="centered">
+        ///     Indicates if the method should fetch the centered splash art.
+        /// </param>
+        public Task<Stream> DownloadSplashArtAsync(bool centered = false)
+            => DataDragonClient.CommunityDragonHttpClient.GetStreamAsync(
+                $"{Version}/champion/{Id}/splash-art/{(centered ? "centered" : string.Empty)}");
+
+        /// <summary>
+        ///     Downloads the default portrait of the champion.
+        /// </summary>
+        public Task<Stream> DownloadPortraitAsync()
+            => DataDragonClient.CommunityDragonHttpClient.GetStreamAsync(
+                $"{Version}/champion/{Id}/portrait");
+
+        /// <summary>
+        ///     Downloads the default tile of the champion.
+        /// </summary>
+        public Task<Stream> DownloadTileAsync()
+            => DataDragonClient.CommunityDragonHttpClient.GetStreamAsync(
+                $"{Version}/champion/{Id}/tile");
+
+        /// <summary>
+        ///     Downloads the sound the champion emits when it's choosen.
+        /// </summary>
+        public Task<Stream> DownloadChooseSoundAsync()
+            => DataDragonClient.CommunityDragonHttpClient.GetStreamAsync(
+                $"{Version}/champion/{Id}/champ-select/sounds/choose");
+
+
+        /// <summary>
+        ///     Downloads the sound the champion emits when it's banned.
+        /// </summary>
+        public Task<Stream> DownloadBanSoundAsync()
+            => DataDragonClient.CommunityDragonHttpClient.GetStreamAsync(
+                $"{Version}/champion/{Id}/champ-select/sounds/ban");
+
+        /// <summary>
+        ///     Downloads the champion-selection special sound effects of the champion.
+        /// </summary>
+        public Task<Stream> DownloadSpecialSoundEffectAsync()
+            => DataDragonClient.CommunityDragonHttpClient.GetStreamAsync(
+                $"{Version}/champion/{Id}/champ-select/sounds/sfx");
     }
 }

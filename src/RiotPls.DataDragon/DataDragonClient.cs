@@ -22,9 +22,9 @@ namespace RiotPls.DataDragon
             => _options.DefaultLanguage;
 
         internal static DataDragonClient Instance { get; } = new DataDragonClient(DataDragonClientOptions.Default);
-        internal static HttpClient Client { get; } = new HttpClient
+        internal static HttpClient CommunityDragonHttpClient { get; } = new HttpClient
         {
-            BaseAddress = new Uri(Host + Cdn)
+            BaseAddress = new Uri("https://cdn.communitydragon.org/")
         };
 
         private readonly DataDragonClientOptions _options;

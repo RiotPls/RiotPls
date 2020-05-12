@@ -41,11 +41,16 @@ namespace RiotPls.DataDragon.Entities
             HasChromas = dto.HasChromas;
         }
 
-        public Task<Stream> DownloadSplashArtAsync()
-            => DataDragonClient.Client.GetStreamAsync($"/img/champion/splash/{Champion.Id}_{SkinIndex}.jpg");
+        public Task<Stream> DownloadSplashArtAsync(bool centered = false)
+            => DataDragonClient.CommunityDragonHttpClient.GetStreamAsync(
+                $"{Champion.Version}/champion/{Champion.Id}/splash-art/{(centered ? "centered/" : string.Empty)}skin/{SkinIndex}");
 
-        public Task<Stream> DownloadLoadingScreenArtAsync()
-            => DataDragonClient.Client.GetStreamAsync($"/img/champion/loading/{Champion.Id}_{SkinIndex}.jpg");
-            
+        public Task<Stream> DownloadPortraitAsync()
+            => DataDragonClient.CommunityDragonHttpClient.GetStreamAsync(
+                $"{Champion.Version}/champion/{Champion.Id}/portrait/skin/{SkinIndex}");
+
+        public Task<Stream> DownloadTileAsync()
+            => DataDragonClient.CommunityDragonHttpClient.GetStreamAsync(
+                $"{Champion.Version}/champion/{Champion.Id}/tile/skin/{SkinIndex}");            
     }
 }
