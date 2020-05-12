@@ -12,7 +12,7 @@ namespace RiotPls.DataDragon.Entities
         internal ChampionData(ChampionDataDto dto) : base(dto)
         {
             // Only one value is expected so this is a good use-case for Single() to keep the integrity of the data.
-            Champion = new Champion(dto.Champion.Values.Single());
+            Champion = new Champion(dto.Champion.Values.Single(), Version);
         }
     }
 }

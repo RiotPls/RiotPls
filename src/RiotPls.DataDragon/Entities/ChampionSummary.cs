@@ -11,7 +11,7 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     The version of the data.
         /// </summary>
-        public GameVersion Version { get; }
+        public GameVersion Version { get; } 
 
         /// <summary>
         ///     The unique identifier of the champion.
@@ -90,9 +90,9 @@ namespace RiotPls.DataDragon.Entities
 
         public string SpecialSoundEffectUrl { get; }
 
-        internal ChampionSummary(ChampionSummaryDto dto)
+        internal ChampionSummary(ChampionSummaryDto dto, GameVersion version)
         {
-            Version = dto.Version;
+            Version = version;
             Id = Enum.Parse<ChampionId>(dto.Id, true);
             Key = int.Parse(dto.Key);
             Name = dto.Name;

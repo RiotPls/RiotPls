@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace RiotPls.DataDragon.Entities
@@ -18,7 +19,10 @@ namespace RiotPls.DataDragon.Entities
             Champions = new ReadOnlyDictionary<int, ChampionSummary>(
                 dto.Champions.ToDictionary(
                     x => int.Parse(x.Value.Key),
-                    y => new ChampionSummary(y.Value)));
+                    Converter));
         }
+
+        private ChampionSummary Converter(KeyValuePair<string, ChampionSummaryDto> pair)
+            => new ChampionSummary(pair.Value, Version);
     }
 }

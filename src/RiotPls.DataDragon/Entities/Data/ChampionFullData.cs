@@ -16,8 +16,11 @@ namespace RiotPls.DataDragon.Entities
         {
             Champions = new ConcurrentDictionary<ChampionId, Champion>(
                 dto.Champions.Values.ToDictionary(
-                    x => Enum.Parse<ChampionId>(x.Id, true), 
-                    x => new Champion(x)));
+                    x => Enum.Parse<ChampionId>(x.Id, true),
+                    Converter));
         }
+
+        private Champion Converter(ChampionDto dto)
+            => new Champion(dto, Version);
     }
 }

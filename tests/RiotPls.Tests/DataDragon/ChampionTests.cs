@@ -27,6 +27,7 @@ namespace RiotPls.Tests.DataDragon
             Assert.NotNull(championsData);
             foreach (var champion in championsData)
             {
+                Assert.NotNull(champion.Version);
                 Assert.NotNull(champion.Recommendations);
                 Assert.NotNull(champion.Skins);
                 Assert.NotNull(champion.Spells);

@@ -41,7 +41,7 @@ namespace RiotPls.DataDragon.Entities
         /// </summary>
         public IReadOnlyList<Recommendation> Recommendations { get; }
 
-        internal Champion(ChampionDto dto) : base(dto)
+        internal Champion(ChampionDto dto, GameVersion version) : base(dto, version)
         {
             Lore = dto.Lore;
             Skins = Array.ConvertAll(dto.Skins, Converter).ToImmutableArray();
