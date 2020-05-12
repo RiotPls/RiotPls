@@ -15,13 +15,13 @@
         /// <summary>
         ///     Image information of the map.
         /// </summary>
-        public StaticImage Image { get; }
+        public ImageInformation Image { get; }
 
         internal Map(MapDto dto)
         {
             Name = dto.Name;
             Id = int.Parse(dto.Id);
-            Image = new StaticImage(dto.Image);
+            Image = new ImageInformation(dto.Image);
         }
     }
 }

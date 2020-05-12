@@ -15,7 +15,7 @@ namespace RiotPls.DataDragon
         {
             ThrowIfDisposed();
 
-            var data = await MakeRequestAsync<string[]>($"{Api}/versions.json").ConfigureAwait(false);
+            var data = await MakeRequestAsync<string[]>($"api/versions.json").ConfigureAwait(false);
             
             _latestVersion = GameVersion.Parse(data[0]);
             return _latestVersion;
@@ -97,11 +97,11 @@ namespace RiotPls.DataDragon
                 throw new DataNotFoundException(
                     $"We couldn't fetch data for the version: {version}. Read the inner exception for more details.",
                     e,
-                    _client.BaseAddress +
+                    DataDragonUrl +
                     GetEndpoint<T>(
                         version!,
                         language.GetValueOrDefault().GetCode(),
-                        championId.GetValueOrDefault())[1..],
+                        championId.GetValueOrDefault()),
                     version!,
                     language!.Value);
             }
@@ -114,25 +114,25 @@ namespace RiotPls.DataDragon
         private static string GetEndpoint<T>(GameVersion version, string language, ChampionId championId)
         {
             if (typeof(T) == typeof(ChampionSummaryData))
-                return $"{Cdn}/{version}/data/{language}/champion.json";
+                return $"cdn/{version}/data/{language}/champion.json";
 
             if (typeof(T) == typeof(ChampionFullData))
-                return $"{Cdn}/{version}/data/{language}/championFull.json";
+                return $"cdn/{version}/data/{language}/championFull.json";
 
             if (typeof(T) == typeof(ChampionData))
-                return $"{Cdn}/{version}/data/{language}/champion/{championId}.json";
+                return $"cdn/{version}/data/{language}/champion/{championId}.json";
 
             if (typeof(T) == typeof(SummonerSpellData))
-                return $"{Cdn}/{version}/data/{language}/summoner.json";
+                return $"cdn/{version}/data/{language}/summoner.json";
 
             if (typeof(T) == typeof(ProfileIconData))
-                return $"{Cdn}/{version}/data/{language}/profileicon.json";
+                return $"cdn/{version}/data/{language}/profileicon.json";
 
             if (typeof(T) == typeof(MapData))
-                return $"{Cdn}/{version}/data/{language}/map.json";
+                return $"cdn/{version}/data/{language}/map.json";
 
             if (typeof(T) == typeof(MissionAssetData))
-                return $"{Cdn}/{version}/data/{language}/mission-assets.json";
+                return $"cdn/{version}/data/{language}/mission-assets.json";
 
             throw new NotImplementedException($"Endpoint for the type {typeof(T).Name} has not been implemented.");
         }

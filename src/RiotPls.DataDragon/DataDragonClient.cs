@@ -14,9 +14,8 @@ namespace RiotPls.DataDragon
 {
     public sealed partial class DataDragonClient : IDataDragonClient
     {
-        public const string Host = "https://ddragon.leagueoflegends.com";
-        public const string Api = "/api";
-        public const string Cdn = "/cdn";
+        public const string DataDragonUrl = "https://ddragon.leagueoflegends.com/";
+        public const string CommunityDragonUrl = "https://cdn.communitydragon.org/";
 
         public Language DefaultLanguage
             => _options.DefaultLanguage;
@@ -24,7 +23,7 @@ namespace RiotPls.DataDragon
         internal static DataDragonClient Instance { get; } = new DataDragonClient(DataDragonClientOptions.Default);
         internal static HttpClient CommunityDragonHttpClient { get; } = new HttpClient
         {
-            BaseAddress = new Uri("https://cdn.communitydragon.org/")
+            BaseAddress = new Uri(CommunityDragonUrl)
         };
 
         private readonly DataDragonClientOptions _options;
@@ -46,7 +45,7 @@ namespace RiotPls.DataDragon
             _options = options ?? throw new ArgumentNullException(nameof(options));
             _client = new HttpClient
             {
-                BaseAddress = new Uri(Host)
+                BaseAddress = new Uri(DataDragonUrl)
             };
             _jsonSerializerOptions = new JsonSerializerOptions
             {
@@ -86,7 +85,7 @@ namespace RiotPls.DataDragon
                 await _semaphore.WaitAsync().ConfigureAwait(false);
 
                 var versions = (await MakeRequestAsync<GameVersion[]>(
-                    $"{Api}/versions.json").ConfigureAwait(false)).ToImmutableArray();
+                    "api/versions.json").ConfigureAwait(false)).ToImmutableArray();
 
                 if (_options.CacheMode != CacheMode.None)
                     _versions = versions;
@@ -132,7 +131,7 @@ namespace RiotPls.DataDragon
                 await _semaphore.WaitAsync().ConfigureAwait(false);
 
                 var languages = (await MakeRequestAsync<Language[]>(
-                    $"{Cdn}/languages.json").ConfigureAwait(false)).ToImmutableArray();
+                    "cdn/languages.json").ConfigureAwait(false)).ToImmutableArray();
 
                 if (_options.CacheMode != CacheMode.None)
                     _languages = languages;
@@ -332,7 +331,7 @@ namespace RiotPls.DataDragon
                         "The provided version is higher than the latest Data Dragon version.");
 
                 var data = await MakeRequestAsync<IReadOnlyList<RuneDto>, IReadOnlyList<Rune>>(
-                    $"{Cdn}/{version}/data/{language.Value.GetCode()}/runesReforged.json",
+                    $"cdn/{version}/data/{language.Value.GetCode()}/runesReforged.json",
                     dtos => dtos.Select(x => new Rune(x)).ToImmutableArray()).ConfigureAwait(false);
 
                 if (_options.CacheMode != CacheMode.None)
@@ -351,7 +350,7 @@ namespace RiotPls.DataDragon
                 throw new DataNotFoundException(
                     $"We couldn't fetch data for the version: {version}. Read the inner exception for more details.",
                     e,
-                    $"{_client.BaseAddress}/{Cdn}/{version}/data/{language}/runesReforged.json",
+                    $"{DataDragonUrl}cdn/{version}/data/{language}/runesReforged.json",
                     version!,
                     language!.Value);
             }

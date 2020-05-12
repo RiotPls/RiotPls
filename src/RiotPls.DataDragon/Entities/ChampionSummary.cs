@@ -5,7 +5,7 @@ using RiotPls.DataDragon.Enums;
 using RiotPls.DataDragon.Extensions;
 
 namespace RiotPls.DataDragon.Entities
-{
+{ 
     public class ChampionSummary
     {
         /// <summary>
@@ -52,7 +52,7 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     Information and name of the images associated with that champion.
         /// </summary>
-        public StaticImage Image { get; }
+        public ImageInformation Image { get; }
 
         /// <summary>
         ///     Tags representing the champion.
@@ -64,6 +64,32 @@ namespace RiotPls.DataDragon.Entities
         /// </summary>
         public ChampionStatistics Statistics { get; }
 
+        public string QAbilityIconUrl { get; }
+
+        public string WAbilityIconUrl { get; }
+
+        public string EAbilityIconUrl { get; }
+
+        public string RAbilityIconUrl { get; }
+
+        public string PassiveAbilityIconUrl { get; }
+
+        public string SplashArtUrl { get; }
+
+        public string CenteredSplashArtUrl { get; }
+
+        public string PortraitUrl { get; }
+
+        public string SquareUrl { get; }
+
+        public string TileUrl { get; }
+
+        public string ChooseSoundUrl { get; }
+
+        public string BanSoundUrl { get; }
+
+        public string SpecialSoundEffectUrl { get; }
+
         internal ChampionSummary(ChampionSummaryDto dto)
         {
             Version = dto.Version;
@@ -74,9 +100,25 @@ namespace RiotPls.DataDragon.Entities
             Summary = dto.Blurb;
             ResourceType = Enum.Parse<ResourceType>(dto.Partype.Replace(" ", string.Empty), true);
             Information = new ChampionInformation(dto.Info);
-            Image = new StaticImage(dto.Image);
+            Image = new ImageInformation(dto.Image);
             Tags = dto.Tags;
             Statistics = new ChampionStatistics(dto.Stats);
+
+            var baseUrl = $"{DataDragonClient.CommunityDragonUrl}{Version}/champion/{Id}";
+
+            QAbilityIconUrl = $"{baseUrl}/ability-icon/q";
+            WAbilityIconUrl = $"{baseUrl}/ability-icon/w";
+            EAbilityIconUrl = $"{baseUrl}/ability-icon/e";
+            RAbilityIconUrl = $"{baseUrl}/ability-icon/r";
+            PassiveAbilityIconUrl = $"{baseUrl}/ability-icon/p";
+            SplashArtUrl = $"{baseUrl}/splash-art";
+            CenteredSplashArtUrl = $"{baseUrl}/splash-art/centered";
+            PortraitUrl = $"{baseUrl}/portrait";
+            SquareUrl = $"{baseUrl}/square";
+            TileUrl = $"{baseUrl}/tile";
+            ChooseSoundUrl = $"{baseUrl}/champ-select/sounds/choose";
+            BanSoundUrl = $"{baseUrl}/champ-select/sounds/ban";
+            SpecialSoundEffectUrl = $"{baseUrl}/champ-select/sounds/sfx";
         }
 
         /// <summary>
@@ -98,7 +140,7 @@ namespace RiotPls.DataDragon.Entities
         /// </param>
         public Task<Stream> DownloadSplashArtAsync(bool centered = false)
             => DataDragonClient.CommunityDragonHttpClient.GetStreamAsync(
-                $"{Version}/champion/{Id}/splash-art/{(centered ? "centered" : string.Empty)}");
+                $"{Version}/champion/{Id}/splash-art{(centered ? "/centered" : string.Empty)}");
 
         /// <summary>
         ///     Downloads the default portrait of the champion.

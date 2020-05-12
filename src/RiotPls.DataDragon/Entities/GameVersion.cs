@@ -42,13 +42,15 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     Parses a string input into a <see cref="GameVersion"/>.
         /// </summary>
-        /// <param name="input">The game version, in string form.</param>
+        /// <param name="input">
+        ///     The game version, in string form.
+        /// </param>
         /// <returns>A parsed game version object.</returns>
         /// <exception cref="ArgumentNullException">
-        ///     Thrown if <paramref name="input"/> is <see langword="null"/>.
+        ///     Thrown when <paramref name="input"/> is <see langword="null"/>.
         /// </exception>
         /// <exception cref="FormatException">
-        ///     Thrown if <paramref name="input"/> does not have a valid format.
+        ///     Thrown when <paramref name="input"/> does not have a valid format.
         /// </exception>
         public static GameVersion Parse(string input)
         {
@@ -64,9 +66,15 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     Parses a string input into a <see cref="GameVersion"/>.
         /// </summary>
-        /// <param name="input">The game version, in string form.</param>
-        /// <param name="gameVersion">A parsed game version object.</param>
-        /// <returns>True if parsing was successful, or false if an error occurred.</returns>
+        /// <param name="input">
+        ///     The game version, in string form.
+        ///     </param>
+        /// <param name="gameVersion">
+        ///     A parsed game version object.
+        /// </param>
+        /// <returns>
+        ///     <see langword="true"/> if parsing was successful, otherwise <see langword="false"/>.
+        /// </returns>
         public static bool TryParse(string input, [NotNullWhen(true)] out GameVersion? gameVersion)
         {
             gameVersion = null;
@@ -158,6 +166,18 @@ namespace RiotPls.DataDragon.Entities
             return 0;
         }
 
+        /// <summary>
+        ///     Indicates if both objects of type <see cref="GameVersion"/> are equal.
+        /// </summary>
+        /// <param name="left">
+        ///     The left-side input to compare.
+        /// </param>
+        /// <param name="right">
+        ///     The right-side input to compare.
+        /// </param>
+        /// <returns>
+        ///     <see langword="true"/> if the objects are equal. Otherwise <see langword="false"/>.
+        /// </returns>
         public static bool operator ==(GameVersion? left, GameVersion? right)
         {
             if (left is null)
@@ -166,6 +186,18 @@ namespace RiotPls.DataDragon.Entities
             return left.Equals(right);
         }
 
+        /// <summary>
+        ///     Indicates if both objects of type <see cref="GameVersion"/> are not equal.
+        /// </summary>
+        /// <param name="left">
+        ///     The left-side input to compare.
+        /// </param>
+        /// <param name="right">
+        ///     The right-side input to compare.
+        /// </param>
+        /// <returns>
+        ///     <see langword="false"/> if the objects are equal. Otherwise <see langword="true"/>.
+        /// </returns>
         public static bool operator !=(GameVersion? left, GameVersion? right)
         {
             if (left is null)
@@ -174,6 +206,18 @@ namespace RiotPls.DataDragon.Entities
             return !left.Equals(right);
         }
 
+        /// <summary>
+        ///     Indicates if the left objects of type <see cref="GameVersion"/> is higher than the right one.
+        /// </summary>
+        /// <param name="left">
+        ///     The left-side input to compare.
+        /// </param>
+        /// <param name="right">
+        ///     The right-side input to compare.
+        /// </param>
+        /// <returns>
+        ///     <see langword="true"/> if the left object is higher than the right one. Otherwise <see langword="false"/>.
+        /// </returns>
         public static bool operator >(GameVersion? left, GameVersion? right)
         {
             if (right is null)
@@ -182,6 +226,18 @@ namespace RiotPls.DataDragon.Entities
             return right.CompareTo(left) < 0;
         }
 
+        /// <summary>
+        ///     Indicates if the left objects of type <see cref="GameVersion"/> is lower than the right one.
+        /// </summary>
+        /// <param name="left">
+        ///     The left-side input to compare.
+        /// </param>
+        /// <param name="right">
+        ///     The right-side input to compare.
+        /// </param>
+        /// <returns>
+        ///     <see langword="true"/> if the left object is lower than the right one. Otherwise <see langword="false"/>.
+        /// </returns>
         public static bool operator <(GameVersion? left, GameVersion? right)
         {
             if (left is null)
@@ -190,9 +246,33 @@ namespace RiotPls.DataDragon.Entities
             return left.CompareTo(right) < 0;
         }
 
+        /// <summary>
+        ///     Indicates if the left objects of type <see cref="GameVersion"/> is higher than or equal to the right one.
+        /// </summary>
+        /// <param name="left">
+        ///     The left-side input to compare.
+        /// </param>
+        /// <param name="right">
+        ///     The right-side input to compare.
+        /// </param>
+        /// <returns>
+        ///     <see langword="true"/> if the left object is higher than or equal to the right one. Otherwise <see langword="false"/>.
+        /// </returns>
         public static bool operator >=(GameVersion? left, GameVersion? right)
             => right is null || right.CompareTo(left) <= 0;
 
+        /// <summary>
+        ///     Indicates if the left objects of type <see cref="GameVersion"/> is lower than or equal to the right one.
+        /// </summary>
+        /// <param name="left">
+        ///     The left-side input to compare.
+        /// </param>
+        /// <param name="right">
+        ///     The right-side input to compare.
+        /// </param>
+        /// <returns>
+        ///     <see langword="true"/> if the left object is lower than or equal to the right one. Otherwise <see langword="false"/>.
+        /// </returns>
         public static bool operator <=(GameVersion? left, GameVersion? right)
             => left is null || left.CompareTo(right) <= 0;
     }

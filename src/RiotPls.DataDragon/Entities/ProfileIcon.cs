@@ -16,12 +16,12 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     Image information of the profile icon.
         /// </summary>
-        public StaticImage Image { get; }
+        public ImageInformation Image { get; }
 
         internal ProfileIcon(ProfileIconDto dto, GameVersion version)
         {
             Id = dto.Id;
-            Image = new StaticImage(dto.Image);
+            Image = new ImageInformation(dto.Image);
             Version = version;
         }
 

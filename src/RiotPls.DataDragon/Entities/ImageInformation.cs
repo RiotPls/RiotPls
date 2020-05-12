@@ -6,10 +6,8 @@ namespace RiotPls.DataDragon.Entities
     /// <summary>
     ///     Represents information about images and splash art for a champion.
     /// </summary>
-    public sealed class StaticImage
+    public sealed class ImageInformation
     {
-        // TODO: Implement URL helpers for champion images.
-
         /// <summary>
         ///     The name of the image for the full splash art for the champion.
         /// </summary>
@@ -39,7 +37,7 @@ namespace RiotPls.DataDragon.Entities
         /// </summary>
         public int Height { get; }
 
-        internal StaticImage(StaticImageDto dto)
+        internal ImageInformation(StaticImageDto dto)
         {
             Full = dto.Full;
             Sprite = dto.Sprite;

@@ -15,13 +15,13 @@
         /// <summary>
         ///     Image of the spell.
         /// </summary>
-        public StaticImage Image { get; }
+        public ImageInformation Image { get; }
 
         internal SpellBase(SpellBaseDto dto)
         {
             Name = dto.Name;
             RawDescription = dto.RawDescription;
-            Image = new StaticImage(dto.Image);
+            Image = new ImageInformation(dto.Image);
         }
     }
 }

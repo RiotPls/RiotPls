@@ -10,12 +10,12 @@
         /// <summary>
         ///     Image of the mission asset.
         /// </summary>
-        public StaticImage Image { get; }
+        public ImageInformation Image { get; }
 
         internal MissionAsset(MissionAssetDto dto)
         {
             Id = dto.Id;
-            Image = new StaticImage(dto.Image);
+            Image = new ImageInformation(dto.Image);
         }
     }
 }

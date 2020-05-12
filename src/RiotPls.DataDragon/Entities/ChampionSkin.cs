@@ -31,6 +31,10 @@ namespace RiotPls.DataDragon.Entities
         ///     Whether the skin has chromatics.
         /// </summary>
         public bool HasChromas { get; }
+        public string SplashArtUrl { get; }
+        public string CenteredSplashArtUrl { get; }
+        public string PortraitUrl { get; }
+        public string TileUrl { get; }
 
         internal ChampionSkin(Champion champion, ChampionSkinDto dto)
         {
@@ -39,6 +43,13 @@ namespace RiotPls.DataDragon.Entities
             SkinIndex = dto.Num;
             Name = dto.Name;
             HasChromas = dto.HasChromas;
+
+            var baseUrl = $"{DataDragonClient.CommunityDragonUrl}{champion.Version}/champion/{champion.Id}";
+
+            SplashArtUrl = $"{baseUrl}/splash-art/skin/{SkinIndex}";
+            CenteredSplashArtUrl = $"{baseUrl}/splash-art/centered/skin/{SkinIndex}";
+            PortraitUrl = $"{baseUrl}/portrait/skin/{SkinIndex}";
+            TileUrl = $"{baseUrl}/tile/skin/{SkinIndex}";
         }
 
         public Task<Stream> DownloadSplashArtAsync(bool centered = false)
