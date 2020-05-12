@@ -108,6 +108,13 @@ namespace RiotPls.DataDragon.Entities
                 $"{Version}/champion/{Id}/portrait");
 
         /// <summary>
+        ///     Downloads the champion's square asset.
+        /// </summary>
+        public Task<Stream> DownloadSquareAsync()
+            => DataDragonClient.CommunityDragonHttpClient.GetStreamAsync(
+                $"{Version}/champion/{Id}/square");
+
+        /// <summary>
         ///     Downloads the default tile of the champion.
         /// </summary>
         public Task<Stream> DownloadTileAsync()

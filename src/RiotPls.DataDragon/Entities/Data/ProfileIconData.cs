@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace RiotPls.DataDragon.Entities
@@ -15,7 +16,10 @@ namespace RiotPls.DataDragon.Entities
             ProfileIcons = new ReadOnlyDictionary<int, ProfileIcon>(
                 dto.ProfileIcons.ToDictionary(
                     x => int.Parse(x.Key),
-                    y => new ProfileIcon(y.Value)));
+                    Converter));
         }
+
+        private ProfileIcon Converter(KeyValuePair<string, ProfileIconDto> kvp)
+            => new ProfileIcon(kvp.Value, Version);
     }
 }
