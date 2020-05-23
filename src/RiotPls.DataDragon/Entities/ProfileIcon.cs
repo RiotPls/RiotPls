@@ -25,7 +25,7 @@
         /// <summary>
         ///     Gets this profile icon url.
         /// </summary>
-        public string GetUrl()
+        public string GetProfileIconUrl()
             => $"{Version}/profile-icon/{Id}";
     }
 }
