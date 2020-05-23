@@ -43,6 +43,9 @@ namespace RiotPls.DataDragon.Entities
         // todo: check this object. (always empty)
         public object? DataValues { get; }
 
+        /// <summary>
+        /// Effects of the spell depending on the level.
+        /// </summary>
         // todo: check this object.
         public IReadOnlyList<IReadOnlyList<double>> Effects { get; }
 

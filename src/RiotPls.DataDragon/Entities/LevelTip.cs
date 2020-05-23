@@ -3,11 +3,16 @@ using System.Collections.Immutable;
 
 namespace RiotPls.DataDragon.Entities
 {
-    // todo: find a better way to handle when its optional, so null.
     public sealed class LevelTip
     {
+        /// <summary>
+        ///     Labels of the level tip.
+        /// </summary>
         public IReadOnlyList<string> Labels { get; }
 
+        /// <summary>
+        ///     Effects of the level tip.
+        /// </summary>
         public IReadOnlyList<string> Effects { get; }
 
         internal LevelTip(LevelTipDto dto)
