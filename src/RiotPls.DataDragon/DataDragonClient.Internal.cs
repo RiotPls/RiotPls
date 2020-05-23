@@ -113,9 +113,6 @@ namespace RiotPls.DataDragon
 
         private static string GetEndpoint<T>(GameVersion version, string language, ChampionId championId)
         {
-            if (typeof(T) == typeof(ChampionSummaryData))
-                return $"cdn/{version}/data/{language}/champion.json";
-
             if (typeof(T) == typeof(ChampionFullData))
                 return $"cdn/{version}/data/{language}/championFull.json";
 

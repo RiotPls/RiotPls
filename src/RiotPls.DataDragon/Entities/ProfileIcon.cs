@@ -26,10 +26,9 @@ namespace RiotPls.DataDragon.Entities
         }
 
         /// <summary>
-        ///     Downloads this profily icon.
+        ///     Gets this profile icon url.
         /// </summary>
-        public Task<Stream> DownloadAsync()
-            => DataDragonClient.CommunityDragonHttpClient.GetStreamAsync(
-                $"{Version}/profile-icon/{Id}");
+        public string DownloadAsync()
+            => $"{Version}/profile-icon/{Id}";
     }
 }
