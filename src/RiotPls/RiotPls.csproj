@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Title>RiotPls</Title>
+    <Authors>Allan, JustNrik, Abyssal</Authors>
+    <Description>A .NET Core 3.1 library for the Riot Games API.</Description>
+    <PackageProjectUrl>https://github.com/RiotPls/RiotPls</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/RiotPls/RiotPls/blob/master/LICENSE.md</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/RiotPls/RiotPls</RepositoryUrl>
+    <PackageTags>RiotGames LeagueOfLegends Riot RiotPls Ddragon Cdragon DataDragon</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
