@@ -213,5 +213,29 @@ namespace RiotPls.DataDragon
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
         Task<IReadOnlyCollection<MissionAsset>> FetchMissionAssetsAsync(GameVersion? version, Language? language = null);
+        
+        /// <summary>
+        ///     Gets a <see cref="IReadOnlyCollection{Item}"/> from the cache.
+        ///     If the data is not cached it will be fetched from the API.
+        /// </summary>
+        /// <param name="version">
+        ///     The version of Data Dragon to use.
+        /// </param>
+        /// <param name="language">
+        ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
+        /// </param>
+        ValueTask<IReadOnlyCollection<Item>> GetItemsAsync(GameVersion version, Language? language);
+
+        /// <summary>
+        ///     Fetches a <see cref="IReadOnlyCollection{Item}"/> from the API.
+        /// </summary>
+        /// <param name="version">
+        ///     The version of Data Dragon to use.
+        ///     The latest version will be fetched if <see langword="null"/> is provided.
+        /// </param>
+        /// <param name="language">
+        ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
+        /// </param>
+        Task<IReadOnlyCollection<Item>> FetchItemsAsync(GameVersion? version, Language? language);
     }
 }

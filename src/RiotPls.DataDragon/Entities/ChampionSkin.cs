@@ -1,7 +1,4 @@
-﻿using System.IO;
-using System.Threading.Tasks;
-
-namespace RiotPls.DataDragon.Entities
+﻿namespace RiotPls.DataDragon.Entities
 {
     /// <summary>
     ///     Represent a skin of a champion.

@@ -131,6 +131,9 @@ namespace RiotPls.DataDragon
             if (typeof(T) == typeof(MissionAssetData))
                 return $"cdn/{version}/data/{language}/mission-assets.json";
 
+            if (typeof(T) == typeof(ItemData))
+                return $"cdn/{version}/data/{language}/item.json";
+
             throw new NotImplementedException($"Endpoint for the type {typeof(T).Name} has not been implemented.");
         }
 

@@ -334,6 +334,24 @@ namespace RiotPls.DataDragon
                 .ConfigureAwait(false);
             return data.MissionAssets.Values;
         }
+        
+        /// <inheritdoc/>
+        public async ValueTask<IReadOnlyCollection<Item>> GetItemsAsync(GameVersion version,
+            Language? language = null)
+        {
+            var data = await GetBaseDataAsync<ItemDataDto, ItemData>(version, language)
+                .ConfigureAwait(false);
+            return data.Items.Values;
+        }
+
+        /// <inheritdoc/>
+        public async Task<IReadOnlyCollection<Item>> FetchItemsAsync(GameVersion? version = null,
+            Language? language = null)
+        {
+            var data = await FetchBaseDataAsync<ItemDataDto, ItemData>(version, language)
+                .ConfigureAwait(false);
+            return data.Items.Values;
+        }
 
         public void Dispose()
         {
