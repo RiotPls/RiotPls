@@ -22,7 +22,7 @@ namespace RiotPls.DataDragon
         ///         var version = await client.GetVersionAsync();
         ///     </code>
         ///     <code language="vb">
-        ///         Dim version = Await client.GetVersionAsync();
+        ///         Dim version = Await client.GetVersionAsync()
         ///     </code>
         /// </example>
         ValueTask<IReadOnlyList<GameVersion>> GetVersionsAsync();
