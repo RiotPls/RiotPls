@@ -17,23 +17,18 @@ namespace RiotPls.DataDragon
         public const string DataDragonUrl = "https://ddragon.leagueoflegends.com/";
         public const string CommunityDragonUrl = "https://cdn.communitydragon.org/";
 
-        public Language DefaultLanguage
-            => _options.DefaultLanguage;
-
-        internal static DataDragonClient Instance { get; } = new DataDragonClient(DataDragonClientOptions.Default);
-        internal static HttpClient CommunityDragonHttpClient { get; } = new HttpClient
-        {
-            BaseAddress = new Uri(CommunityDragonUrl)
-        };
+        public Language DefaultLanguage => _options.DefaultLanguage;
 
         private readonly DataDragonClientOptions _options;
         private readonly HttpClient _client;
         private readonly JsonSerializerOptions _jsonSerializerOptions;
         private readonly SemaphoreSlim _semaphore;
         private readonly object _lock;
+        
         private ImmutableArray<GameVersion> _versions;
         private ImmutableArray<Language> _languages;
         private GameVersion? _latestVersion;
+        
         private bool _isDisposed;
 
         public DataDragonClient() : this(DataDragonClientOptions.Default)
@@ -298,7 +293,6 @@ namespace RiotPls.DataDragon
 
                     Cache<IReadOnlyList<Rune>>.Instance[version, language.Value] = data;
                 }
-
 
                 return data;
             }

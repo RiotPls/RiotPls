@@ -416,7 +416,7 @@
         Nocturne,
 
         /// <summary>
-        ///     Nunu & Willump - the Boy and His Yeti.
+        ///     Nunu &amp; Willump - the Boy and His Yeti.
         /// </summary>
         Nunu,
 
