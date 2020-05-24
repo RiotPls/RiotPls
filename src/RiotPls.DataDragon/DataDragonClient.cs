@@ -28,8 +28,7 @@ namespace RiotPls.DataDragon
         private ImmutableArray<GameVersion> _versions;
         private ImmutableArray<Language> _languages;
         private GameVersion? _latestVersion;
-        
-        private bool _isDisposed;
+        private volatile bool _isDisposed;
 
         public DataDragonClient() : this(DataDragonClientOptions.Default)
         {
@@ -349,11 +348,11 @@ namespace RiotPls.DataDragon
 
         public void Dispose()
         {
+            if (_isDisposed)
+                return;
+
             lock (_lock)
             {
-                if (_isDisposed)
-                    return;
-
                 _client.CancelPendingRequests();
                 _client.Dispose();
                 _isDisposed = true;

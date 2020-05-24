@@ -17,6 +17,14 @@ namespace RiotPls.DataDragon
         ///    Gets a list from the cache of every available version of Data Dragon.
         ///    If the list is not available it will be fetched from the API.
         /// </summary>
+        /// <example>
+        ///     <code language="cs">
+        ///         var version = await client.GetVersionAsync();
+        ///     </code>
+        ///     <code language="vb">
+        ///         Dim version = Await client.GetVersionAsync();
+        ///     </code>
+        /// </example>
         ValueTask<IReadOnlyList<GameVersion>> GetVersionsAsync();
 
         /// <summary>
