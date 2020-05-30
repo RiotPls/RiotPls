@@ -451,6 +451,13 @@ namespace RiotPls.DataDragon
         {
             var data = await FetchBaseDataAsync<ItemDataDto, ItemData>(version, language)
                 .ConfigureAwait(false);
+
+            foreach (var item in data.Items.Values)
+            {
+                item.From = item.FromIds.Select(x => data.Items[x]).ToImmutableArray();
+                item.Into = item.IntoIds.Select(x => data.Items[x]).ToImmutableArray();
+            }
+            
             return data?.Items.Values;
         }
 
