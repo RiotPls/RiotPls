@@ -5,7 +5,7 @@ using RiotPls.DataDragon.Entities;
 
 namespace RiotPls.DataDragon.Converters
 {
-    public sealed class GameVersionJsonConverter : JsonConverter<GameVersion>
+    internal sealed class GameVersionJsonConverter : JsonConverter<GameVersion>
     {
         public static GameVersionJsonConverter Instance { get; } = new GameVersionJsonConverter();
 
