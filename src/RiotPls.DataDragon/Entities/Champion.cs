@@ -41,7 +41,7 @@ namespace RiotPls.DataDragon.Entities
         /// <summary>
         ///     The resource type of the champion. (mana, energy, fury)
         /// </summary>
-        public ResourceType ResourceType { get; }
+        public string ResourceType { get; }
 
         /// <summary>
         ///     General statistics about the champion. 
@@ -107,7 +107,7 @@ namespace RiotPls.DataDragon.Entities
             Name = dto.Name;
             Title = dto.Title;
             Summary = dto.Blurb;
-            ResourceType = Enum.Parse<ResourceType>(dto.Partype.Replace(" ", string.Empty), true);
+            ResourceType = dto.Partype;
             Information = new ChampionInformation(dto.Info);
             Image = new ImageInformation(dto.Image);
             Tags = dto.Tags;
@@ -128,7 +128,7 @@ namespace RiotPls.DataDragon.Entities
         ///     The ability to get.
         /// </param>
         public string GetAbilityIconUrl(ChampionAbility ability)
-            => $"{Version}/champion/{Id}/ability-icon/{ability.ToLower()}";
+            => $"{DataDragonClient.CommunityDragonUrl}{Version}/champion/{Id}/ability-icon/{ability.ToLower()}";
 
         /// <summary>
         ///     Gets the default splash art's url of the champion. 
@@ -138,43 +138,43 @@ namespace RiotPls.DataDragon.Entities
         ///     Indicates if the method should return the centered splash art url.
         /// </param>
         public string GetSplashArtUrl(bool centered = false)
-            => $"{Version}/champion/{Id}/splash-art{(centered ? "/centered" : string.Empty)}";
+            => $"{DataDragonClient.CommunityDragonUrl}{Version}/champion/{Id}/splash-art{(centered ? "/centered" : string.Empty)}";
 
         /// <summary>
         ///     Gets the default portrait's url of the champion.
         /// </summary>
         public string GetPortraitUrl()
-            => $"{Version}/champion/{Id}/portrait";
+            => $"{DataDragonClient.CommunityDragonUrl}{Version}/champion/{Id}/portrait";
 
         /// <summary>
         ///     Gets the champion's square asset url.
         /// </summary>
         public string GetSquareUrl()
-            => $"{Version}/champion/{Id}/square";
+            => $"{DataDragonClient.CommunityDragonUrl}{Version}/champion/{Id}/square";
 
         /// <summary>
         ///     Gets the default tile's url of the champion.
         /// </summary>
         public string GetTileUrl()
-            => $"{Version}/champion/{Id}/tile";
+            => $"{DataDragonClient.CommunityDragonUrl}{Version}/champion/{Id}/tile";
 
         /// <summary>
         ///     Gets the sound's url the champion emits when it's chosen.
         /// </summary>
         public string GetChooseSoundUrl()
-            => $"{Version}/champion/{Id}/champ-select/sounds/choose";
+            => $"{DataDragonClient.CommunityDragonUrl}{Version}/champion/{Id}/champ-select/sounds/choose";
         
         /// <summary>
         ///     Gets the sound's url the champion emits when it's banned.
         /// </summary>
         public string GetBanSoundUrl()
-            => $"{Version}/champion/{Id}/champ-select/sounds/ban";
+            => $"{DataDragonClient.CommunityDragonUrl}{Version}/champion/{Id}/champ-select/sounds/ban";
 
         /// <summary>
         ///     Gets the champion-selection's url special sound effects of the champion.
         /// </summary>
         public string GetSpecialSoundEffectUrl()
-            => $"{Version}/champion/{Id}/champ-select/sounds/sfx";
+            => $"{DataDragonClient.CommunityDragonUrl}{Version}/champion/{Id}/champ-select/sounds/sfx";
 
         private ChampionSkin Converter(ChampionSkinDto dto)
             => new ChampionSkin(this, dto);
