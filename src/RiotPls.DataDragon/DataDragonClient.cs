@@ -63,7 +63,7 @@ namespace RiotPls.DataDragon
 
             lock (_lock)
             {
-                if (_options.CacheMode != CacheMode.None && !_languages.IsDefaultOrEmpty)
+                if (_options.CacheMode != CacheMode.None && !_versions.IsDefaultOrEmpty)
                     return new ValueTask<IReadOnlyList<GameVersion>?>(_versions);
 
                 return new ValueTask<IReadOnlyList<GameVersion>?>(FetchVersionsAsync(token));
