@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 #nullable disable
 namespace RiotPls.DataDragon.Entities
 {
-    public class ItemEffectDto
+    internal class ItemEffectDto
     {
         [JsonPropertyName("Effect1Amount")]
         public string Effect1Amount { get; set; }

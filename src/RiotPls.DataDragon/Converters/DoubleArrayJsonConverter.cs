@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace RiotPls.DataDragon.Converters
 {
-    public sealed class DoubleArrayJsonConverter : JsonConverter<double[]>
+    internal sealed class DoubleArrayJsonConverter : JsonConverter<double[]>
     {
         public override bool CanConvert(Type typeToConvert)
             => typeToConvert == typeof(double) || typeToConvert == typeof(double[]);

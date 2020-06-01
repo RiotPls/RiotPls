@@ -62,7 +62,7 @@ namespace RiotPls.DataDragon
 
             lock (_lock)
             {
-                if (_options.CacheMode != CacheMode.None && !_languages.IsDefaultOrEmpty)
+                if (_options.CacheMode != CacheMode.None && !_versions.IsDefaultOrEmpty)
                     return new ValueTask<IReadOnlyList<GameVersion>>(_versions);
 
                 return new ValueTask<IReadOnlyList<GameVersion>>(FetchVersionsAsync());
@@ -343,6 +343,13 @@ namespace RiotPls.DataDragon
         {
             var data = await FetchBaseDataAsync<ItemDataDto, ItemData>(version, language)
                 .ConfigureAwait(false);
+
+            foreach (var item in data.Items.Values)
+            {
+                item.From = item.FromIds.Select(x => data.Items[x]).ToImmutableArray();
+                item.Into = item.IntoIds.Select(x => data.Items[x]).ToImmutableArray();
+            }
+            
             return data.Items.Values;
         }
 

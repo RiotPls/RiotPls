@@ -25,9 +25,10 @@ namespace RiotPls.DataDragon.Entities
         public string Plaintext { get; }
 
         /// <summary>
-        ///      Item ids this item can be used for.
+        ///     Items this item can be used for.
         /// </summary>
-        public IReadOnlyList<int> Into { get; }
+        public IReadOnlyList<Item> Into { get; internal set; }
+        internal readonly IReadOnlyList<int> FromIds;
 
         /// <summary>
         ///     Image information for this item.
@@ -58,11 +59,12 @@ namespace RiotPls.DataDragon.Entities
         ///     Whether the item is available or not.
         /// </summary>
         public bool? InStore { get; }
-
+        
         /// <summary>
-        ///     Item ids this item comes from.
+        ///     Items this item comes from.
         /// </summary>
-        public IReadOnlyList<int> From { get; }
+        public IReadOnlyList<Item> From { get; internal set; }
+        internal readonly IReadOnlyList<int> IntoIds;
 
         /// <summary>
         ///     Effect of the item.
@@ -109,7 +111,8 @@ namespace RiotPls.DataDragon.Entities
             Description = dto.Description;
             Colloq = dto.Colloq;
             Plaintext = dto.Plaintext;
-            Into = dto.Into?.Where(x => x is object).Select(int.Parse).ToImmutableArray() ?? ImmutableArray<int>.Empty;
+            IntoIds = dto.Into?.Where(x => x is object).Select(int.Parse).ToImmutableArray() ?? ImmutableArray<int>.Empty;
+            Into = ImmutableArray<Item>.Empty;
             Image = new ImageInformation(dto.Image);
             Gold = new ItemGold(dto.Gold);
             Tags = dto.Tags.ToImmutableArray();
@@ -124,7 +127,8 @@ namespace RiotPls.DataDragon.Entities
                     y => y.Value
                 ));
             InStore = dto.InStore;
-            From = dto.From?.Where(x => x is object).Select(int.Parse).ToImmutableArray() ?? ImmutableArray<int>.Empty;
+            FromIds = dto.From?.Where(x => x is object).Select(int.Parse).ToImmutableArray() ?? ImmutableArray<int>.Empty;
+            From = ImmutableArray<Item>.Empty;
             
             if (dto.Effect is object)
             {

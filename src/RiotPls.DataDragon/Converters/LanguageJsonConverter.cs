@@ -6,7 +6,7 @@ using RiotPls.DataDragon.Extensions;
 
 namespace RiotPls.DataDragon.Converters
 {
-    public sealed class LanguageJsonConverter : JsonConverter<Language>
+    internal sealed class LanguageJsonConverter : JsonConverter<Language>
     {
         public static LanguageJsonConverter Instance { get; } = new LanguageJsonConverter();
 

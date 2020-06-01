@@ -2,7 +2,7 @@
 #nullable disable
 namespace RiotPls.DataDragon.Entities
 {
-    public class RuneItemDto
+    internal class RuneItemDto
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
