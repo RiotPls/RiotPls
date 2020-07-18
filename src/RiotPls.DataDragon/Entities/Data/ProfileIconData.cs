@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 
 namespace RiotPls.DataDragon.Entities
@@ -14,7 +15,7 @@ namespace RiotPls.DataDragon.Entities
         internal ProfileIconData(ProfileIconDataDto dto) : base(dto)
         {
             ProfileIcons = new ReadOnlyDictionary<int, ProfileIcon>(
-                dto.ProfileIcons.ToDictionary(
+                dto.ProfileIcons.Where(x => !x.Key.Equals("placeholder")).ToDictionary(
                     x => int.Parse(x.Key),
                     Converter));
         }

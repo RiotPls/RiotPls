@@ -1,5 +1,5 @@
 using System.Text.Json.Serialization;
-
+#nullable disable
 namespace RiotPls.DataDragon.Entities
 {
     internal class ItemGroupDto

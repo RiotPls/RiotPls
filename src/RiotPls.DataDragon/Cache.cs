@@ -26,6 +26,9 @@ namespace RiotPls.DataDragon
 
         public bool TryGetValue((GameVersion, Language) key, [NotNullWhen(true)] out T value)
             => _cache.TryGetValue(key, out value!);
+
+        public void AddOrUpdate(GameVersion version, Language language, T value)
+            => _cache[(version, language)] = value;
     }
 
     internal static class ChampionCache
