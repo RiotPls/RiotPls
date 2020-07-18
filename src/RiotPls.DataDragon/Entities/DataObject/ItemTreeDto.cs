@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 #nullable disable
 namespace RiotPls.DataDragon.Entities
 {
-    public class ItemTreeDto
+    internal class ItemTreeDto
     {
         [JsonPropertyName("header")]
         public string Header { get; set; }

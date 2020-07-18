@@ -48,18 +48,18 @@
         /// </param>
         /// <returns></returns>
         public string GetSplashArtUrl(bool centered = false)
-            => $"{Champion.Version}/champion/{Champion.Id}/splash-art/{(centered ? "centered/" : string.Empty)}skin/{SkinIndex}";
+            => $"{DataDragonClient.CommunityDragonUrl}{Champion.Version}/champion/{Champion.Id}/splash-art/{(centered ? "centered/" : string.Empty)}skin/{SkinIndex}";
 
         /// <summary>
         ///     Gets the skin portrait's url of the champion.
         /// </summary>
         public string GetPortraitUrl()
-            => $"{Champion.Version}/champion/{Champion.Id}/portrait/skin/{SkinIndex}";
+            => $"{DataDragonClient.CommunityDragonUrl}{Champion.Version}/champion/{Champion.Id}/portrait/skin/{SkinIndex}";
 
         /// <summary>
         ///     Gets the skin tile's url of the champion.
         /// </summary>
         public string GetTileUrl()
-            => $"{Champion.Version}/champion/{Champion.Id}/tile/skin/{SkinIndex}";
+            => $"{DataDragonClient.CommunityDragonUrl}{Champion.Version}/champion/{Champion.Id}/tile/skin/{SkinIndex}";
     }
 }

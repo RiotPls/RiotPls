@@ -5,9 +5,10 @@ using RiotPls.DataDragon.Enums;
 
 namespace RiotPls.DataDragon.Converters
 {
-    public sealed class ChampionTypeJsonConverter : JsonConverter<ChampionType>
+    internal sealed class ChampionTypeJsonConverter : JsonConverter<ChampionType>
     {
         private static readonly ChampionType[] _values = (ChampionType[])Enum.GetValues(typeof(ChampionType));
+        
         public override ChampionType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             var result = default(ChampionType);
@@ -27,6 +28,7 @@ namespace RiotPls.DataDragon.Converters
 
             return result;
         }
+        
         public override void Write(Utf8JsonWriter writer, ChampionType value, JsonSerializerOptions options)
         {
             Span<ChampionType> span = stackalloc ChampionType[_values.Length];
