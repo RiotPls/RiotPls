@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using RiotPls.DataDragon.Entities;
 using RiotPls.DataDragon.Enums;
@@ -17,28 +18,28 @@ namespace RiotPls.DataDragon
         ///    Gets a list from the cache of every available version of Data Dragon.
         ///    If the list is not available it will be fetched from the API.
         /// </summary>
-        ValueTask<IReadOnlyList<GameVersion>> GetVersionsAsync();
+        ValueTask<IReadOnlyList<GameVersion>?> GetVersionsAsync(CancellationToken token);
 
         /// <summary>
         ///     Fetches a list from the API of every available version of Data Dragon.
         /// </summary>
-        Task<IReadOnlyList<GameVersion>> FetchVersionsAsync();
+        Task<IReadOnlyList<GameVersion>?> FetchVersionsAsync(CancellationToken token);
 
         /// <summary>
         ///    Gets a list from the cache of every available language for the latest version of Data Dragon.
         ///    If the list is not available it will be fetched from the API.
         /// </summary>
-        ValueTask<IReadOnlyList<Language>> GetLanguagesAsync();
+        ValueTask<IReadOnlyList<Language>?> GetLanguagesAsync(CancellationToken token);
 
         /// <summary>
         ///     Fetches a list from the API of every available language of Data Dragon.
         /// </summary>
-        Task<IReadOnlyList<Language>> FetchLanguagesAsync();
+        Task<IReadOnlyList<Language>?> FetchLanguagesAsync(CancellationToken token);
 
         /// <summary>
         ///     Fetches the latest version of Data Dragon.
         /// </summary>
-        Task<GameVersion> FetchLatestVersionAsync();
+        Task<GameVersion?> FetchLatestVersionAsync(CancellationToken token);
 
         /// <summary>
         ///     Gets a <see cref="IReadOnlyList{Champion}"/> from the cache.
@@ -50,7 +51,7 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        ValueTask<IReadOnlyList<Champion>> GetChampionsAsync(GameVersion version, Language? language);
+        IAsyncEnumerable<Champion?> GetChampionsAsync(GameVersion version, Language? language, CancellationToken token);
 
         /// <summary>
         ///     Fetches a <see cref="IReadOnlyList{Champion}"/> from the API.
@@ -62,7 +63,7 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        Task<IReadOnlyList<Champion>> FetchChampionsAsync(GameVersion? version, Language? language);
+        IAsyncEnumerable<Champion?> FetchChampionsAsync(GameVersion? version, Language? language, CancellationToken token);
 
         /// <summary>
         ///     Gets a <see cref="Champion"/> from the cache.
@@ -77,7 +78,7 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        ValueTask<Champion> GetChampionAsync(ChampionId championId, GameVersion version, Language? language);
+        ValueTask<Champion?> GetChampionAsync(ChampionId championId, GameVersion version, Language? language, CancellationToken token);
 
         /// <summary>
         ///     Fetches a <see cref="Champion"/> from the API.
@@ -92,7 +93,7 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        Task<Champion> FetchChampionAsync(ChampionId championId, GameVersion? version, Language? language);
+        Task<Champion?> FetchChampionAsync(ChampionId championId, GameVersion? version, Language? language, CancellationToken token);
 
         /// <summary>
         ///     Gets a <see cref="IReadOnlyCollection{SummonerSpell}"/> from the cache.
@@ -104,7 +105,7 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        ValueTask<IReadOnlyCollection<SummonerSpell>> GetSummonerSpellsAsync(GameVersion version, Language? language);
+        ValueTask<IReadOnlyCollection<SummonerSpell>?> GetSummonerSpellsAsync(GameVersion version, Language? language, CancellationToken token);
 
         /// <summary>
         ///     Fetches a <see cref="IReadOnlyCollection{SummonerSpell}"/> from the API.
@@ -116,7 +117,7 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        Task<IReadOnlyCollection<SummonerSpell>> FetchSummonerSpellsAsync(GameVersion? version, Language? language);
+        Task<IReadOnlyCollection<SummonerSpell>?> FetchSummonerSpellsAsync(GameVersion? version, Language? language, CancellationToken token);
 
         /// <summary>
         ///     Gets a <see cref="IReadOnlyCollection{ProfileIcon}"/> from the cache.
@@ -128,7 +129,7 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        ValueTask<IReadOnlyCollection<ProfileIcon>> GetProfileIconsAsync(GameVersion version, Language? language);
+        ValueTask<IReadOnlyCollection<ProfileIcon>?> GetProfileIconsAsync(GameVersion version, Language? language, CancellationToken token);
 
         /// <summary>
         ///     Fetches a <see cref="IReadOnlyCollection{ProfileIcon}"/> from the API.
@@ -140,7 +141,7 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        Task<IReadOnlyCollection<ProfileIcon>> FetchProfileIconsAsync(GameVersion? version, Language? language);
+        Task<IReadOnlyCollection<ProfileIcon>?> FetchProfileIconsAsync(GameVersion? version, Language? language, CancellationToken token);
 
         /// <summary>
         ///     Gets a <see cref="IReadOnlyCollection{Map}"/> from the cache.
@@ -152,7 +153,7 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        ValueTask<IReadOnlyCollection<Map>> GetMapsAsync(GameVersion version, Language? language);
+        ValueTask<IReadOnlyCollection<Map>?> GetMapsAsync(GameVersion version, Language? language, CancellationToken token);
 
         /// <summary>
         ///     Fetches a <see cref="IReadOnlyCollection{Map}"/> from the API.
@@ -164,7 +165,7 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        Task<IReadOnlyCollection<Map>> FetchMapsAsync(GameVersion? version, Language? language);
+        Task<IReadOnlyCollection<Map>?> FetchMapsAsync(GameVersion? version, Language? language, CancellationToken token);
 
         /// <summary>
         ///     Gets a <see cref="IReadOnlyList{Rune}"/> from the cache.
@@ -176,7 +177,7 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        ValueTask<IReadOnlyList<Rune>> GetRunesAsync(GameVersion version, Language? language);
+        ValueTask<IReadOnlyList<Rune>?> GetRunesAsync(GameVersion version, Language? language, CancellationToken token);
 
         /// <summary>
         ///     Fetches a <see cref="IReadOnlyList{Rune}"/> from the API.
@@ -188,7 +189,7 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        Task<IReadOnlyList<Rune>> FetchRunesAsync(GameVersion? version, Language? language);
+        Task<IReadOnlyList<Rune>?> FetchRunesAsync(GameVersion? version, Language? language, CancellationToken token);
 
         /// <summary>
         ///     Gets a <see cref="IReadOnlyCollection{MissionAsset}"/> from the cache.
@@ -200,7 +201,7 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        ValueTask<IReadOnlyCollection<MissionAsset>> GetMissionAssetsAsync(GameVersion version, Language? language);
+        ValueTask<IReadOnlyCollection<MissionAsset>?> GetMissionAssetsAsync(GameVersion version, Language? language, CancellationToken token);
 
         /// <summary>
         ///     Fetches a <see cref="IReadOnlyCollection{MissionAsset}"/> from the API.
@@ -212,7 +213,7 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        Task<IReadOnlyCollection<MissionAsset>> FetchMissionAssetsAsync(GameVersion? version, Language? language = null);
+        Task<IReadOnlyCollection<MissionAsset>?> FetchMissionAssetsAsync(GameVersion? version, Language? language, CancellationToken token);
         
         /// <summary>
         ///     Gets a <see cref="IReadOnlyCollection{Item}"/> from the cache.
@@ -224,7 +225,7 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        ValueTask<IReadOnlyCollection<Item>> GetItemsAsync(GameVersion version, Language? language);
+        ValueTask<IReadOnlyCollection<Item>?> GetItemsAsync(GameVersion version, Language? language, CancellationToken token);
 
         /// <summary>
         ///     Fetches a <see cref="IReadOnlyCollection{Item}"/> from the API.
@@ -236,6 +237,6 @@ namespace RiotPls.DataDragon
         /// <param name="language">
         ///     The language to use. <see cref="DefaultLanguage"/> if <see langword="null"/> is provided.
         /// </param>
-        Task<IReadOnlyCollection<Item>> FetchItemsAsync(GameVersion? version, Language? language);
+        Task<IReadOnlyCollection<Item>?> FetchItemsAsync(GameVersion? version, Language? language, CancellationToken token);
     }
 }

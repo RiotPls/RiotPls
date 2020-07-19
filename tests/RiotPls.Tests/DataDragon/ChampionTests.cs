@@ -12,9 +12,12 @@ namespace RiotPls.Tests.DataDragon
         {
             var versions = await _client.GetVersionsAsync();
             var latestVersion = versions.First();
+            var count = 0;
 
-            var championsData = await _client.GetChampionsAsync(latestVersion);
-            Assert.True(championsData.Count > 100);
+            await foreach (var champion in _client.GetChampionsAsync(latestVersion))
+                count++;
+
+            Assert.True(count > 100);
         }
 
         [Fact(DisplayName = "Champions can properly be parsed without exceptions.")]
@@ -23,9 +26,7 @@ namespace RiotPls.Tests.DataDragon
             var versions = await _client.GetVersionsAsync();
             var latestVersion = versions.First();
 
-            var championsData = await _client.GetChampionsAsync(latestVersion);
-            Assert.NotNull(championsData);
-            foreach (var champion in championsData)
+            await foreach (var champion in _client.GetChampionsAsync(latestVersion))
             {
                 Assert.NotNull(champion.Version);
                 Assert.NotNull(champion.Recommendations);

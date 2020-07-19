@@ -2,6 +2,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using RiotPls.DataDragon.Entities;
 using RiotPls.DataDragon.Enums;
@@ -11,20 +12,24 @@ namespace RiotPls.DataDragon
 {
     public partial class DataDragonClient
     {
-        private async Task<GameVersion> InternalFetchLatestVersionAsync()
+        private async Task<GameVersion?> InternalFetchLatestVersionAsync(CancellationToken token)
         {
             ThrowIfDisposed();
 
-            var data = await MakeRequestAsync<string[]>($"api/versions.json").ConfigureAwait(false);
+            var data = await MakeRequestAsync<string[]>($"api/versions.json", token).ConfigureAwait(false);
 
-            _latestVersion = GameVersion.Parse(data[0]);
-            return _latestVersion;
+            if (data is null)
+                return null;
+
+            return _latestVersion = GameVersion.Parse(data[0]);
         }
 
-        private ValueTask<T> GetBaseDataAsync<TDto, T>(
+        private ValueTask<T?> GetBaseDataAsync<TDto, T>(
             GameVersion version,
             Language? language = null,
-            ChampionId? championId = null)
+            ChampionId? championId = null,
+            CancellationToken token = default)
+            where TDto : class
             where T : BaseData
         {
             ThrowIfDisposed();
@@ -42,36 +47,41 @@ namespace RiotPls.DataDragon
                         !ChampionCache.TryGetValue(id, out var cache) ||
                         !cache.TryGetValue((version, language.Value), out var championData) ||
                         _options.CacheMode == CacheMode.MostRecentOnly && championData.Version < _latestVersion)
-                        return new ValueTask<T>(FetchBaseDataAsync<TDto, T>(version, language.Value, championId));
+                        return new ValueTask<T?>(FetchBaseDataAsync<TDto, T>(version, language.Value, championId, token));
 
-                    return new ValueTask<T>((T)(object)championData);
+                    return new ValueTask<T?>((T)(object)championData);
                 }
 
                 if (_options.CacheMode == CacheMode.None ||
                     !Cache<T>.Instance.TryGetValue((version, language.Value), out var data) ||
                     _options.CacheMode == CacheMode.MostRecentOnly && data.Version < _latestVersion)
-                    return new ValueTask<T>(FetchBaseDataAsync<TDto, T>(version, language.Value));
+                    return new ValueTask<T?>(FetchBaseDataAsync<TDto, T>(version, language.Value, token: token));
 
-                return new ValueTask<T>(data);
+                return new ValueTask<T?>(data);
             }
         }
 
-        private async Task<T> FetchBaseDataAsync<TDto, T>(
+        private async Task<T?> FetchBaseDataAsync<TDto, T>(
             GameVersion? version,
             Language? language = null,
-            ChampionId? championId = null)
+            ChampionId? championId = null,
+            CancellationToken token = default)
+            where TDto : class
             where T : BaseData
         {
             ThrowIfDisposed();
 
             try
             {
-                await _semaphore.WaitAsync().ConfigureAwait(false);
+                await _semaphore.WaitAsync(token).ConfigureAwait(false);
 
-                var latestVersion = await InternalFetchLatestVersionAsync().ConfigureAwait(false);
+                var latestVersion = await InternalFetchLatestVersionAsync(token).ConfigureAwait(false);
 
                 language ??= DefaultLanguage;
                 version ??= latestVersion;
+
+                if (version is null)
+                    return null;
 
                 if (version > latestVersion)
                     throw new ArgumentOutOfRangeException(
@@ -80,7 +90,10 @@ namespace RiotPls.DataDragon
 
                 var data = await MakeRequestAsync<TDto, T>(
                     GetEndpoint<T>(version, language.Value.GetCode(), championId.GetValueOrDefault()),
-                    Factory<TDto, T>.CreateInstance).ConfigureAwait(false);
+                    Factory<TDto, T>.CreateInstance, token).ConfigureAwait(false);
+
+                if (data is null)
+                    return null;
 
                 if (_options.CacheMode != CacheMode.None)
                 {
@@ -91,19 +104,6 @@ namespace RiotPls.DataDragon
                 }
 
                 return data;
-            }
-            catch (Exception e)
-            {
-                throw new DataNotFoundException(
-                    $"We couldn't fetch data for the version: {version}. Read the inner exception for more details.",
-                    e,
-                    DataDragonUrl +
-                    GetEndpoint<T>(
-                        version!,
-                        language.GetValueOrDefault().GetCode(),
-                        championId.GetValueOrDefault()),
-                    version!,
-                    language!.Value);
             }
             finally
             {
@@ -137,14 +137,29 @@ namespace RiotPls.DataDragon
             throw new NotImplementedException($"Endpoint for the type {typeof(T).Name} has not been implemented.");
         }
 
-        private async Task<TEntity> MakeRequestAsync<TDto, TEntity>(string url, Func<TDto, TEntity> func)
-            => func(await MakeRequestAsync<TDto>(url).ConfigureAwait(false));
-
-        private async Task<TEntity> MakeRequestAsync<TEntity>(string url)
+        private async Task<TEntity?> MakeRequestAsync<TDto, TEntity>(string url, Func<TDto, TEntity> func, CancellationToken token)
+            where TDto : class
+            where TEntity : class
         {
-            var stream = await _client.GetStreamAsync(url).ConfigureAwait(false);
+            var dto = await MakeRequestAsync<TDto>(url, token).ConfigureAwait(false);
+
+            if (dto is null)
+                return null;
+
+            return func(dto);
+        }
+
+        private async Task<TEntity?> MakeRequestAsync<TEntity>(string url, CancellationToken token)
+            where TEntity : class
+        {
+            var response = await _client.GetAsync(url, token).ConfigureAwait(false);
+ 
+            if (!response.IsSuccessStatusCode)
+                return null;
+
+            var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
             return await JsonSerializer.DeserializeAsync<TEntity>(
-                stream, _jsonSerializerOptions).ConfigureAwait(false);
+                stream, _jsonSerializerOptions, token).ConfigureAwait(false);
         }
 
         private void ThrowIfDisposed()
