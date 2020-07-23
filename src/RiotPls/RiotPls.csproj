@@ -18,9 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Abstraction\DTOs\LeagueOfLegends\" />
-    <Folder Include="Abstraction\DTOs\LegendsOfRunaterra\" />
-    <Folder Include="Abstraction\DTOs\TeamfightTactics\" />
+    <ProjectReference Include="..\RiotPls.DataDragon\RiotPls.DataDragon.csproj" />
   </ItemGroup>
 
 </Project>
