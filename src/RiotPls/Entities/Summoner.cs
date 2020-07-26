@@ -7,6 +7,8 @@ namespace RiotPls.Entities
 {
     public sealed class Summoner
     {
+        private readonly LeagueClient _client;
+
         /// <summary>
         ///     Encrypted account ID. Max length 56 characters. 
         /// </summary>
@@ -48,8 +50,10 @@ namespace RiotPls.Entities
         /// </summary>
         public long Level { get; }
 
-        internal Summoner(SummonerDto dto)
+        internal Summoner(LeagueClient client, SummonerDto dto)
         {
+            _client = client;
+            
             AccountId = dto.AccountId;
             ProfileIconId = dto.ProfileIconId;
             ProfileIcon = LeagueClient.DataDragonDataContainer?.ProfileIcons?.FirstOrDefault(x => x.Id == dto.ProfileIconId);

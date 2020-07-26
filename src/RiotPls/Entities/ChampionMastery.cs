@@ -6,6 +6,8 @@ namespace RiotPls.Entities
 {
     public sealed class ChampionMastery
     {
+        private readonly LeagueClient _client;
+
         /// <summary>
         ///     Number of points needed to achieve next level.
         ///     Zero if player reached maximum champion level for this champion.
@@ -57,8 +59,10 @@ namespace RiotPls.Entities
         /// </summary>
         public int TokensEarned { get; }
 
-        internal ChampionMastery(ChampionMasteryDto dto)
+        internal ChampionMastery(LeagueClient client, ChampionMasteryDto dto)
         {
+            _client = client;
+            
             PointsUntilNextLevel = dto.PointsUntilNextLevel;
             ChestGranted = dto.ChestGranted;
             ChampionId = dto.ChampionId;

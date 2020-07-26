@@ -12,14 +12,14 @@ namespace RiotPls
     public class LeagueClient
     {
         public static DataDragonDataContainer? DataDragonDataContainer { get; private set; }
-        public DataDragonClient DataDragonClient { get; }
+        public static DataDragonClient DataDragonClient { get; }
 
-        public LeagueClient()
+        static LeagueClient()
         {
             DataDragonClient = new DataDragonClient();
         }
 
-        public async Task<DataDragonDataContainer> GetLatestStaticDataAsync(CancellationToken token)
+        public static async Task<DataDragonDataContainer> GetLatestStaticDataAsync(CancellationToken token)
         {
             var version = await DataDragonClient.FetchLatestVersionAsync(token)
                 .ConfigureAwait(false);
