@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading;
@@ -11,38 +12,22 @@ namespace RiotPls
 {
     public class LeagueClient
     {
-        public static DataDragonDataContainer? DataDragonDataContainer { get; private set; }
-        public static DataDragonClient DataDragonClient { get; }
+        private readonly IDataDragonClient _dataDragonClient;
 
-        static LeagueClient()
+        public LeagueClient(IDataDragonClient dataDragonClient)
         {
-            DataDragonClient = new DataDragonClient();
+            _dataDragonClient = dataDragonClient ?? throw new ArgumentNullException(nameof(dataDragonClient));
         }
 
-        public static async Task<DataDragonDataContainer> GetLatestStaticDataAsync(CancellationToken token)
+        public async Task<DataDragonDataContainer?> GetLatestStaticDataAsync(Language? language = null, CancellationToken token = default)
         {
-            var version = await DataDragonClient.FetchLatestVersionAsync(token)
+            var version = await _dataDragonClient.FetchLatestVersionAsync(token)
                 .ConfigureAwait(false);
 
-            var champions = DataDragonClient.GetChampionsAsync(version!, token: token)
-                .ConfigureAwait(false);
-            var items = await DataDragonClient.GetItemsAsync(version!, token: token)
-                .ConfigureAwait(false);
-            var languages = await DataDragonClient.GetLanguagesAsync(token)
-                .ConfigureAwait(false);
-            var maps = await DataDragonClient.GetMapsAsync(version!, token: token)
-                .ConfigureAwait(false);
-            var runes = await DataDragonClient.GetRunesAsync(version!, token: token)
-                .ConfigureAwait(false);
-            var missionAssets = await DataDragonClient.GetMissionAssetsAsync(version!, token: token)
-                .ConfigureAwait(false);
-            var profileIcons = await DataDragonClient.GetProfileIconsAsync(version!, token: token)
-                .ConfigureAwait(false);
-            var summonerSpells = await DataDragonClient.GetSummonerSpellsAsync(version!, token: token)
-                .ConfigureAwait(false);
+            if (version is null)
+                return null;
 
-            return DataDragonDataContainer = new DataDragonDataContainer(version, champions, items, languages, maps,
-                runes, missionAssets, profileIcons, summonerSpells);
+            return await DataDragonDataContainer.FetchAsync(_dataDragonClient, version, language, token);
         }
     }
 }

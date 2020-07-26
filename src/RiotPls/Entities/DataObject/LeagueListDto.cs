@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
+#nullable disable
 namespace RiotPls.Entities.DataObject
 {
     internal sealed class LeagueListDto
